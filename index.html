@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KatoriCalorie — Indian, Assamese & Northeast Food Calorie Tracker</title>
+    <link rel="canonical" href="https://katoricalorie.in">
+    <meta name="description" content="Calculate calories for Indian, Assamese, and Northeast regional foods by the katori. Track your daily meals instantly with a premium, child-friendly layout.">
+    <meta property="og:title" content="KatoriCalorie — Indian Food Calculator">
+    <meta property="og:description" content="Calculate calories for Indian, Assamese and Northeast foods">
+    <meta property="og:image" content="https://katoricalorie.in/thali-preview.jpg">
+    <meta property="og:url" content="https://katoricalorie.in">
+    <style>
+        :root {
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --primary-light: rgba(230, 126, 34, 0.1);
+            --secondary: #2ecc71;
+            --dark: #2c3e50;
+            --light: #fdfefe;
+            --accent: #f1c40f;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 30px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 40px rgba(230,126,34,0.08);
+        }
+        
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body { 
+            background-color: #fcf9f6; 
+            color: var(--dark); 
+            padding-bottom: 140px; 
+            overflow-x: hidden; 
+        }
+        
+        header { 
+            background: linear-gradient(135deg, #e67e22, #d35400); 
+            color: white; 
+            padding: 3rem 1.25rem 4rem; 
+            text-align: center; 
+            border-bottom-left-radius: var(--radius-lg); 
+            border-bottom-right-radius: var(--radius-lg); 
+            box-shadow: 0 8px 32px rgba(211,84,0,0.18); 
+        }
+        
+        .app-title { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            letter-spacing: -0.75px; 
+            margin-bottom: 0.35rem; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .app-subtitle { 
+            font-size: 1.05rem; 
+            opacity: 0.95; 
+            font-weight: 500; 
+            letter-spacing: 0.2px;
+        }
+        
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 0 1.25rem; 
+        }
+        
+        .adsense-unit { 
+            background: #f1f2f6; 
+            border: 2px dashed #ced4da; 
+            border-radius: var(--radius-md); 
+            padding: 1.25rem; 
+            text-align: center; 
+            margin: 2rem 0; 
+            font-size: 0.85rem; 
+            color: #747d8c; 
+            min-height: 110px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        
+        .dashboard-card { 
+            background: var(--light); 
+            border-radius: var(--radius-lg); 
+            padding: 2rem 1.5rem; 
+            box-shadow: var(--shadow-md); 
+            margin-top: -3rem; 
+            margin-bottom: 2.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            position: relative; 
+            z-index: 10; 
+            border: 1px solid rgba(230,126,34,0.08); 
+        }
+        
+        .thali-container { 
+            position: relative; 
+            width: 150px; 
+            height: 150px; 
+            margin-bottom: 1.25rem; 
+        }
+        
+        .progress-ring { 
+            transform: rotate(-90deg); 
+            transform-origin: 50% 50%; 
+            width: 150px; 
+            height: 150px; 
+        }
+        
+        .progress-ring-circle-bg { 
+            fill: none; 
+            stroke: #f5f6fa; 
+            stroke-width: 12; 
+        }
+        
+        .progress-ring-circle { 
+            fill: none; 
+            stroke: var(--secondary); 
+            stroke-width: 12; 
+            stroke-linecap: round; 
+            transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.4s ease; 
+        }
+        
+        .thali-counter-text { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            width: 100%; 
+        }
+        
+        .thali-counter-text .num { 
+            font-size: 2.1rem; 
+            font-weight: 900; 
+            color: var(--dark); 
+            line-height: 1; 
+        }
+        
+        .thali-counter-text .lbl { 
+            font-size: 0.75rem; 
+            color: #a4b0be; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            margin-top: 4px; 
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-meta { 
+            font-weight: 700; 
+            color: #747d8c; 
+            font-size: 1rem; 
+            text-align: center; 
+            margin-bottom: 1.25rem; 
+        }
+        
+        .dashboard-meta span { 
+            color: var(--primary-dark); 
+            font-size: 1.2rem; 
+            font-weight: 800;
+        }
+        
+        .share-btn { 
+            background: linear-gradient(135deg, #e67e22, #d35400); 
+            color: white; 
+            border: none; 
+            padding: 1rem 2rem; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: 0 6px 20px rgba(211,84,0,0.25); 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            width: 90%; 
+            max-width: 320px;
+            justify-content: center; 
+        }
+        
+        .share-btn:active { 
+            transform: scale(0.96); 
+            box-shadow: 0 3px 10px rgba(211,84,0,0.15);
+        }
+        
+        .search-container { 
+            position: sticky; 
+            top: 16px; 
+            z-index: 100; 
+            margin-bottom: 2rem; 
+        }
+        
+        .search-box { 
+            width: 100%; 
+            padding: 1.25rem 1.5rem; 
+            font-size: 1.1rem; 
+            border: 2px solid rgba(230,126,34,0.1); 
+            border-radius: var(--radius-md); 
+            outline: none; 
+            box-shadow: var(--shadow-md); 
+            background: var(--light); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .search-box:focus { 
+            border-color: var(--primary); 
+            box-shadow: var(--shadow-lg); 
+        }
+        
+        .nav-tabs { 
+            display: flex; 
+            background: #f1f2f6; 
+            border-radius: var(--radius-md); 
+            padding: 6px; 
+            margin-bottom: 2.5rem; 
+            gap: 4px; 
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tab-btn { 
+            flex: 1; 
+            border: none; 
+            background: transparent; 
+            padding: 1rem 0.5rem; 
+            font-size: 0.9rem; 
+            font-weight: 800; 
+            border-radius: var(--radius-sm); 
+            cursor: pointer; 
+            color: #747d8c; 
+            transition: all 0.2s ease; 
+            text-align: center; 
+        }
+        
+        .tab-btn.active { 
+            background: var(--light); 
+            color: var(--primary-dark); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+        }
+        
+        .food-section { display: none; }
+        .food-section.active { display: block; }
+        
+        .category-header { 
+            font-size: 1.4rem; 
+            font-weight: 800; 
+            color: var(--dark); 
+            margin: 2rem 0 1rem 0; 
+            padding-left: 6px; 
+            border-left: 5px solid var(--primary);
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        
+        .food-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .food-card { 
+            background: var(--light); 
+            border-radius: var(--radius-md); 
+            padding: 1.5rem; 
+            box-shadow: var(--shadow-sm); 
+            border: 1px solid rgba(230,126,34,0.06); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center;
+            text-align: center;
+            position: relative; 
+            transition: transform 0.1s ease, box-shadow 0.2s ease, border-color 0.2s ease; 
+            min-height: 210px; 
+        }
+        
+        .food-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(230,126,34,0.2);
+        }
+
+        .food-card:active { 
+            transform: scale(0.96); 
+        }
+        
+        @keyframes cardPop { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.06); } 
+            100% { transform: scale(1); } 
+        }
+        
+        .food-card.added { 
+            animation: cardPop 0.3s ease; 
+            border-color: rgba(46,204,113,0.4); 
+            background: #fafffa;
+        }
+        
+        .food-card.added::after { 
+            content: '✓'; 
+            position: absolute; 
+            top: 14px; 
+            right: 16px; 
+            color: var(--secondary); 
+            font-size: 18px; 
+            font-weight: 900; 
+        }
+        
+        .item-count-badge { 
+            position: absolute; 
+            top: 14px; 
+            left: 16px; 
+            background: var(--primary); 
+            color: white; 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            padding: 3px 8px; 
+            border-radius: 20px; 
+            display: none; 
+            box-shadow: 0 2px 6px rgba(230,126,34,0.3);
+        }
+        
+        .food-info-container {
+            margin-bottom: 1.25rem;
+            width: 100%;
+        }
+
+        .food-title { 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            line-height: 1.4; 
+            color: var(--dark); 
+            margin-bottom: 6px; 
+            word-break: break-word;
+        }
+        
+        .food-desc { 
+            font-size: 0.85rem; 
+            color: #8892b0; 
+            font-weight: 600; 
+        }
+        
+        .food-action-row { 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            gap: 12px;
+            width: 100%;
+            margin-top: auto; 
+        }
+        
+        .food-cals { 
+            font-size: 1.4rem; 
+            font-weight: 900; 
+            color: var(--dark); 
+        }
+        
+        .food-cals span { 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            color: #a4b0be; 
+            margin-left: 2px; 
+            text-transform: uppercase;
+        }
+        
+        .counter-controls { 
+            display: flex; 
+            align-items: center; 
+            background: #f1f2f6; 
+            border-radius: 30px; 
+            padding: 4px; 
+            gap: 8px; 
+            width: 100%;
+            max-width: 140px;
+            justify-content: space-between;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .btn-ctrl { 
+            border: none; 
+            background: var(--light); 
+            color: var(--dark); 
+            width: 34px; 
+            height: 34px; 
+            border-radius: 50%; 
+            font-weight: 800; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06); 
+            transition: all 0.1s ease;
+        }
+        
+        .btn-ctrl:active { 
+            transform: scale(0.88); 
+            background: #f1f2f6;
+        }
+        
+        .ctrl-qty { 
+            font-size: 1rem; 
+            font-weight: 800; 
+            min-width: 20px; 
+            text-align: center; 
+            color: var(--dark); 
+            display: none; 
+        }
+        
+        .tracker-footer { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.08); 
+            padding: 1.25rem 1.5rem; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            border-top-left-radius: var(--radius-lg); 
+            border-top-right-radius: var(--radius-lg); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 999; 
+            border-top: 1px solid rgba(230,126,34,0.1); 
+        }
+        
+        .footer-total { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: #747d8c; 
+        }
+        
+        .footer-total strong { 
+            color: var(--dark); 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            margin-left: 6px; 
+        }
+        
+        .btn-reset { 
+            background: #f1f2f6; 
+            color: #x; 
+            border: 1px solid rgba(231,76,60,0.2);
+            color: #e74c3c;
+            padding: 0.85rem 1.5rem; 
+            border-radius: var(--radius-md); 
+            font-weight: 800; 
+            font-size: 0.95rem; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        
+        .btn-reset:active { 
+            background: #ffebee; 
+            transform: scale(0.97);
+        }
+        
+        .seo-content-section { 
+            background: var(--light); 
+            border-radius: var(--radius-lg); 
+            padding: 2rem 1.5rem; 
+            box-shadow: var(--shadow-md); 
+            margin-top: 3rem; 
+            border: 1px solid rgba(230,126,34,0.06); 
+        }
+        
+        .seo-title { 
+            font-size: 1.4rem; 
+            font-weight: 900; 
+            color: var(--dark); 
+            margin-bottom: 1.5rem; 
+            border-left: 5px solid var(--primary); 
+            padding-left: 12px; 
+        }
+        
+        .seo-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1.75rem; 
+        }
+        
+        .seo-card { 
+            border-bottom: 1px solid #f1f2f6; 
+            padding-bottom: 1.5rem; 
+        }
+        
+        .seo-card:last-child { 
+            border-bottom: none; 
+            padding-bottom: 0; 
+        }
+        
+        .seo-card h4 { 
+            font-size: 1.15rem; 
+            font-weight: 800; 
+            color: var(--primary-dark); 
+            margin-bottom: 8px; 
+        }
+        
+        .seo-card p { 
+            font-size: 0.92rem; 
+            color: #57606f; 
+            line-height: 1.6; 
+            text-align: justify; 
+        }
+        
+        .shared-view-banner { 
+            background: #e8f4fd; 
+            border: 1px solid #bbeefd; 
+            color: #1d88e5; 
+            padding: 1rem; 
+            border-radius: var(--radius-md); 
+            text-align: center; 
+            margin-bottom: 1.5rem; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            display: none; 
+            box-shadow: var(--shadow-sm);
+        }
+        
+        @media(max-width: 580px) {
+            .food-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .food-card { padding: 1.1rem 0.85rem; min-height: 200px; border-radius: var(--radius-sm); }
+            .food-title { font-size: 0.95rem; font-weight: 800; }
+            .food-cals { font-size: 1.25rem; }
+            .app-title { font-size: 2rem; }
+            .tab-btn { font-size: 0.8rem; padding: 0.85rem 0.2rem; }
+            .counter-controls { max-width: 115px; height: 36px; }
+            .btn-ctrl { width: 28px; height: 28px; font-size: 1rem; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NutritionInformation",
+      "name": "Masor Tenga / মাছৰ টেঙা",
+      "calories": "200 calories",
+      "servingSize": "200ml with one fish piece",
+      "fatContent": "8g",
+      "proteinContent": "20g",
+      "carbohydrateContent": "6g"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many calories in Masor Tenga?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard serving of Masor Tenga (200ml with one medium rohu piece) contains approximately 180-220 calories."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Masor Tenga good for weight loss?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Masor Tenga is one of the lowest calorie fish preparations in Indian regional cuisine due to minimal oil usage and sour broth base."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1 class="app-title">KatoriCalorie</h1>
+        <p class="app-subtitle">Track your meals in traditional katori dimensions</p>
+    </header>
+
+    <div class="container">
+        <div id="sharedBanner" class="shared-view-banner">Viewing a shared meal preparation setup</div>
+        
+        <div class="dashboard-card">
+            <div class="thali-container">
+                <svg class="progress-ring" width="150" height="150">
+                    <circle class="progress-ring-circle-bg" cx="75" cy="75" r="54"/>
+                    <circle id="trackerRing" class="progress-ring-circle" cx="75" cy="75" r="54"/>
+                </svg>
+                <div class="thali-counter-text">
+                    <div id="calorieDisplay" class="num">0</div>
+                    <div class="lbl">Total Kcal</div>
+                </div>
+            </div>
+            <div class="dashboard-meta">Items logged: <span id="itemCountDisplay">0</span></div>
+            <button class="share-btn" onclick="shareOnWhatsApp()">Share My Thali Setup</button>
+        </div>
+
+        <div class="adsense-unit">
+            <p>— Google AdSense Responsive Display Unit —</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search foods (e.g. Roti, Masor Tenga, Thukpa)...">
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('desi')">PAN-INDIA STAPLES</button>
+            <button class="tab-btn" onclick="switchTab('assamese')">ASSAMESE TRADITIONAL</button>
+            <button class="tab-btn" onclick="switchTab('northeast')">NORTHEAST SPECIALTIES</button>
+        </div>
+
+        <div id="desiSection" class="food-section active"></div>
+        <div id="assameseSection" class="food-section"></div>
+        <div id="northeastSection" class="food-section"></div>
+
+        <div class="adsense-unit">
+            <p>— Google AdSense In-Article Ad Placement —</p>
+        </div>
+
+        <div class="seo-content-section">
+            <h3 class="seo-title">Regional Food Nutrition Architecture</h3>
+            <div class="seo-grid">
+                <div class="seo-card">
+                    <h4>Masor Tenga / মাছৰ টেঙা Nutrition Overview</h4>
+                    <p>Masor Tenga is a tangy and light fish curry traditionally prepared in Assamese households. Unlike thick North Indian gravies, it uses lemon, tomatoes, or elephant apple which gives it a distinct sour flavor profile. A standard home serving of Masor Tenga (approximately 200ml with one fish piece) contains 180-220 calories. Rohu fish contributes 20g protein while the liquid broth adds minimal fat, making it an excellent lean addition to fat-loss regimens. Calorie count varies based on fish size and type of souring element used. The mustard oil base adds minimal extra calories compared to heavy oil items, ensuring high volume satiation with fewer total macro inputs.</p>
+                </div>
+                <div class="seo-card">
+                    <h4>Aloo Pitika / আলু পিতিকা Dietary Metric</h4>
+                    <p>Aloo Pitika is a comforting mashed potato dish traditionally prepared in Assamese households. Unlike continental mashed potatoes, it uses raw mustard oil, chopped onions, and green chilies which gives it a pungent and aromatic characteristic flavor. A standard home serving of Aloo Pitika (approximately 100g) contains 85-110 calories. Potatoes contribute the main carbohydrate chunk while a quick dash of raw oil adds minimal fat, making it a clean source of immediate complex carbohydrates. Calorie count varies based on the exact quantity of raw mustard oil drizzled at the end. Compared to deep-fried potato alternatives, Aloo Pitika has significantly fewer calories due to zero deep-frying processes involved.</p>
+                </div>
+                <div class="seo-card">
+                    <h4>Naga Pork with Bamboo Shoot Technical Value</h4>
+                    <p>Naga Pork with Bamboo Shoot is a savory meat preparation traditionally prepared in Nagaland households. Unlike mainstream Indian pork recipes, it uses zero commercial cooking oils and relies on fermented bamboo shoots which gives it an intense, earthy aroma and spicy punch. A standard home serving of this dish (approximately 150g) contains 340-380 calories. Local pork cuts contribute high-quality muscle-building proteins, while the rendering process naturally yields fat into the _stew framework. Calorie counts vary slightly based on alternative drying or fermentation times of the bamboo elements. Compared to oil-laden commercial curries, it allows clean caloric tracking due to its ancestral water-boiled cooking framework.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tracker-footer">
+        <div class="footer-total">Logged: <strong id="footerCalorieDisplay">0</strong> kcal</div>
+        <button class="btn-reset" onclick="resetTracker()">Reset Thali</button>
+    </div>
+
+    <script>
+        const foodDatabase = [
+            { id: 1, name: "Roti / Chapati (Plain)", calories: 85, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 2, name: "Roti / Chapati (With Butter)", calories: 110, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 3, name: "Plain Paratha", calories: 180, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 4, name: "Aloo Paratha", calories: 290, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 5, name: "Poori", calories: 100, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 6, name: "Plain Naan", calories: 260, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 7, name: "Butter Naan", calories: 310, serving: "1 piece", category: "Breads & Rice", group: "desi" },
+            { id: 8, name: "Cooked White Rice", calories: 130, serving: "1 katori (100g)", category: "Breads & Rice", group: "desi" },
+            { id: 9, name: "Cooked Brown Rice", calories: 111, serving: "1 katori (100g)", category: "Breads & Rice", group: "desi" },
+            { id: 10, name: "Vegetable Pulao", calories: 200, serving: "1 plate (150g)", category: "Breads & Rice", group: "desi" },
+            { id: 11, name: "Idli", calories: 60, serving: "1 piece", category: "Breakfast Items", group: "desi" },
+            { id: 12, name: "Sambar", calories: 80, serving: "1 katori (100ml)", category: "Breakfast Items", group: "desi" },
+            { id: 13, name: "Coconut Chutney", calories: 45, serving: "1 tbsp", category: "Breakfast Items", group: "desi" },
+            { id: 14, name: "Plain Dosa", calories: 135, serving: "1 piece", category: "Breakfast Items", group: "desi" },
+            { id: 15, name: "Masala Dosa", calories: 250, serving: "1 piece", category: "Breakfast Items", group: "desi" },
+            { id: 16, name: "Poha", calories: 180, serving: "1 plate (100g)", category: "Breakfast Items", group: "desi" },
+            { id: 17, name: "Upma", calories: 210, serving: "1 plate (100g)", category: "Breakfast Items", group: "desi" },
+            { id: 18, name: "Dhokla", calories: 60, serving: "1 piece (40g)", category: "Breakfast Items", group: "desi" },
+            { id: 19, name: "Boiled Egg", calories: 78, serving: "1 large", category: "Breakfast Items", group: "desi" },
+            { id: 20, name: "Bread Omelette", calories: 220, serving: "1 serving", category: "Breakfast Items", group: "desi" },
+            { id: 21, name: "Dal Tadka", calories: 150, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 22, name: "Dal Makhani", calories: 250, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 23, name: "Paneer Tikka Masala", calories: 280, serving: "1 serving (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 24, name: "Palak Paneer", calories: 190, serving: "1 serving (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 25, name: "Mixed Vegetable Sabzi", calories: 110, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 26, name: "Aloo Gobhi", calories: 135, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 27, name: "Chole Masala", calories: 170, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 28, name: "Rajma Masala", calories: 160, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 29, name: "Bhindi Fry", calories: 115, serving: "1 katori (150g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 30, name: "Plain Dahi / Curd", calories: 60, serving: "1 katori (100g)", category: "Main Course Veg & Dal", group: "desi" },
+            { id: 31, name: "Chicken Curry", calories: 240, serving: "1 serving (150g)", category: "Main Course Non-Veg", group: "desi" },
+            { id: 32, name: "Butter Chicken", calories: 380, serving: "1 serving (150g)", category: "Main Course Non-Veg", group: "desi" },
+            { id: 33, name: "Chicken Biryani", calories: 450, serving: "1 plate (300g)", category: "Main Course Non-Veg", group: "desi" },
+            { id: 34, name: "Egg Curry", calories: 260, serving: "1 serving", category: "Main Course Non-Veg", group: "desi" },
+            { id: 35, name: "Fish Fry (Indian Style)", calories: 180, serving: "1 piece", category: "Main Course Non-Veg", group: "desi" },
+            { id: 36, name: "Mutton Curry", calories: 320, serving: "1 serving (150g)", category: "Main Course Non-Veg", group: "desi" },
+            { id: 37, name: "Samosa", calories: 250, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 38, name: "Vegetable Pakora", calories: 45, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 39, name: "Pani Puri / Golgappa", calories: 180, serving: "1 plate (6 pieces)", category: "Snacks & Street Food", group: "desi" },
+            { id: 40, name: "Aloo Tikki", calories: 140, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 41, name: "Pav Bhaji", calories: 400, serving: "1 plate (2 pavs)", category: "Snacks & Street Food", group: "desi" },
+            { id: 42, name: "Vada Pav", calories: 300, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 43, name: "Gulab Jamun", calories: 150, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 44, name: "Jalebi", calories: 150, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 45, name: "Rasgulla", calories: 125, serving: "1 piece", category: "Snacks & Street Food", group: "desi" },
+            { id: 46, name: "Kheer", calories: 180, serving: "1 katori (100g)", category: "Snacks & Street Food", group: "desi" },
+            { id: 47, name: "Masala Chai (With Milk & Sugar)", calories: 45, serving: "1 cup (100ml)", category: "Beverages", group: "desi" },
+            { id: 48, name: "Filter Coffee", calories: 60, serving: "1 cup (100ml)", category: "Beverages", group: "desi" },
+            { id: 49, name: "Sweet Lassi", calories: 200, serving: "1 glass (200ml)", category: "Beverages", group: "desi" },
+            { id: 50, name: "Buttermilk / Chaas", calories: 35, serving: "1 glass (200ml)", category: "Beverages", group: "desi" },
+            { id: 51, name: "Masor Tenga / মাছৰ টেঙা", calories: 140, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 52, name: "Aloo Pitika / আলু পিতিকা", calories: 90, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 53, name: "Omita Khar / অমিতা খাৰ", calories: 65, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 54, name: "Mati Dal / মাটিমাহৰ দাইল", calories: 120, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 55, name: "Pork with Saji / গাহৰি মাংস", calories: 340, serving: "1 plate serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 56, name: "Dhekia Sak Bhaji / ঢেঁকীয়া শাক", calories: 70, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 57, name: "Patot Diya Mas / পাতত দিয়া মাছ", calories: 110, serving: "1 piece allocation", category: "Assamese Traditional", group: "assamese" },
+            { id: 58, name: "Duck Curry with Ash Gourd / হাঁহ", calories: 310, serving: "1 plate serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 59, name: "Jolpan with Doi & Gur / দৈ চিৰা", calories: 280, serving: "1 bowl construct", category: "Assamese Traditional", group: "assamese" },
+            { id: 60, name: "Pitha / তিল পিঠা / ঘিলা পিঠা", calories: 120, serving: "1 piece unit", category: "Assamese Traditional", group: "assamese" },
+            { id: 61, name: "Komal Saul / কোমল চাউল", calories: 130, serving: "1 katori (100g)", category: "Assamese Traditional", group: "assamese" },
+            { id: 62, name: "Baahgaj Pork / বাঁহগাজ গাহৰি", calories: 350, serving: "1 serving size", category: "Assamese Traditional", group: "assamese" },
+            { id: 63, name: "Khorisa Achar / খৰিচা আচাৰ", calories: 45, serving: "1 table spoon", category: "Assamese Traditional", group: "assamese" },
+            { id: 64, name: "Sana Pitika / চানা পিতিকা", calories: 95, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 65, name: "Bengena Pura / বেঙেনা পুৰা", calories: 50, serving: "1 katori serving", category: "Assamese Traditional", group: "assamese" },
+            { id: 66, name: "Naga Pork with Bamboo Shoot", calories: 360, serving: "1 portion size", category: "Northeast Specialties", group: "northeast" },
+            { id: 67, name: "Eromba / ইৰম্বা (Manipur)", calories: 85, serving: "1 katori serving", category: "Northeast Specialties", group: "northeast" },
+            { id: 68, name: "Jadoh / জাদহ (Meghalaya)", calories: 310, serving: "1 plate setup", category: "Northeast Specialties", group: "northeast" },
+            { id: 69, name: "Doh Neiiong / দহ নেইয়ং", calories: 340, serving: "1 portion allocation", category: "Northeast Specialties", group: "northeast" },
+            { id: 70, name: "Singju / সিংজু (Manipur)", calories: 65, serving: "1 katori serving", category: "Northeast Specialties", group: "northeast" },
+            { id: 71, name: "Thukpa / থুপকা", calories: 210, serving: "1 bowl configuration", category: "Northeast Specialties", group: "northeast" },
+            { id: 72, name: "Smoked Pork Curry", calories: 380, serving: "1 regular plate", category: "Northeast Specialties", group: "northeast" },
+            { id: 73, name: "Chikhvi / চিখভি (Tripura)", calories: 290, serving: "1 plate allocation", category: "Northeast Specialties", group: "northeast" },
+            { id: 74, name: "Iromba Boil / সিজোৱা ইৰম্বা", calories: 55, serving: "1 katori serving", category: "Northeast Specialties", group: "northeast" },
+            { id: 75, name: "Bai / বাই (Mizoram)", calories: 150, serving: "1 bowl system", category: "Northeast Specialties", group: "northeast" },
+            { id: 76, name: "Vawksa Rep / ভকছা ৰেপ", calories: 320, serving: "1 plate allocation", category: "Northeast Specialties", group: "northeast" },
+            { id: 77, name: "Zan / জান (Arunachal Pradesh)", calories: 110, serving: "1 bowl setup", category: "Northeast Specialties", group: "northeast" },
+            { id: 78, name: "Gyathuk / গ্যাথুক (Sikkim)", calories: 230, serving: "1 bowl structure", category: "Northeast Specialties", group: "northeast" },
+            { id: 79, name: "Ngari / ঙাৰি Chutney", calories: 40, serving: "1 table spoon", category: "Northeast Specialties", group: "northeast" },
+            { id: 80, name: "Local Red Rice / ৰঙা চাউল", calories: 120, serving: "1 katori (100g)", category: "Northeast Specialties", group: "northeast" }
+        ];
+
+        let userThali = {};
+        let previousTotal = 0;
+        let currentTotal = 0;
+        const maxDailyGoal = 1800;
+        const trackerRing = document.getElementById('trackerRing');
+
+        function initApp() {
+            renderGrid('desi', 'desiSection');
+            renderGrid('assamese', 'assameseSection');
+            renderGrid('northeast', 'northeastSection');
+            setupSearch();
+            loadSharedThali();
+        }
+
+        function renderGrid(groupName, containerId) {
+            const container = document.getElementById(containerId);
+            const dataFiltered = foodDatabase.filter(item => item.group === groupName);
+            
+            const categoryMap = {};
+            dataFiltered.forEach(item => {
+                if(!categoryMap[item.category]) categoryMap[item.category] = [];
+                categoryMap[item.category].push(item);
+            });
+
+            for(const cat in categoryMap) {
+                const header = document.createElement('h3');
+                header.className = 'category-header';
+                header.innerText = cat;
+                container.appendChild(header);
+
+                const grid = document.createElement('div');
+                grid.className = 'food-grid';
+
+                categoryMap[cat].forEach(food => {
+                    const card = document.createElement('div');
+                    card.className = 'food-card';
+                    card.id = `food-card-${food.id}`;
+                    card.innerHTML = `
+                        <div class="item-count-badge" id="badge-${food.id}">0</div>
+                        <div class="food-info-container">
+                            <div class="food-title">${food.name}</div>
+                            <div class="food-desc">${food.serving}</div>
+                        </div>
+                        <div class="food-action-row">
+                            <div class="food-cals">${food.calories}<span>kcal</span></div>
+                            <div class="counter-controls">
+                                <button class="btn-ctrl" onclick="modifyItem(${food.id}, -1, event)">-</button>
+                                <div class="ctrl-qty" id="qty-${food.id}">0</div>
+                                <button class="btn-ctrl" onclick="modifyItem(${food.id}, 1, event)">+</button>
+                            </div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        modifyItem(food.id, 1);
+                    });
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
+            }
+        }
+
+        function modifyItem(id, factor, event) {
+            if(event) event.stopPropagation();
+            const food = foodDatabase.find(item => item.id === id);
+            if(!userThali[id]) userThali[id] = 0;
+            
+            userThali[id] += factor;
+            if(userThali[id] <= 0) {
+                userThali[id] = 0;
+                document.getElementById(`food-card-${id}`).classList.remove('added');
+                document.getElementById(`qty-${id}`).style.display = 'none';
+                document.getElementById(`badge-${id}`).style.display = 'none';
+            } else {
+                const card = document.getElementById(`food-card-${id}`);
+                card.classList.add('added');
+                
+                const qtyEl = document.getElementById(`qty-${id}`);
+                qtyEl.innerText = userThali[id];
+                qtyEl.style.display = 'block';
+
+                const badge = document.getElementById(`badge-${id}`);
+                badge.innerText = userThali[id];
+                badge.style.display = 'block';
+            }
+            recalculateTotals();
+        }
+
+        function recalculateTotals() {
+            previousTotal = currentTotal;
+            currentTotal = 0;
+            let totalItems = 0;
+
+            for(const id in userThali) {
+                const food = foodDatabase.find(item => item.id == id);
+                currentTotal += food.calories * userThali[id];
+                totalItems += userThali[id];
+            }
+
+            document.getElementById('itemCountDisplay').innerText = totalItems;
+            
+            animateNumber(document.getElementById('calorieDisplay'), previousTotal, currentTotal, 600);
+            animateNumber(document.getElementById('footerCalorieDisplay'), previousTotal, currentTotal, 600);
+            updateRing(currentTotal, maxDailyGoal);
+        }
+
+        function animateNumber(element, start, end, duration) {
+            const range = end - start;
+            if(range === 0) {
+                element.textContent = end;
+                return;
+            }
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + (range * easeOut));
+                element.textContent = current;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function updateRing(calories, maxCalories) {
+            const percentage = Math.min(calories / maxCalories, 1);
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (percentage * circumference);
+            trackerRing.style.strokeDashoffset = offset;
+
+            if (percentage < 0.5) trackerRing.style.stroke = '#2ecc71';
+            else if (percentage < 0.8) trackerRing.style.stroke = '#f1c40f';
+            else trackerRing.style.stroke = '#e74c3c';
+        }
+
+        function switchTab(group) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.food-section').forEach(sec => sec.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${group}Section`).classList.add('active');
+        }
+
+        function setupSearch() {
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const searchVal = e.target.value.toLowerCase().trim();
+                document.querySelectorAll('.food-card').forEach(card => {
+                    const titleText = card.querySelector('.food-title').innerText.toLowerCase();
+                    if(titleText.includes(searchVal)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                document.querySelectorAll('.category-header').forEach(header => {
+                    let nextGrid = header.nextElementSibling;
+                    let visibleCards = 0;
+                    if(nextGrid && nextGrid.classList.contains('food-grid')) {
+                        nextGrid.querySelectorAll('.food-card').forEach(c => {
+                            if(c.style.display !== 'none') visibleCards++;
+                        });
+                    }
+                    header.style.display = visibleCards > 0 ? 'flex' : 'none';
+                });
+            });
+        }
+
+        function resetTracker() {
+            userThali = {};
+            document.querySelectorAll('.food-card').forEach(card => {
+                card.classList.remove('added');
+            });
+            document.querySelectorAll('.ctrl-qty').forEach(qty => {
+                qty.innerText = '0';
+                qty.style.display = 'none';
+            });
+            document.querySelectorAll('.item-count-badge').forEach(b => {
+                b.innerText = '0';
+                b.style.display = 'none';
+            });
+            recalculateTotals();
+        }
+
+        function generateShareURL(foodList) {
+            const shareData = foodList.map(item => ({
+                n: item.name.substring(0, 15),
+                c: item.calories,
+                q: item.qty
+            }));
+            const encoded = btoa(encodeURIComponent(JSON.stringify(shareData)));
+            return `https://katoricalorie.in/?d=${encoded}`;
+        }
+
+        function shareOnWhatsApp() {
+            const foodList = [];
+            for(const id in userThali) {
+                if(userThali[id] > 0) {
+                    const f = foodDatabase.find(item => item.id == id);
+                    foodList.push({ name: f.name, calories: f.calories, qty: userThali[id] });
+                }
+            }
+            if(foodList.length === 0) {
+                alert("Please add some items to your Thali first!");
+                return;
+            }
+            const shareURL = generateShareURL(foodList);
+            const message = `My daily thali today 🍽️\nTotal: ${currentTotal} calories\nSee what I ate: ${shareURL}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function loadSharedThali() {
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get('d');
+            if (encoded) {
+                try {
+                    const sharedItems = JSON.parse(decodeURIComponent(atob(encoded)));
+                    document.getElementById('sharedBanner').style.display = 'block';
+                    resetTracker();
+                    sharedItems.forEach(item => {
+                        const internalItem = foodDatabase.find(f => f.name.substring(0, 15) === item.n);
+                        if(internalItem) {
+                            userThali[internalItem.id] = item.q || 1;
+                            
+                            const card = document.getElementById(`food-card-${internalItem.id}`);
+                            if(card) card.classList.add('added');
+                            
+                            const qtyEl = document.getElementById(`qty-${internalItem.id}`);
+                            if(qtyEl) {
+                                qtyEl.innerText = item.q || 1;
+                                qtyEl.style.display = 'block';
+                            }
+                            const bEl = document.getElementById(`badge-${internalItem.id}`);
+                            if(bEl) {
+                                bEl.innerText = item.q || 1;
+                                bEl.style.display = 'block';
+                            }
+                        }
+                    });
+                    recalculateTotals();
+                } catch(e) {
+                    console.error("Failed to decode shared calculation profile data parameters.");
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const circumference = 2 * Math.PI * 54;
+            trackerRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            trackerRing.style.strokeDashoffset = circumference;
+            initApp();
+        });
+    </script>
+</body>
+</html>
