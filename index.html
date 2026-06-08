@@ -859,6 +859,7 @@
 
         function renderExerciseGrid() {
             const container = document.getElementById('exerciseSection');
+            container.innerHTML = ""; // Clear old content
             
             const header = document.createElement('h3');
             header.className = 'category-header exercise-header-border';
@@ -872,6 +873,9 @@
                 const card = document.createElement('div');
                 card.className = 'food-card';
                 card.id = `ex-card-${ex.id}`;
+                
+                const defaultLost = 30 * ex.kcalPerMin;
+
                 card.innerHTML = `
                     <div class="item-count-badge" id="ex-badge-${ex.id}" style="background:var(--accent-green);">0 Min</div>
                     <div class="food-info-container">
@@ -879,10 +883,13 @@
                         <div class="food-desc">${ex.desc}</div>
                     </div>
                     <div class="food-action-row">
-                        <div class="food-cals burn-color-unit">~${ex.kcalPerMin}<span>kcal / Min</span></div>
+                        <div class="food-cals burn-color-unit" id="ex-calc-${ex.id}">${defaultLost}<span>Total Kcal Lost</span></div>
+                        <p style="font-size:0.75rem; color:var(--text-gray); margin-bottom:5px;">(~${ex.kcalPerMin} kcal / Min)</p>
+                        
                         <div class="counter-controls" style="max-width:150px; padding:6px 10px;">
                             <span style="font-size:0.8rem; color:var(--text-gray); font-weight:bold;">Mins:</span>
-                            <input type="number" class="exercise-input-box" id="time-input-${ex.id}" value="30" onclick="event.stopPropagation()">
+                            <input type="number" class="exercise-input-box" id="time-input-${ex.id}" value="30" 
+                                   oninput="updateSingleExerciseLive(${ex.id}, ${ex.kcalPerMin})" onclick="event.stopPropagation()">
                             <button class="btn-ctrl" style="background:var(--accent-green); color:white;" onclick="logWorkout(${ex.id}, ${ex.kcalPerMin}, event)">✓</button>
                         </div>
                     </div>
@@ -890,6 +897,14 @@
                 grid.appendChild(card);
             });
             container.appendChild(grid);
+        }
+
+        function updateSingleExerciseLive(exId, burnRate) {
+            const minsInput = document.getElementById(`time-input-${exId}`);
+            const minutes = parseInt(minsInput.value) || 0;
+            const totalLostSpan = document.getElementById(`ex-calc-${exId}`);
+            const dynamicBurn = minutes * burnRate;
+            totalLostSpan.innerHTML = `${dynamicBurn}<span>Total Kcal Lost</span>`;
         }
 
         function modifyItem(id, factor, event) {
