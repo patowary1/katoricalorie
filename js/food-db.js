@@ -6,7 +6,7 @@ const foodDatabase = [
     nameRegional: "মাছৰ টেঙা",
     calories: 140,
     unit: "1 serving (200ml)",
-    desc: "A light and sour fish curry prepared with fresh tomatoes, lemon, or elephant apple. It features clean river fish cooked in minimal mustard oil, offering healthy proteins and omega-3s with very few calories.",
+    desc: "A light and sour traditional Assamese fish curry prepared with cross-cut drying of garcinia pedunculata (thekera tenga), tomatoes, outenga, or fresh lemon. Features fresh local pond, lake, or river fish cooked in minimal mustard oil, offering healthy proteins and omega-3s with very few calories.",
     category: "assamese"
   },
   {
@@ -51,7 +51,7 @@ const foodDatabase = [
     nameRegional: "হাঁহৰ মাংস",
     calories: 340,
     unit: "1 plate (200g)",
-    desc: "A rustic, slow-cooked duck curry prepared with winter ash gourd, fresh ginger, garlic, and whole spices. Hearty, rich in iron, and deeply comforting during cold months.",
+    desc: "A rustic, slow-cooked traditional Assamese duck curry prepared with fresh winter ash gourd (Chal,boka Kumura), fresh ginger, garlic, and whole spices. Hearty, rich in iron, and deeply comforting.",
     category: "assamese"
   },
   {
@@ -69,7 +69,7 @@ const foodDatabase = [
     nameRegional: "পুৰা মাছ",
     calories: 110,
     unit: "1 piece",
-    desc: "Fresh river fish marinated with green chilies, mustard oil, and coriander, wrapped in a fresh banana leaf and slow-grilled over hot wood embers. Smoked and very low in fat.",
+    desc: "Fresh local pond or lake mudfish (Goroi fish) marinated with fresh green chilies, raw mustard oil, and coriander, wrapped in a banana leaf and slow-grilled over hot embers for an authentic smoky flavor.",
     category: "assamese"
   },
   {
