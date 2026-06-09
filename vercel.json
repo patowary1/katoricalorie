@@ -7,6 +7,8 @@
     { "source": "/contact", "destination": "/compliance/contact" },
     { "source": "/sources", "destination": "/compliance/sources" },
     { "source": "/privacy", "destination": "/compliance/privacy" },
-    { "source": "/terms", "destination": "/compliance/terms" }
+    { "source": "/terms", "destination": "/compliance/terms" },
+    { "source": "/cornerstone-articles", "destination": "/blog" },
+    { "source": "/food-guides", "destination": "/food" }
   ]
 }
