@@ -142,7 +142,6 @@ function updateUI() {
   const meterLblReadout = document.getElementById('radial-meter-lbl');
 
   if (progressCircle && meterValReadout) {
-    // Force the 0.6s cubic-bezier curve for tactile response speed
     progressCircle.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease';
     
     meterValReadout.textContent = Math.abs(thaliMetrics.net);
@@ -317,8 +316,9 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
   });
 }
 
-// Setup Tab Navigation Event Listeners
+// Setup Navigation and Filters (Desktop + Mobile)
 function setupTabListeners() {
+  // Desktop Tab Buttons
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -326,9 +326,36 @@ function setupTabListeners() {
       
       const category = btn.dataset.category || 'all';
       const searchVal = document.getElementById('food-search')?.value || '';
+      
+      // Sync Mobile Select Dropdown if it exists
+      const mobileSelect = document.getElementById('mobile-category-select');
+      if (mobileSelect) {
+        mobileSelect.value = category;
+      }
+      
       renderFoodGrid(category, searchVal);
     });
   });
+
+  // Mobile Dropdown Category Selector
+  const mobileCategorySelect = document.getElementById('mobile-category-select');
+  if (mobileCategorySelect) {
+    mobileCategorySelect.addEventListener('change', (e) => {
+      const category = e.target.value;
+      const searchVal = document.getElementById('food-search')?.value || '';
+      
+      // Sync Desktop Active Tab Button
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.dataset.category === category) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      
+      renderFoodGrid(category, searchVal);
+    });
+  }
 
   // Search input listeners
   const searchInput = document.getElementById('food-search');
@@ -337,6 +364,24 @@ function setupTabListeners() {
       const activeTab = document.querySelector('.tab-btn.active');
       const category = activeTab ? activeTab.dataset.category : 'all';
       renderFoodGrid(category, e.target.value);
+    });
+  }
+
+  // Hamburger Mobile Menu Toggle Action
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navMenu = document.querySelector('.nav-menu');
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      mobileMenuBtn.classList.toggle('active');
+    });
+
+    // Dismiss menu upon selecting any navigation item
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+      });
     });
   }
 }
