@@ -15,6 +15,14 @@
       <a href="/" class="logo">
         Katori<span>Calorie</span>
       </a>
+      
+      <!-- Hamburger Menu Icon for Mobile -->
+      <div class="menu-toggle" id="mobile-menu-btn">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+
       <ul class="nav-menu">
         <li><a href="/" class="active">Home</a></li>
         <li><a href="/about">About Us</a></li>
@@ -42,7 +50,7 @@
       </div>
     </div>
 
-    <!-- Category Tabs Selector -->
+    <!-- Category Tabs Selector (Desktop) -->
     <div class="tabs-container">
       <button class="tab-btn active" data-category="all">Pan-India & Regional Items</button>
       <button class="tab-btn" data-category="staples">Pan-India Staples</button>
@@ -53,10 +61,23 @@
       <button class="tab-btn btn-burn" data-category="burn">⚡ Burn Calories</button>
     </div>
 
+    <!-- Mobile Category Dropdown Selector -->
+    <div class="mobile-category-container">
+      <select id="mobile-category-select" class="mobile-category-select">
+        <option value="all">Pan-India & Regional Items</option>
+        <option value="staples">Pan-India Staples</option>
+        <option value="assamese">Assamese Traditional</option>
+        <option value="northeast">Northeast Specialties</option>
+        <option value="snacks">Snacks & Street Food</option>
+        <option value="beverages">Traditional Beverages</option>
+        <option value="burn">⚡ Burn Calories</option>
+      </select>
+    </div>
+
     <!-- Main Dashboard Grid -->
     <main class="main-grid">
 
-      <!-- Left Column: Food Matrix Cards Container -->
+      <!-- Left/Bottom Column: Food Matrix Cards Container -->
       <section class="food-section">
         <h3 class="food-section-title">Select Food or Activity</h3>
         
@@ -71,7 +92,7 @@
         </div>
       </section>
 
-      <!-- Right Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
+      <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
       <aside class="sidebar-section">
         
         <!-- Interactive Mifflin-St Jeor Calculator Panel -->
