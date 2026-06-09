@@ -47,7 +47,7 @@ const foodDatabase = [
   },
   {
     id: "haah-kumura",
-    name: "Poora Haah Kumura",
+    name: "Haah Kumura",
     nameRegional: "হাঁহৰ মাংস",
     calories: 340,
     unit: "1 plate (200g)",
