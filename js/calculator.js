@@ -142,6 +142,9 @@ function updateUI() {
   const meterLblReadout = document.getElementById('radial-meter-lbl');
 
   if (progressCircle && meterValReadout) {
+    // Force the 0.6s cubic-bezier curve for tactile response speed
+    progressCircle.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease';
+    
     meterValReadout.textContent = Math.abs(thaliMetrics.net);
     
     if (thaliMetrics.net < 0) {
