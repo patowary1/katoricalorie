@@ -276,12 +276,13 @@
             <span>Mifflin-St Jeor</span> Metabolic Engine
           </h2>
           
-          <!-- Gender Select -->
+          <!-- Gender Select (Segmented Control Pill Toggle) -->
           <div class="form-group">
             <span class="form-label">Biological Gender</span>
-            <div class="toggle-group" role="radiogroup" aria-label="Select gender">
-              <button class="toggle-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
-              <button class="toggle-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
+            <div class="segmented-control" role="radiogroup" aria-label="Select gender">
+              <div class="segmented-slider" id="gender-slider"></div>
+              <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
+              <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
             </div>
           </div>
 
@@ -289,31 +290,40 @@
           <div class="form-group">
             <label class="form-label" for="weight-input">
               Weight
-              <span class="value-val"><span id="weight-val">65</span> kg</span>
+              <span class="value-val"><span id="weight-val" class="sliding-value">65</span> kg</span>
             </label>
-            <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
+            <div class="range-container">
+              <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
+              <div class="range-track-fill" id="weight-track-fill"></div>
+            </div>
           </div>
 
           <!-- Height Slider -->
           <div class="form-group">
             <label class="form-label" for="height-input">
               Height
-              <span class="value-val"><span id="height-val">165</span> cm</span>
+              <span class="value-val"><span id="height-val" class="sliding-value">165</span> cm</span>
             </label>
-            <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
+            <div class="range-container">
+              <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
+              <div class="range-track-fill" id="height-track-fill"></div>
+            </div>
           </div>
 
           <!-- Age Slider -->
           <div class="form-group">
             <label class="form-label" for="age-input">
               Age
-              <span class="value-val"><span id="age-val">28</span> years</span>
+              <span class="value-val"><span id="age-val" class="sliding-value">28</span> years</span>
             </label>
-            <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
+            <div class="range-container">
+              <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
+              <div class="range-track-fill" id="age-track-fill"></div>
+            </div>
           </div>
 
           <!-- Activity Level Select -->
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom: 2rem;">
             <label class="form-label" for="activity-select">Physical Activity Factor</label>
             <select id="activity-select" class="select-input">
               <option value="1.2">Sedentary (desk work, minimal activity)</option>
@@ -321,6 +331,30 @@
               <option value="1.55">Moderately Active (exercise 3-5 days/week)</option>
               <option value="1.725">Very Active (hard daily training / field labor)</option>
             </select>
+          </div>
+
+          <!-- Interactive Calculator Result Card -->
+          <div class="calculator-result-card" id="calculator-result-card">
+            <div class="result-ring-container">
+              <svg class="result-ring-svg" viewBox="0 0 100 100">
+                <circle class="result-ring-track" cx="50" cy="50" r="40"></circle>
+                <circle class="result-ring-fill" id="result-tdee-fill" cx="50" cy="50" r="40"></circle>
+              </svg>
+              <div class="result-ring-text">
+                <span class="result-ring-percent" id="result-tdee-percent">0%</span>
+                <span class="result-ring-label">of normal</span>
+              </div>
+            </div>
+            <div class="result-metrics">
+              <div class="metric-item">
+                <span class="metric-title">Basal Metabolic Rate (BMR)</span>
+                <span class="metric-value orange" id="result-bmr-val">0 kcal</span>
+              </div>
+              <div class="metric-item" style="margin-top: 0.5rem;">
+                <span class="metric-title">Active TDEE Budget</span>
+                <span class="metric-value green" id="result-tdee-val">0 kcal</span>
+              </div>
+            </div>
           </div>
         </section>
 
