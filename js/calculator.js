@@ -74,6 +74,34 @@ function calculateThali() {
   };
 }
 
+// Update Range Slider Track Fills Dynamically
+function updateSliderTrackFills() {
+  const sliders = ['weight', 'height', 'age'];
+  sliders.forEach(id => {
+    const slider = document.getElementById(id + '-input');
+    const fill = document.getElementById(id + '-track-fill');
+    if (slider && fill) {
+      const min = parseFloat(slider.min) || 0;
+      const max = parseFloat(slider.max) || 100;
+      const val = parseFloat(slider.value) || 0;
+      const pct = ((val - min) / (max - min)) * 100;
+      fill.style.width = pct + '%';
+    }
+  });
+}
+
+// Update Gender Segmented Slider capsule placement
+function updateGenderSegmentedSlider() {
+  const slider = document.getElementById('gender-slider');
+  if (!slider) return;
+  if (state.gender === 'male') {
+    slider.style.transform = 'translateX(0)';
+  } else {
+    // Moves slider capsule right to cover Women option
+    slider.style.transform = 'translateX(100%)';
+  }
+}
+
 // DOM Rendering Sync
 function updateUI() {
   // Update Sliders and UI Readouts
@@ -103,6 +131,10 @@ function updateUI() {
     }
   });
 
+  // Render Track Fills & Segmented Controls
+  updateSliderTrackFills();
+  updateGenderSegmentedSlider();
+
   // Update activity dropdown
   const activitySelect = document.getElementById('activity-select');
   if (activitySelect) {
@@ -118,6 +150,30 @@ function updateUI() {
   const tdeeValEl = document.getElementById('tdee-val-readout');
   if (bmrValEl) bmrValEl.textContent = state.bmr + ' kcal';
   if (tdeeValEl) tdeeValEl.textContent = state.tdee + ' kcal';
+
+  // Sync BMR/TDEE Interactive Result Card (fade in and ring fill)
+  const resultCard = document.getElementById('calculator-result-card');
+  const resultBmrVal = document.getElementById('result-bmr-val');
+  const resultTdeeVal = document.getElementById('result-tdee-val');
+  const resultTdeeFill = document.getElementById('result-tdee-fill');
+  const resultTdeePercent = document.getElementById('result-tdee-percent');
+
+  if (resultCard) {
+    // Add show class to trigger fade-in scale animation
+    resultCard.classList.add('show');
+  }
+  if (resultBmrVal) resultBmrVal.textContent = state.bmr + ' kcal';
+  if (resultTdeeVal) resultTdeeVal.textContent = state.tdee + ' kcal';
+
+  if (resultTdeeFill && resultTdeePercent) {
+    const baseline = 2000; // General target adult active baseline comparison
+    const pctVal = Math.round((state.tdee / baseline) * 100);
+    resultTdeePercent.textContent = pctVal + '%';
+
+    const circumference = 251.2; // Circumference of progress ring circle r=40
+    const offset = circumference - (Math.min(pctVal, 150) / 100 * circumference);
+    resultTdeeFill.style.strokeDashoffset = offset;
+  }
 
   // Update Thali bottom bar info
   const thaliCountBadge = document.getElementById('thali-badge-count');
@@ -195,19 +251,39 @@ function setupCalculatorListeners() {
   const heightInput = document.getElementById('height-input');
   const ageInput = document.getElementById('age-input');
 
+  const addDragHandlers = (input) => {
+    if (!input) return;
+    const formGroup = input.closest('.form-group');
+    
+    const startDrag = () => {
+      if (formGroup) formGroup.classList.add('dragging');
+    };
+    const endDrag = () => {
+      if (formGroup) formGroup.classList.remove('dragging');
+    };
+
+    input.addEventListener('mousedown', startDrag);
+    input.addEventListener('mouseup', endDrag);
+    input.addEventListener('touchstart', startDrag, { passive: true });
+    input.addEventListener('touchend', endDrag, { passive: true });
+  };
+
   if (weightInput) {
+    addDragHandlers(weightInput);
     weightInput.addEventListener('input', (e) => {
       state.weight = parseInt(e.target.value) || 65;
       updateUI();
     });
   }
   if (heightInput) {
+    addDragHandlers(heightInput);
     heightInput.addEventListener('input', (e) => {
       state.height = parseInt(e.target.value) || 165;
       updateUI();
     });
   }
   if (ageInput) {
+    addDragHandlers(ageInput);
     ageInput.addEventListener('input', (e) => {
       state.age = parseInt(e.target.value) || 28;
       updateUI();
