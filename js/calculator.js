@@ -253,6 +253,55 @@ function adjustItemQty(itemId, change) {
   updateUI();
 }
 
+// Get category-specific gradient and emoji placeholder
+function getCardPlaceholder(category, id) {
+  const normId = id.toLowerCase();
+  switch (category) {
+    case 'assamese':
+      let assameseEmoji = '🍲';
+      if (normId.includes('tenga')) assameseEmoji = '🐟';
+      else if (normId.includes('pitha')) assameseEmoji = '🍡';
+      else if (normId.includes('pitika')) assameseEmoji = '🥔';
+      else if (normId.includes('haah')) assameseEmoji = '🦆';
+      else if (normId.includes('gahori')) assameseEmoji = '🥩';
+      else if (normId.includes('dal')) assameseEmoji = '🥣';
+      else if (normId.includes('sak')) assameseEmoji = '🌿';
+      return { emoji: assameseEmoji, gradientClass: 'gradient-assamese' };
+      
+    case 'northeast':
+      let neEmoji = '🎋';
+      if (normId.includes('pork')) neEmoji = '🥩';
+      else if (normId.includes('chicken')) neEmoji = '🍗';
+      else if (normId.includes('eromba')) neEmoji = '🥣';
+      return { emoji: neEmoji, gradientClass: 'gradient-northeast' };
+      
+    case 'staples':
+      let stapleEmoji = '🍚';
+      if (normId.includes('roti') || normId.includes('chapati') || normId.includes('nan')) stapleEmoji = '🫓';
+      else if (normId.includes('biryani')) stapleEmoji = '🍲';
+      else if (normId.includes('chicken')) stapleEmoji = '🍗';
+      else if (normId.includes('dosa') || normId.includes('idli')) stapleEmoji = '🥞';
+      return { emoji: stapleEmoji, gradientClass: 'gradient-staples' };
+      
+    case 'snacks':
+      return { emoji: '🥟', gradientClass: 'gradient-snacks' };
+      
+    case 'beverages':
+      return { emoji: '☕', gradientClass: 'gradient-beverages' };
+      
+    case 'burn':
+      let burnEmoji = '⚡';
+      if (normId.includes('walk')) burnEmoji = '🚶';
+      else if (normId.includes('run')) burnEmoji = '🏃';
+      else if (normId.includes('cycle')) burnEmoji = '🚴';
+      else if (normId.includes('yoga')) burnEmoji = '🧘';
+      return { emoji: burnEmoji, gradientClass: 'gradient-burn' };
+      
+    default:
+      return { emoji: '🍽️', gradientClass: 'gradient-default' };
+  }
+}
+
 // Render Food Cards dynamically based on active filter and query
 function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
   const container = document.getElementById('food-grid-container');
@@ -284,30 +333,44 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     const isQty = state.thali[item.id] || 0;
     const isActive = isQty > 0 ? 'active' : '';
     const isBurnClass = isBurn ? 'burn' : '';
+    
+    // Get category-specific gradient and emoji placeholder
+    const placeholder = getCardPlaceholder(item.category, item.id);
 
     const cardHTML = `
       <div class="food-card ${isActive} ${isBurnClass}" data-id="${item.id}">
-        <div class="card-top">
-          <div class="card-title">
-            ${item.name}
-            ${item.nameRegional ? `<span class="regional-lang">${item.nameRegional}</span>` : ''}
+        <!-- Top Image / Placeholder Area (16:9) -->
+        <div class="card-image-area ${placeholder.gradientClass}">
+          <div class="calorie-badge ${isBurnClass}">
+            ${Math.abs(item.calories)} kcal
           </div>
-          <div class="indicator-dot">${isBurn ? '⚡' : '✓'}</div>
+          <div class="card-image-placeholder">
+            <span class="placeholder-icon">${placeholder.emoji}</span>
+          </div>
+          <!-- Future image tag will sit here:
+               <img src="/assets/food/${item.id}.jpg" alt="${item.name}" loading="lazy">
+               Its presence will automatically cover the CSS gradient. -->
         </div>
-        <p class="card-desc">${item.desc}</p>
-        <div class="card-bottom">
-          <div class="serving-lbl">
-            Serving Size
-            <span>${item.unit}</span>
+
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">
+              ${item.name}
+              ${item.nameRegional ? `<span class="regional-lang">${item.nameRegional}</span>` : ''}
+            </div>
+            <div class="indicator-dot">${isBurn ? '⚡' : '✓'}</div>
           </div>
-          <div class="serving-lbl" style="text-align: right; margin-right: 1rem;">
-            Calorie Metric
-            <span>${Math.abs(item.calories)} kcal</span>
-          </div>
-          <div class="card-controls ${isBurnClass}">
-            <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', -1)">-</button>
-            <span class="control-qty">${isQty}</span>
-            <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', 1)">+</button>
+          <p class="card-desc">${item.desc}</p>
+          <div class="card-bottom">
+            <div class="serving-lbl">
+              Serving Size
+              <span>${item.unit}</span>
+            </div>
+            <div class="card-controls ${isBurnClass}">
+              <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', -1)">-</button>
+              <span class="control-qty">${isQty}</span>
+              <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', 1)">+</button>
+            </div>
           </div>
         </div>
       </div>
