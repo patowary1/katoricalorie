@@ -10,7 +10,7 @@ const foodDatabase = [
     fat: 6.8,
     fiber: 1.2,
     unit: "1 serving (200ml)",
-    desc: "A light and sour fish curry prepared with fresh tomatoes, lemon, or elephant apple. It features clean river fish cooked in minimal mustard oil, offering healthy proteins and omega-3s with very few calories.",
+    desc: "A light and sour traditional Assamese fish curry prepared with cross-cut drying of garcinia pedunculata (thekera tenga), tomatoes, outenga, or fresh lemon. Features fresh local pond, lake, or river fish cooked with minimal mustard oil, offering high omega-3s with very few calories.",
     category: "assamese"
   },
   {
@@ -75,7 +75,7 @@ const foodDatabase = [
     fat: 24.2,
     fiber: 2.1,
     unit: "1 plate (200g)",
-    desc: "A rustic, slow-cooked duck curry prepared with winter ash gourd, fresh ginger, garlic, and whole spices. Hearty, rich in iron, and deeply comforting during cold months.",
+    desc: "A rustic, slow-cooked traditional Assamese duck curry prepared with fresh winter ash gourd (Chal Kumura), fresh ginger, garlic, and whole spices. Hearty, rich in iron, and deeply comforting.",
     category: "assamese"
   },
   {
@@ -93,15 +93,15 @@ const foodDatabase = [
   },
   {
     id: "masor-poora",
-    name: "Masor Poora",
-    nameRegional: "পুৰা মাছ",
+    name: "Goroi Masor Poora",
+    nameRegional: "পুৰা গৰৈ মাছ",
     calories: 110,
     protein: 16.5,
     carbs: 1.2,
     fat: 4.5,
     fiber: 0.2,
     unit: "1 piece",
-    desc: "Fresh river fish marinated with green chilies, mustard oil, and coriander, wrapped in a fresh banana leaf and slow-grilled over hot wood embers. Smoked and very low in fat.",
+    desc: "Fresh local pond or lake mudfish (Goroi fish) marinated with fresh green chilies, raw mustard oil, and coriander, wrapped in a banana leaf and slow-grilled over hot embers for an authentic smoky flavor.",
     category: "assamese"
   },
   {
@@ -195,6 +195,84 @@ const foodDatabase = [
     fiber: 2.8,
     unit: "1 serving (100g)",
     desc: "A traditional Manipuri dish prepared by boiling vegetables, potatoes, and mushrooms, mashed together with fermented fish paste and fiery chilies. An aromatic, oil-free delicacy.",
+    category: "northeast"
+  },
+  {
+    id: "naga-galho",
+    name: "Naga Galho",
+    nameRegional: "গালহো",
+    calories: 210,
+    protein: 8.5,
+    carbs: 34.0,
+    fat: 4.5,
+    fiber: 3.2,
+    unit: "1 bowl (250g)",
+    desc: "A hearty Naga soupy rice dish slow-cooked with fresh local seasonal greens, ginger, garlic, and optional smoked pork, creating a wholesome, comforting, and warming meal.",
+    category: "northeast"
+  },
+  {
+    id: "naga-boiled-veg",
+    name: "Naga Boiled Vegetables",
+    nameRegional: "হিংকেজু",
+    calories: 45,
+    protein: 2.8,
+    carbs: 7.5,
+    fat: 0.2,
+    fiber: 3.6,
+    unit: "1 serving (150g)",
+    desc: "A traditional oil-free preparation of native leafy greens boiled with a pinch of salt and local Sichuan peppercorns, supporting digestive health with zero added fats.",
+    category: "northeast"
+  },
+  {
+    id: "manipuri-singju",
+    name: "Manipuri Singju",
+    nameRegional: "শিংজু",
+    calories: 85,
+    protein: 3.2,
+    carbs: 14.5,
+    fat: 1.2,
+    fiber: 4.8,
+    unit: "1 serving (120g)",
+    desc: "A spicy, oil-free Manipuri salad made with finely shredded cabbage, seasonal herbs, lotus stems, and banana inflorescence, dressed in toasted chickpea powder and fermented fish paste.",
+    category: "northeast"
+  },
+  {
+    id: "manipuri-kangshoi",
+    name: "Manipuri Kangshoi",
+    nameRegional: "কাঙশৌ",
+    calories: 55,
+    protein: 2.5,
+    carbs: 9.8,
+    fat: 0.1,
+    fiber: 2.9,
+    unit: "1 bowl (200ml)",
+    desc: "A simple, comforting boiled vegetable soup prepared with seasonal greens, sliced onions, ginger, and dried fish (ngari), cooked completely without oil.",
+    category: "northeast"
+  },
+  {
+    id: "khasi-jadoh",
+    name: "Khasi Jadoh",
+    nameRegional: "জাদহ",
+    calories: 310,
+    protein: 12.8,
+    carbs: 49.5,
+    fat: 6.2,
+    fiber: 1.8,
+    unit: "1 plate (200g)",
+    desc: "A classic Khasi festival rice dish cooked with short-grain red rice, ginger, black pepper, and minced pork or chicken, featuring a deep, earthy spiced flavor.",
+    category: "northeast"
+  },
+  {
+    id: "khasi-dohneiiong",
+    name: "Khasi Dohneiiong",
+    nameRegional: "দহনেইয়ং",
+    calories: 320,
+    protein: 18.5,
+    carbs: 3.2,
+    fat: 25.4,
+    fiber: 2.0,
+    unit: "1 bowl (180g)",
+    desc: "A highly aromatic Khasi pork curry slow-cooked with toasted black sesame paste, ginger, garlic, and local spices, creating a rich and savory dark gravy.",
     category: "northeast"
   },
 
@@ -292,7 +370,7 @@ const foodDatabase = [
     fat: 11.5,
     fiber: 0.2,
     unit: "1 piece",
-    desc: "River or marine fish steaks marinated in ginger, garlic, lime juice, and spices, pan-fried in mustard or seed oils until golden and crispy.",
+    desc: "River or marine fish steaks marinated in daily ground spices, then pan-fried in raw mustard oil until golden and crispy.",
     category: "staples"
   },
   {
@@ -329,6 +407,45 @@ const foodDatabase = [
     fiber: 5.8,
     unit: "1 plate (2 Littis + Chokha)",
     desc: "Roasted whole wheat dough balls stuffed with spiced roasted gram flour (sattu), served alongside a traditional smoky mash of eggplant, potatoes, and tomatoes.",
+    category: "staples"
+  },
+  {
+    id: "shorshe-ilish",
+    name: "Shorshe Ilish",
+    nameRegional: "সর্ষে ইলিশ",
+    calories: 285,
+    protein: 21.4,
+    carbs: 3.8,
+    fat: 20.2,
+    fiber: 1.2,
+    unit: "1 piece with gravy (150g)",
+    desc: "Bengali style Hilsa fish steak cooked in a pungent mustard paste gravy with green chilies and a drizzle of raw mustard oil. Rich in healthy omega-3 fatty acids.",
+    category: "staples"
+  },
+  {
+    id: "luchi-alur-dom",
+    name: "Luchi with Alur Dom",
+    nameRegional: "লুচি আর আলুর দম",
+    calories: 380,
+    protein: 6.5,
+    carbs: 52.0,
+    fat: 16.5,
+    fiber: 3.5,
+    unit: "1 plate (3 Luchis + Curry)",
+    desc: "Deep-fried, puffed white flour flatbreads (Luchi) served with a rich, slow-simmered, spicy potato gravy (Alur Dom). A classic Bengali breakfast delicacy.",
+    category: "staples"
+  },
+  {
+    id: "rava-upma",
+    name: "Rava Upma",
+    nameRegional: "ரவா உப்புமா",
+    calories: 185,
+    protein: 4.2,
+    carbs: 34.0,
+    fat: 3.2,
+    fiber: 2.4,
+    unit: "1 plate (150g)",
+    desc: "A comforting South Indian breakfast made of dry-roasted semolina cooked with hot water, mustard seeds, curry leaves, green chilies, and mixed seasonal vegetables.",
     category: "staples"
   },
 
@@ -403,6 +520,45 @@ const foodDatabase = [
     fiber: 0.2,
     unit: "1 piece",
     desc: "Crispy spiral-shaped batter rings deep-fried and soaked in a warm cardamom-infused sugar syrup. A classic celebratory sweet treat.",
+    category: "snacks"
+  },
+  {
+    id: "mumbai-vada-pav",
+    name: "Mumbai Vada Pav",
+    nameRegional: "वडा पाव",
+    calories: 290,
+    protein: 5.8,
+    carbs: 42.0,
+    fat: 10.8,
+    fiber: 2.2,
+    unit: "1 piece",
+    desc: "The quintessential Mumbai street snack featuring a spiced, deep-fried mashed potato dumpling inside a soft pav bun, layered with sweet and spicy garlic dry chutneys.",
+    category: "snacks"
+  },
+  {
+    id: "mumbai-misal-pav",
+    name: "Mumbai Misal Pav",
+    nameRegional: "मिसळ पाव",
+    calories: 370,
+    protein: 11.2,
+    carbs: 48.0,
+    fat: 14.2,
+    fiber: 5.8,
+    unit: "1 plate",
+    desc: "A fiery, sprouted moth bean curry (usal) topped with crispy farsan mix, raw onions, and coriander, served with buttered soft pav buns and lemon wedges.",
+    category: "snacks"
+  },
+  {
+    id: "medu-vada",
+    name: "Medu Vada",
+    nameRegional: "மெது வடை",
+    calories: 140,
+    protein: 3.8,
+    carbs: 16.5,
+    fat: 6.8,
+    fiber: 2.0,
+    unit: "1 piece",
+    desc: "A crispy, deep-fried savory doughnut made from a seasoned black lentil batter with crushed black pepper, fresh ginger, and curry leaves. High in plant protein.",
     category: "snacks"
   },
 
