@@ -221,62 +221,14 @@
     <!-- Main Dashboard Grid -->
     <div class="main-grid">
 
-      <!-- Left/Bottom Column: Food Matrix Cards Container -->
+           <!-- Left/Bottom Column: Food Matrix Cards Container -->
       <section class="food-section" aria-labelledby="food-heading">
         <h2 class="food-section-title" id="food-heading">Select Food or Activity</h2>
-        
-        <div class="food-grid" id="food-grid-container">
-          <!-- Premium Loading Skeletons (rendered while JS parses database) -->
-          <div class="food-card skeleton-card">
-            <div class="card-top">
-              <div class="skeleton-element" style="width: 65%; height: 20px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
-            </div>
-            <div class="skeleton-element" style="width: 90%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
-            <div class="card-bottom">
-              <div class="skeleton-element" style="width: 40%; height: 24px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
-            </div>
-          </div>
-          
-          <div class="food-card skeleton-card">
-            <div class="card-top">
-              <div class="skeleton-element" style="width: 50%; height: 20px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
-            </div>
-            <div class="skeleton-element" style="width: 85%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
-            <div class="card-bottom">
-              <div class="skeleton-element" style="width: 45%; height: 24px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
-            </div>
-          </div>
-
-          <div class="food-card skeleton-card">
-            <div class="card-top">
-              <div class="skeleton-element" style="width: 60%; height: 20px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
-            </div>
-            <div class="skeleton-element" style="width: 88%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
-            <div class="card-bottom">
-              <div class="skeleton-element" style="width: 35%; height: 24px; border-radius: var(--radius-sm);"></div>
-              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- AdSense In-Feed Ad Placement Placeholder -->
-        <div class="adsense-placeholder ads-in-feed" id="adsense-mid-feed" aria-hidden="true">
-          <span>Sponsored Ad Placement — In-Feed Banner</span>
-        </div>
-      </section>
-
-      <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
-      <aside class="sidebar-section" aria-label="Calculators and readouts">
         
         <!-- Interactive Mifflin-St Jeor Calculator Panel -->
         <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
           <h2 class="panel-title" id="bmr-engine-heading">
-            <span>Mifflin-St Jeor</span> Metabolic Engine
+            <span>Metabolic</span> Target Calculator
           </h2>
           
           <!-- Gender Select (Segmented Control Pill Toggle) -->
@@ -357,10 +309,59 @@
                 <span class="metric-title">Active TDEE Budget</span>
                 <span class="metric-value green" id="result-tdee-val">0 kcal</span>
               </div>
+              <button type="button" class="btn-submit" id="btn-apply-target" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; margin-top: 0.75rem; border-radius: var(--radius-full); width: 100%;">Use as Daily Target</button>
             </div>
           </div>
         </section>
 
+        <div class="food-grid" id="food-grid-container">
+          <!-- Premium Loading Skeletons (rendered while JS parses database) -->
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 65%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 90%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 40%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+          
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 50%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 85%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 45%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 60%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 88%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 35%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AdSense In-Feed Ad Placement Placeholder -->
+        <div class="adsense-placeholder ads-in-feed" id="adsense-mid-feed" aria-hidden="true">
+          <span>Sponsored Ad Placement — In-Feed Banner</span>
+        </div>
+      </section>
+
+            <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
+      <aside class="sidebar-section" aria-label="Calculators and readouts">
+      
         <!-- Elevated Calorie progress and circular dashboard wheel -->
         <section class="glass-panel" aria-labelledby="calorie-balance-heading">
           <h2 class="panel-title" id="calorie-balance-heading">
