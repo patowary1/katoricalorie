@@ -1284,66 +1284,109 @@ header {
   text-align: center;
 }
 
-/* --- Floating Footer Thali Bar --- */
+/* --- Floating Footer Thali Bar & collapsible drawer --- */
 .thali-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(10, 6, 5, 0.92);
-  border-top: 1px solid var(--border-color);
+  background: rgba(13, 13, 13, 0.95);
+  border-top: 1px solid var(--accent-glow);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  z-index: 90;
-  transform: translateY(0);
-  transition: var(--transition-smooth);
-  box-shadow: 0 -10px 45px rgba(0,0,0,0.6);
+  z-index: 100;
+  transform: translateY(100%) rotateX(-5deg);
+  transform-origin: bottom center;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  perspective: 800px;
+  height: 80px; /* default collapsed height on mobile */
+}
+
+.thali-footer.visible {
+  transform: translateY(0) rotateX(0deg);
+}
+
+@media (min-width: 768px) {
+  .thali-footer {
+    height: 90px; /* desktop height */
+    padding-bottom: 0;
+  }
+}
+
+.thali-footer.expanded {
+  height: 60vh;
+}
+
+.thali-drag-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--text-tertiary);
+  border-radius: 2px;
+  margin: var(--space-2) auto 0 auto;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .thali-drag-handle {
+    display: none;
+  }
 }
 
 .thali-bar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-md);
+  padding: var(--space-1) var(--space-4);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  gap: var(--space-md);
-  text-align: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .thali-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    cursor: default;
+    gap: var(--space-4);
+  }
 }
 
 .thali-info {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-3);
 }
 
 .thali-icon-container {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-full);
-  background: var(--bg-secondary);
-  border: 1px solid var(--accent-orange);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  color: var(--accent-orange);
+  font-size: 1.25rem;
+  color: var(--accent-primary);
   position: relative;
-  box-shadow: 0 0 12px var(--accent-orange-muted);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .thali-badge {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: var(--accent-orange);
-  color: var(--bg-primary);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: var(--font-xs);
-  width: 20px;
-  height: 20px;
+  background: var(--accent-primary);
+  color: var(--bg-base);
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xs);
+  width: 18px;
+  height: 18px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
@@ -1351,29 +1394,57 @@ header {
 }
 
 .thali-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   text-align: left;
 }
 
 .thali-title {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.15rem;
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--text-primary);
 }
 
 .thali-title span {
-  color: var(--accent-orange);
-  font-weight: 700;
+  color: var(--accent-primary);
 }
 
 .thali-subtitle {
-  font-size: var(--font-xs);
+  font-size: var(--text-xs);
   color: var(--text-secondary);
+}
+
+/* Center Progress Bar */
+.thali-progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.thali-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--accent-glow);
+}
+
+.thali-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.thali-progress-label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
 }
 
 .thali-actions {
@@ -1381,9 +1452,114 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: var(--space-md);
+  gap: var(--space-2);
+}
+@media (min-width: 768px) {
+  .thali-actions {
+    width: auto;
+    justify-content: flex-end;
+    gap: var(--space-4);
+  }
 }
 
+.thali-net-readout-wrapper {
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+/* Collapsible drawer items list */
+.thali-drawer-content {
+  display: none;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  height: calc(100% - 90px);
+  overflow-y: auto;
+}
+
+.thali-footer.expanded .thali-drawer-content {
+  display: block;
+}
+
+.drawer-section-title {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  text-align: left;
+}
+
+.thali-items-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+}
+
+.thali-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-glow);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.thali-item-row:hover {
+  background: var(--bg-elevated);
+}
+
+.thali-item-name-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.thali-item-name {
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+.thali-item-qty-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.thali-item-calories {
+  font-weight: var(--font-bold);
+  font-size: var(--text-base);
+  color: var(--accent-primary);
+  margin-left: auto;
+  margin-right: var(--space-4);
+}
+
+.thali-item-calories.burn {
+  color: var(--success);
+}
+
+.btn-delete-item {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+  font-size: 1.1rem;
+}
+
+.btn-delete-item:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
 /* --- Info/Scientific Overview Section --- */
 .info-section {
   background: var(--bg-secondary);
