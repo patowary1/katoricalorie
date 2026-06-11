@@ -179,16 +179,83 @@ function updateUI() {
   const thaliCountBadge = document.getElementById('thali-badge-count');
   const thaliNetReadout = document.getElementById('thali-net-readout');
   const footerDrawer = document.getElementById('thali-drawer');
+  const progressFill = document.getElementById('thali-progress-fill');
+  const progressLabel = document.getElementById('thali-progress-label');
+  const itemsListEl = document.getElementById('thali-items-list');
+  const itemsCountTextEl = document.getElementById('thali-items-count-text');
 
   if (thaliCountBadge) thaliCountBadge.textContent = thaliMetrics.count;
   if (thaliNetReadout) thaliNetReadout.textContent = thaliMetrics.net + ' kcal';
 
-  // Show/Hide Floating Thali bar depending on items
+  // Update Progress Bar
+  const targetLimit = state.tdee > 0 ? state.tdee : 2000;
+  if (progressFill && progressLabel) {
+    const netCalories = thaliMetrics.net;
+    const pct = targetLimit > 0 ? Math.min(Math.max((netCalories / targetLimit) * 100, 0), 100) : 0;
+    progressFill.style.width = pct + '%';
+    
+    if (netCalories > targetLimit) {
+      progressFill.style.background = 'var(--danger)';
+      progressFill.style.boxShadow = '0 0 8px var(--danger)';
+    } else {
+      progressFill.style.background = '';
+      progressFill.style.boxShadow = '';
+    }
+    
+    progressLabel.textContent = `${netCalories} / ${targetLimit} kcal`;
+  }
+
+  // Render Drawer Items List
+  if (itemsListEl) {
+    itemsListEl.innerHTML = '';
+    let renderedCount = 0;
+    
+    for (const [itemId, qty] of Object.entries(state.thali)) {
+      if (qty <= 0) continue;
+      const item = foodDatabase.find(f => f.id === itemId);
+      if (!item) continue;
+      
+      renderedCount++;
+      const isBurn = item.category === 'burn';
+      const itemCal = Math.abs(item.calories) * qty;
+      const calDisplay = isBurn ? `-${itemCal}` : `${itemCal}`;
+      const burnClass = isBurn ? 'burn' : '';
+      
+      const itemHTML = `
+        <li class="thali-item-row" data-id="${item.id}">
+          <div class="thali-item-name-info">
+            <span class="thali-item-name">${item.name}</span>
+            <span class="thali-item-qty-desc">${qty} × ${item.unit}</span>
+          </div>
+          <span class="thali-item-calories ${burnClass}">${calDisplay} kcal</span>
+          <button class="btn-delete-item" onclick="deleteThaliItem('${item.id}')" aria-label="Delete ${item.name}">
+            <i class="ph ph-trash"></i>
+          </button>
+        </li>
+      `;
+      itemsListEl.insertAdjacentHTML('beforeend', itemHTML);
+    }
+    
+    if (renderedCount === 0) {
+      itemsListEl.innerHTML = `
+        <li style="text-align: center; color: var(--text-secondary); padding: var(--space-4); width: 100%;">
+          Your plate is empty. Add some food items above!
+        </li>
+      `;
+    }
+    
+    if (itemsCountTextEl) {
+      itemsCountTextEl.textContent = `${thaliMetrics.count} item${thaliMetrics.count !== 1 ? 's' : ''} selected`;
+    }
+  }
+
+  // Show/Hide Floating Thali bar depending on items (using .visible class instead of inline styles)
   if (footerDrawer) {
     if (thaliMetrics.count > 0) {
-      footerDrawer.style.transform = 'translateY(0)';
+      footerDrawer.classList.add('visible');
     } else {
-      footerDrawer.style.transform = 'translateY(100%)';
+      footerDrawer.classList.remove('visible');
+      footerDrawer.classList.remove('expanded');
     }
   }
 
@@ -307,13 +374,64 @@ function setupCalculatorListeners() {
     });
   }
 
-  // Reset Thali Button
+   // Reset Thali Button
   const btnReset = document.getElementById('btn-reset-thali');
   if (btnReset) {
     btnReset.addEventListener('click', () => {
       state.thali = {};
       updateUI();
     });
+  }
+
+  // Mobile Bottom Sheet Touch & Click Listeners
+  const footerDrawer = document.getElementById('thali-drawer');
+  const dragHandle = document.getElementById('thali-drag-handle');
+  const barClick = document.getElementById('thali-bar-click');
+
+  const toggleDrawer = (e) => {
+    if (e.target.closest('#btn-reset-thali') || e.target.closest('.btn-delete-item') || e.target.closest('.control-btn')) {
+      return;
+    }
+    if (footerDrawer) {
+      footerDrawer.classList.toggle('expanded');
+    }
+  };
+
+  if (dragHandle) dragHandle.addEventListener('click', toggleDrawer);
+  if (barClick) barClick.addEventListener('click', toggleDrawer);
+
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+  const handleTouchStart = (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  };
+
+  const handleTouchEnd = (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+    const deltaY = touchEndY - touchStartY;
+    
+    // Swipe Up: Expand
+    if (deltaY < -40) {
+      if (footerDrawer && !footerDrawer.classList.contains('expanded')) {
+        footerDrawer.classList.add('expanded');
+      }
+    }
+    // Swipe Down: Collapse
+    else if (deltaY > 40) {
+      if (footerDrawer && footerDrawer.classList.contains('expanded')) {
+        footerDrawer.classList.remove('expanded');
+      }
+    }
+  };
+
+  if (dragHandle) {
+    dragHandle.addEventListener('touchstart', handleTouchStart, { passive: true });
+    dragHandle.addEventListener('touchend', handleTouchEnd, { passive: true });
+  }
+  if (barClick) {
+    barClick.addEventListener('touchstart', handleTouchStart, { passive: true });
+    barClick.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
 }
 
@@ -328,6 +446,15 @@ function adjustItemQty(itemId, change) {
   }
   updateUI();
 }
+
+// Delete item from Thali directly
+function deleteThaliItem(itemId) {
+  if (state.thali[itemId]) {
+    delete state.thali[itemId];
+    updateUI();
+  }
+}
+window.deleteThaliItem = deleteThaliItem;
 
 // Get category-specific gradient and Phosphor Icon class
 function getCardPlaceholder(category, id) {
