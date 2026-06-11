@@ -4,67 +4,86 @@
    1. DESIGN SYSTEM VARIABLES (:root)
    ========================================================================== */
 :root {
-  /* Premium Dark Theme Color Palette */
-  --bg-primary: #0a0605;           /* Deep dark obsidian base with warm cocoa undertone */
-  --bg-secondary: #130d0b;         /* Surface layer for cards/panels */
-  --bg-tertiary: #1f1412;          /* Elevated surface for active items, inputs */
-  --bg-elevated: #281a17;          /* High elevation surface */
-  
-  --accent-orange: #ff6b35;        /* Primary Glowing Orange */
-  --accent-orange-glow: rgba(255, 107, 53, 0.45);
-  --accent-orange-muted: rgba(255, 107, 53, 0.08);
-  
-  --accent-green: #00e676;         /* Success, active indicators, burn values */
-  --accent-green-glow: rgba(0, 230, 118, 0.35);
-  --accent-green-muted: rgba(0, 230, 118, 0.08);
+  /* Colors (3 Depths of Background) */
+  --bg-base: #0D0D0D;             /* Deepest background */
+  --bg-surface: #161616;          /* Card panels */
+  --bg-elevated: #1E1E1E;         /* Hover states and dropdowns */
 
-  --accent-warning: #ffd600;       /* Warning state color */
-  
-  --text-primary: #f4efee;         /* High-contrast warm white */
-  --text-secondary: #a79a97;       /* Muted brown-gray body copy */
-  --text-muted: #736764;           /* Low-contrast disabled state */
-  
-  --border-color: rgba(255, 107, 53, 0.12);
-  --border-color-glow: rgba(255, 107, 53, 0.3);
-  --glass-bg: rgba(19, 13, 11, 0.75);
-  --glass-border: rgba(255, 107, 53, 0.1);
+  /* Accents */
+  --accent-primary: #FF6B35;       /* Primary Brand Orange */
+  --accent-secondary: #FF8C42;     /* Lighter secondary orange */
+  --accent-glow: rgba(255, 107, 53, 0.3);
 
-  /* Typography System with Bilingual Indian Script Fallbacks */
-  --font-heading: 'Outfit', 'Noto Sans Bengali', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
-  
-  /* Font Sizes */
-  --font-xs: 0.75rem;
-  --font-sm: 0.875rem;
-  --font-md: 1rem;
-  --font-lg: 1.125rem;
-  --font-xl: 1.25rem;
-  --font-xxl: 1.5rem;
-  --font-title: 2.2rem;
-  
-  /* Spacing Scale (Base: 4px) */
-  --space-xxs: 4px;
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-xxl: 48px;
-  --space-3xl: 64px;
-  
-  /* Component Tokens */
+  /* Text Colors */
+  --text-primary: #F5F5F5;         /* Crisp main text */
+  --text-secondary: #A3A3A3;       /* Muted secondary text */
+  --text-tertiary: #737373;        /* Sub-metadata text */
+
+  /* Status Colors */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Typography Sizes (Converted to rem for clean scaling, baseline 16px) */
+  --text-xs: 0.75rem;              /* 12px */
+  --text-sm: 0.875rem;             /* 14px */
+  --text-base: 1rem;               /* 16px */
+  --text-lg: 1.125rem;             /* 18px */
+  --text-xl: 1.25rem;              /* 20px */
+  --text-2xl: 1.5rem;              /* 24px */
+  --text-3xl: 2rem;                /* 32px */
+  --text-4xl: 2.5rem;              /* 40px */
+
+  /* Typography Font Families & Weights */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-regional: 'Noto Sans', system-ui, sans-serif;
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Typography Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Spacing Scale (4px Base Unit) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+
+  /* Border Radii */
   --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
-  
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow-orange: 0 0 15px var(--accent-orange-muted);
-  
-  --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-fast: all 0.15s ease;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* 3D Properties (GPU-Accelerated) */
+  --perspective-card: 1000px;
+  --perspective-container: 800px;
+  --tilt-max: 3deg;
+  --press-depth: translateZ(-2px);
 }
 
 /* ==========================================================================
