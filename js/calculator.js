@@ -131,6 +131,154 @@ function showToast(message, type = 'info') {
   }, 3000);
 }
 
+// Onboarding Tour Steps Definition
+const tourSteps = [
+  {
+    targetId: 'bmr-engine-heading',
+    title: '1. Calculate target budget',
+    body: 'Use the Mifflin-St Jeor engine to select biological gender, input weight/height/age, and apply as your daily calorie target.'
+  },
+  {
+    targetId: 'food-heading',
+    title: '2. Add food portions',
+    body: 'Browse traditional staples and activities. Tap \'+\' to add foods to your active thali plate, or register calorie burn exercises.'
+  },
+  {
+    targetId: 'calorie-balance-heading',
+    title: '3. Check calorie balance',
+    body: 'Watch your real-time Net Calorie balance against your daily allowances. Expand the footer sheet to review details.'
+  }
+];
+
+let currentTourStep = 0;
+let tourOverlay = null;
+let tourTooltip = null;
+
+function startOnboardingTour() {
+  // Clear any existing tour elements
+  stopOnboardingTour();
+  
+  currentTourStep = 0;
+  
+  // Create dimming overlay
+  tourOverlay = document.createElement('div');
+  tourOverlay.className = 'tour-overlay';
+  document.body.appendChild(tourOverlay);
+  
+  // Create tooltip container
+  tourTooltip = document.createElement('div');
+  tourTooltip.className = 'tour-tooltip';
+  document.body.appendChild(tourTooltip);
+  
+  showTourStep(0);
+}
+
+function stopOnboardingTour() {
+  // Remove highlight class from any highlighted element
+  document.querySelectorAll('.tour-highlight').forEach(el => {
+    el.classList.remove('tour-highlight');
+  });
+  
+  if (tourOverlay) {
+    tourOverlay.remove();
+    tourOverlay = null;
+  }
+  if (tourTooltip) {
+    tourTooltip.remove();
+    tourTooltip = null;
+  }
+  
+  localStorage.setItem('katori_tour_completed', 'true');
+}
+
+function showTourStep(stepIndex) {
+  // Clean up previous step highlights
+  document.querySelectorAll('.tour-highlight').forEach(el => {
+    el.classList.remove('tour-highlight');
+  });
+  
+  if (stepIndex < 0 || stepIndex >= tourSteps.length) {
+    stopOnboardingTour();
+    return;
+  }
+  
+  currentTourStep = stepIndex;
+  const step = tourSteps[stepIndex];
+  const target = document.getElementById(step.targetId);
+  
+  if (!target) {
+    // Target not found, skip to next step
+    showTourStep(stepIndex + 1);
+    return;
+  }
+  
+  // Highlight target
+  target.classList.add('tour-highlight');
+  
+  // Populate tooltip content
+  const isLastStep = stepIndex === tourSteps.length - 1;
+  tourTooltip.innerHTML = `
+    <div class="tour-tooltip-title">
+      <i class="ph ph-compass" style="font-size: 1.25rem;"></i>
+      <span>${step.title}</span>
+    </div>
+    <div class="tour-tooltip-body">${step.body}</div>
+    <div class="tour-tooltip-footer">
+      <button class="tour-btn-skip" onclick="stopOnboardingTour()">Skip</button>
+      <div class="tour-badge">${stepIndex + 1} of ${tourSteps.length}</div>
+      <button class="tour-btn" onclick="nextTourStep()">${isLastStep ? 'Finish' : 'Next'}</button>
+    </div>
+  `;
+  
+  // Position tooltip relative to target element
+  positionTooltip(target, tourTooltip);
+  
+  // Scroll target into view
+  target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function nextTourStep() {
+  showTourStep(currentTourStep + 1);
+}
+
+function positionTooltip(target, tooltip) {
+  const rect = target.getBoundingClientRect();
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const scrollLeft = window.scrollX || document.documentElement.scrollX;
+  
+  // Default placement: below the target
+  let top = rect.bottom + scrollTop + 12;
+  let left = rect.left + scrollLeft;
+  
+  // Ensure the tooltip is within screen boundaries
+  const viewportWidth = window.innerWidth;
+  const tooltipWidth = 320; // max-width
+  
+  if (left + tooltipWidth > viewportWidth) {
+    left = viewportWidth - tooltipWidth - 16;
+  }
+  if (left < 16) {
+    left = 16;
+  }
+  
+  // If placing below goes offscreen, place it above target
+  if (rect.bottom + 200 > window.innerHeight) {
+    const estimatedHeight = 160;
+    top = rect.top + scrollTop - estimatedHeight - 12;
+    if (top < scrollTop) {
+      top = rect.bottom + scrollTop + 12; // Fallback back to below
+    }
+  }
+  
+  tooltip.style.top = top + 'px';
+  tooltip.style.left = left + 'px';
+}
+
+// Make functions globally accessible for click events
+window.stopOnboardingTour = stopOnboardingTour;
+window.nextTourStep = nextTourStep;
+window.startOnboardingTour = startOnboardingTour;
+
 // DOM Rendering Sync
 function updateUI() {
   // Update Sliders and UI Readouts
@@ -276,10 +424,14 @@ function updateUI() {
       itemsListEl.insertAdjacentHTML('beforeend', itemHTML);
     }
     
-    if (renderedCount === 0) {
+        if (renderedCount === 0) {
       itemsListEl.innerHTML = `
-        <li style="text-align: center; color: var(--text-secondary); padding: var(--space-4); width: 100%;">
-          Your plate is empty. Add some food items above!
+        <li style="width: 100%; border-bottom: none;">
+          <div class="empty-plate-state">
+            <i class="ph ph-cooking-pot" style="font-size: 2.5rem; color: var(--accent-primary); opacity: 0.5;"></i>
+            <span style="font-size: 1rem; font-weight: 600; color: var(--text-primary);">Your Digital Plate is Empty</span>
+            <span style="font-size: 0.85rem; max-width: 280px; text-align: center; line-height: 1.4;">Tap the "+" button on any food item above to start building your thali!</span>
+          </div>
         </li>
       `;
     }
@@ -488,7 +640,7 @@ function setupCalculatorListeners() {
       
       showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');
       
-      // Visual feedback on click
+           // Visual feedback on click
       btnApplyTarget.innerHTML = '<i class="ph ph-check-circle"></i> Target Applied!';
       btnApplyTarget.style.background = 'var(--success)';
       btnApplyTarget.style.boxShadow = '0 0 12px rgba(34, 197, 94, 0.3)';
@@ -499,6 +651,15 @@ function setupCalculatorListeners() {
       }, 2000);
     });
   }
+
+  // Tour Trigger Button
+  const btnStartTour = document.getElementById('btn-start-tour');
+  if (btnStartTour) {
+    btnStartTour.addEventListener('click', () => {
+      startOnboardingTour();
+    });
+  }
+}
 
 // Card add/subtract adjustments
 function adjustItemQty(itemId, change) {
@@ -598,16 +759,16 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     return matchesCategory && matchesSearch;
   });
 
-  if (filtered.length === 0) {
+   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="adsense-placeholder" style="grid-column: 1 / -1; min-height: 120px; display: flex; flex-direction: column; gap: 0.5rem; text-transform: none;">
-        <div>No traditional foods found matching your search.</div>
-        <div style="font-size: 0.75rem; color: var(--text-secondary);">Try searching for 'tenga', 'rice', 'dal', or 'exercise'.</div>
+      <div class="empty-search-state">
+        <i class="ph ph-magnifying-glass-x" style="font-size: 3rem; color: var(--accent-primary); opacity: 0.6;"></i>
+        <h3 style="font-size: var(--text-lg); font-weight: 600; color: var(--text-primary); margin: 0;">No Traditional Foods Found</h3>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); max-width: 400px; margin: 0 auto; line-height: 1.5; text-align: center;">We couldn't find anything matching your search. Try searching for regional items like "tenga", staples like "rice", or exercises like "walk".</p>
       </div>
     `;
     return;
   }
-
    filtered.forEach((item, index) => {
     const isBurn = item.category === 'burn';
     const isQty = state.thali[item.id] || 0;
@@ -778,6 +939,11 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     renderFoodGrid('all', '');
     updateUI();
+    
+    // Auto-start onboarding tour for first-time visitors
+    if (!localStorage.getItem('katori_tour_completed')) {
+      startOnboardingTour();
+    }
   }, 300);
   
   // Update BMR calculations and thali values immediately for initial shell readouts
