@@ -329,52 +329,52 @@ function adjustItemQty(itemId, change) {
   updateUI();
 }
 
-// Get category-specific gradient and emoji placeholder
+// Get category-specific gradient and Phosphor Icon class
 function getCardPlaceholder(category, id) {
   const normId = id.toLowerCase();
   switch (category) {
     case 'assamese':
-      let assameseEmoji = '🍲';
-      if (normId.includes('tenga')) assameseEmoji = '🐟';
-      else if (normId.includes('pitha')) assameseEmoji = '🍡';
-      else if (normId.includes('pitika')) assameseEmoji = '🥔';
-      else if (normId.includes('haah')) assameseEmoji = '🦆';
-      else if (normId.includes('gahori')) assameseEmoji = '🥩';
-      else if (normId.includes('dal')) assameseEmoji = '🥣';
-      else if (normId.includes('sak')) assameseEmoji = '🌿';
-      return { emoji: assameseEmoji, gradientClass: 'gradient-assamese' };
+      let assameseIcon = 'ph-bowl';
+      if (normId.includes('tenga')) assameseIcon = 'ph-fish';
+      else if (normId.includes('pitha')) assameseIcon = 'ph-cookie';
+      else if (normId.includes('pitika')) assameseIcon = 'ph-plant';
+      else if (normId.includes('haah')) assameseIcon = 'ph-bowl';
+      else if (normId.includes('gahori')) assameseIcon = 'ph-bowl';
+      else if (normId.includes('dal')) assameseIcon = 'ph-bowl';
+      else if (normId.includes('sak')) assameseIcon = 'ph-leaf';
+      return { iconClass: assameseIcon, gradientClass: 'gradient-assamese' };
       
     case 'northeast':
-      let neEmoji = '🎋';
-      if (normId.includes('pork')) neEmoji = '🥩';
-      else if (normId.includes('chicken')) neEmoji = '🍗';
-      else if (normId.includes('eromba')) neEmoji = '🥣';
-      return { emoji: neEmoji, gradientClass: 'gradient-northeast' };
+      let neIcon = 'ph-bowl';
+      if (normId.includes('pork')) neIcon = 'ph-bowl';
+      else if (normId.includes('chicken')) neIcon = 'ph-bowl';
+      else if (normId.includes('eromba')) neIcon = 'ph-bowl';
+      return { iconClass: neIcon, gradientClass: 'gradient-northeast' };
       
     case 'staples':
-      let stapleEmoji = '🍚';
-      if (normId.includes('roti') || normId.includes('chapati') || normId.includes('nan')) stapleEmoji = '🫓';
-      else if (normId.includes('biryani')) stapleEmoji = '🍲';
-      else if (normId.includes('chicken')) stapleEmoji = '🍗';
-      else if (normId.includes('dosa') || normId.includes('idli')) stapleEmoji = '🥞';
-      return { emoji: stapleEmoji, gradientClass: 'gradient-staples' };
+      let stapleIcon = 'ph-grains';
+      if (normId.includes('roti') || normId.includes('chapati') || normId.includes('nan')) stapleIcon = 'ph-grains';
+      else if (normId.includes('biryani')) stapleIcon = 'ph-bowl';
+      else if (normId.includes('chicken')) stapleIcon = 'ph-bowl';
+      else if (normId.includes('dosa') || normId.includes('idli')) stapleIcon = 'ph-cookie';
+      return { iconClass: stapleIcon, gradientClass: 'gradient-staples' };
       
     case 'snacks':
-      return { emoji: '🥟', gradientClass: 'gradient-snacks' };
+      return { iconClass: 'ph-cookie', gradientClass: 'gradient-snacks' };
       
     case 'beverages':
-      return { emoji: '☕', gradientClass: 'gradient-beverages' };
+      return { iconClass: 'ph-coffee', gradientClass: 'gradient-beverages' };
       
     case 'burn':
-      let burnEmoji = '⚡';
-      if (normId.includes('walk')) burnEmoji = '🚶';
-      else if (normId.includes('run')) burnEmoji = '🏃';
-      else if (normId.includes('cycle')) burnEmoji = '🚴';
-      else if (normId.includes('yoga')) burnEmoji = '🧘';
-      return { emoji: burnEmoji, gradientClass: 'gradient-burn' };
+      let burnIcon = 'ph-lightning';
+      if (normId.includes('walk')) burnIcon = 'ph-footprints';
+      else if (normId.includes('run')) burnIcon = 'ph-activity';
+      else if (normId.includes('cycle')) burnIcon = 'ph-bicycle';
+      else if (normId.includes('yoga')) burnIcon = 'ph-activity';
+      return { iconClass: burnIcon, gradientClass: 'gradient-burn' };
       
     default:
-      return { emoji: '🍽️', gradientClass: 'gradient-default' };
+      return { iconClass: 'ph-fork-knife', gradientClass: 'gradient-default' };
   }
 }
 
@@ -410,7 +410,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     const isActive = isQty > 0 ? 'active' : '';
     const isBurnClass = isBurn ? 'burn' : '';
     
-    // Get category-specific gradient and emoji placeholder
+    // Get category-specific gradient and icon placeholder
     const placeholder = getCardPlaceholder(item.category, item.id);
 
     const cardHTML = `
@@ -421,7 +421,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
             ${Math.abs(item.calories)} kcal
           </div>
           <div class="card-image-placeholder">
-            <span class="placeholder-icon">${placeholder.emoji}</span>
+            <i class="placeholder-icon ph ${placeholder.iconClass}"></i>
           </div>
           <!-- Future image tag will sit here:
                <img src="/assets/food/${item.id}.jpg" alt="${item.name}" loading="lazy">
@@ -434,19 +434,41 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
               ${item.name}
               ${item.nameRegional ? `<span class="regional-lang">${item.nameRegional}</span>` : ''}
             </div>
-            <div class="indicator-dot">${isBurn ? '⚡' : '✓'}</div>
+            <div class="indicator-dot">
+              <i class="ph ph-check"></i>
+            </div>
           </div>
+          
           <p class="card-desc">${item.desc}</p>
-          <div class="card-bottom">
+          
+          <div class="card-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); font-size: var(--font-sm);">
             <div class="serving-lbl">
-              Serving Size
-              <span>${item.unit}</span>
+              Portion: <span style="font-weight: 600; color: var(--text-primary);">${item.unit}</span>
             </div>
-            <div class="card-controls ${isBurnClass}">
-              <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', -1)">-</button>
-              <span class="control-qty">${isQty}</span>
-              <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="adjustItemQty('${item.id}', 1)">+</button>
+            <div class="macro-readout" style="color: var(--text-secondary); font-size: var(--font-xs);">
+              ${item.protein ? `<span style="margin-right: 4px;">P: ${item.protein}g</span>` : ''}
+              ${item.carbs ? `<span style="margin-right: 4px;">C: ${item.carbs}g</span>` : ''}
+              ${item.fat ? `<span>F: ${item.fat}g</span>` : ''}
             </div>
+          </div>
+
+          <div class="card-bottom">
+            ${isQty > 0 ? `
+              <div class="card-controls ${isBurnClass}">
+                <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="event.stopPropagation(); adjustItemQty('${item.id}', -1)" aria-label="Decrease quantity">
+                  <i class="ph ph-minus"></i>
+                </button>
+                <span class="control-qty" aria-live="polite">${isQty} portion${isQty > 1 ? 's' : ''}</span>
+                <button class="control-btn ${isBurnClass ? 'btn-burn' : ''}" onclick="event.stopPropagation(); adjustItemQty('${item.id}', 1)" aria-label="Increase quantity">
+                  <i class="ph ph-plus"></i>
+                </button>
+              </div>
+            ` : `
+              <button class="btn-add-plate ${isBurnClass}" onclick="event.stopPropagation(); adjustItemQty('${item.id}', 1)">
+                <i class="ph ${isBurn ? 'ph-lightning' : 'ph-plus'}"></i>
+                ${isBurn ? 'Add to Burn' : 'Add to Plate'}
+              </button>
+            `}
           </div>
         </div>
       </div>
@@ -454,7 +476,6 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     container.insertAdjacentHTML('beforeend', cardHTML);
   });
 }
-
 // Setup Navigation and Filters (Desktop + Mobile)
 function setupTabListeners() {
   // Desktop Tab Buttons
