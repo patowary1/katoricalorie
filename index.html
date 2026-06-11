@@ -441,29 +441,49 @@
 
   </main>
 
-  <!-- Sticky Floating Plate Bar (Thali Drawer) -->
-  <aside class="thali-footer" id="thali-drawer" style="transform: translateY(100%);" aria-label="Active Plate summary">
-    <div class="thali-bar">
+   <!-- Sticky Floating Plate Bar (Thali Drawer) -->
+  <aside class="thali-footer" id="thali-drawer" aria-label="Active Plate summary">
+    <!-- Touch Drag Handle for Mobile Expansion -->
+    <div class="thali-drag-handle" id="thali-drag-handle"></div>
+
+    <div class="thali-bar" id="thali-bar-click">
       <div class="thali-info">
         <div class="thali-icon-container" aria-hidden="true">
-          🍽️
+          <i class="ph ph-hand-heart"></i>
           <span class="thali-badge" id="thali-badge-count">0</span>
         </div>
         <div class="thali-text">
           <div class="thali-title">
-            Your Active <span>Plate Tracker</span>
+            Active <span>Plate</span>
           </div>
-          <div class="thali-subtitle">
-            Net Calorie impact calculated relative to your Mifflin-St Jeor baseline
+          <div class="thali-subtitle" id="thali-items-count-text">
+            0 items selected
           </div>
         </div>
       </div>
+
+      <!-- Center Progress Bar -->
+      <div class="thali-progress-wrapper">
+        <div class="thali-progress-bar">
+          <div class="thali-progress-fill" id="thali-progress-fill"></div>
+        </div>
+        <span class="thali-progress-label" id="thali-progress-label">0 / 2000 kcal</span>
+      </div>
+
       <div class="thali-actions">
-        <div class="thali-title" style="margin-right: 1.5rem; font-size: 1.3rem;">
-          Net: <span id="thali-net-readout">0 kcal</span>
+        <div class="thali-net-readout-wrapper" style="margin-right: 1.5rem; font-size: 1.15rem;">
+          Net: <span id="thali-net-readout" style="font-weight: 700; color: var(--accent-primary);">0 kcal</span>
         </div>
-        <button class="btn-reset" id="btn-reset-thali">Reset Plate</button>
+        <button class="btn-reset" id="btn-reset-thali" aria-label="Clear Plate">Clear Plate</button>
       </div>
+    </div>
+
+    <!-- Collapsible drawer items list -->
+    <div class="thali-drawer-content" id="thali-drawer-content">
+      <h3 class="drawer-section-title">Selected Foods & Activities</h3>
+      <ul class="thali-items-list" id="thali-items-list">
+        <!-- Dynamically rendered selected items with delete buttons -->
+      </ul>
     </div>
   </aside>
 
