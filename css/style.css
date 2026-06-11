@@ -1389,7 +1389,7 @@ header {
 .thali-bar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -1398,7 +1398,6 @@ header {
   cursor: pointer;
   position: relative;
 }
-
 @media (min-width: 768px) {
   .thali-bar {
     padding: var(--space-3) var(--space-4);
@@ -1406,35 +1405,31 @@ header {
     gap: var(--space-4);
   }
 }
-
 .thali-info {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 0.35rem;
   flex-shrink: 0;
 }
-
 @media (min-width: 768px) {
   .thali-info {
     gap: var(--space-3);
   }
 }
-
 .thali-icon-container {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
   background: var(--bg-surface);
   border: 1px solid var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--accent-primary);
   position: relative;
   box-shadow: 0 0 8px var(--accent-glow);
 }
-
 @media (min-width: 768px) {
   .thali-icon-container {
     width: 44px;
@@ -1443,24 +1438,22 @@ header {
     box-shadow: 0 0 10px var(--accent-glow);
   }
 }
-
 .thali-badge {
   position: absolute;
-  top: -3px;
-  right: -3px;
+  top: -2px;
+  right: -2px;
   background: var(--accent-primary);
   color: var(--bg-base);
   font-family: var(--font-display);
   font-weight: var(--font-bold);
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
+  font-size: 9px;
+  width: 14px;
+  height: 14px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 @media (min-width: 768px) {
   .thali-badge {
     top: -4px;
@@ -1470,40 +1463,33 @@ header {
     font-size: var(--text-xs);
   }
 }
-
 .thali-text {
   text-align: left;
 }
-
 .thali-title {
   font-family: var(--font-display);
   font-weight: var(--font-semibold);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   line-height: 1.2;
 }
-
 @media (min-width: 768px) {
   .thali-title {
     font-size: var(--text-base);
   }
 }
-
 .thali-title span {
   color: var(--accent-primary);
 }
-
 .thali-subtitle {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
 }
-
 @media (min-width: 768px) {
   .thali-subtitle {
     font-size: var(--text-xs);
   }
 }
-
 /* Absolute positioned progress bar at the top on mobile, normal in desktop */
 .thali-progress-wrapper {
   position: absolute;
@@ -1581,20 +1567,17 @@ header {
   flex-shrink: 0;
   width: auto;
 }
-
 @media (min-width: 768px) {
   .thali-actions {
     gap: var(--space-4);
   }
 }
-
 .thali-actions .btn-reset {
   padding: 0.45rem 0.65rem;
   font-size: 0.85rem;
   color: var(--text-primary);
   border-color: rgba(255, 107, 53, 0.4);
 }
-
 @media (min-width: 768px) {
   .thali-actions .btn-reset {
     padding: 0.6rem 1.5rem;
@@ -1603,7 +1586,6 @@ header {
     border-color: var(--border-color);
   }
 }
-
 .thali-net-readout-wrapper {
   font-size: 0.9rem;
   color: var(--text-primary);
