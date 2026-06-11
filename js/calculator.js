@@ -665,16 +665,31 @@ function setupTabListeners() {
     });
   }
 
-  // Search input listeners
+   // Search input listeners with clear button toggle
   const searchInput = document.getElementById('food-search');
+  const btnClearSearch = document.getElementById('btn-clear-search');
+  
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (btnClearSearch) {
+        btnClearSearch.style.display = val.length > 0 ? 'flex' : 'none';
+      }
       const activeTab = document.querySelector('.tab-btn.active');
       const category = activeTab ? activeTab.dataset.category : 'all';
-      renderFoodGrid(category, e.target.value);
+      renderFoodGrid(category, val);
     });
   }
 
+  if (btnClearSearch && searchInput) {
+    btnClearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      btnClearSearch.style.display = 'none';
+      const activeTab = document.querySelector('.tab-btn.active');
+      const category = activeTab ? activeTab.dataset.category : 'all';
+      renderFoodGrid(category, '');
+    });
+  }
   // Hamburger Mobile Menu Toggle Action
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navMenu = document.querySelector('.nav-menu');
