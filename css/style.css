@@ -915,14 +915,23 @@ header {
   stroke-width: 12;
 }
 
+.radial-progress.positive {
+  stroke: var(--accent-green);
+  filter: drop-shadow(0 0 8px var(--accent-green-glow));
+}
+==== REPLACE
 .radial-progress {
   fill: none;
-  stroke: var(--accent-orange);
+  stroke: var(--accent-green);
   stroke-width: 12;
   stroke-linecap: round;
   stroke-dasharray: 565.48;
   stroke-dashoffset: 565.48;
   transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
+  filter: drop-shadow(0 0 8px var(--accent-green-glow));
+}
+.radial-progress.exceeded {
+  stroke: var(--accent-orange);
   filter: drop-shadow(0 0 8px var(--accent-orange-glow));
 }
 
@@ -1568,7 +1577,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-2);
+  gap: 0.35rem;
   flex-shrink: 0;
   width: auto;
 }
@@ -1580,23 +1589,27 @@ header {
 }
 
 .thali-actions .btn-reset {
-  padding: 0.4rem 0.85rem;
-  font-size: var(--text-xs);
+  padding: 0.45rem 0.65rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  border-color: rgba(255, 107, 53, 0.4);
 }
 
 @media (min-width: 768px) {
   .thali-actions .btn-reset {
     padding: 0.6rem 1.5rem;
     font-size: var(--text-base);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
   }
 }
 
 .thali-net-readout-wrapper {
-  font-size: var(--text-sm);
+  font-size: 0.9rem;
   color: var(--text-primary);
   white-space: nowrap;
+  margin-right: 0.35rem;
 }
-
 @media (min-width: 768px) {
   .thali-net-readout-wrapper {
     font-size: var(--text-base);
