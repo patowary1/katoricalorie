@@ -7,6 +7,7 @@ let state = {
   activity: 1.2,   // activity multiplier
   bmr: 0,
   tdee: 0,
+  customTarget: 0, // Custom target lock
   thali: {}        // itemID -> quantity
 };
 
@@ -188,7 +189,7 @@ function updateUI() {
   if (thaliNetReadout) thaliNetReadout.textContent = thaliMetrics.net + ' kcal';
 
   // Update Progress Bar
-  const targetLimit = state.tdee > 0 ? state.tdee : 2000;
+   const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
   if (progressFill && progressLabel) {
     const netCalories = thaliMetrics.net;
     const pct = targetLimit > 0 ? Math.min(Math.max((netCalories / targetLimit) * 100, 0), 100) : 0;
@@ -278,9 +279,9 @@ function updateUI() {
       progressCircle.classList.remove('positive');
     }
 
-    // Dasharray circumference: 2 * PI * r = 2 * 3.14159 * 90 = 565.48
+        // Dasharray circumference: 2 * PI * r = 2 * 3.14159 * 90 = 565.48
     const circumference = 565.48;
-    const targetLimit = state.tdee > 0 ? state.tdee : 2000;
+    const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
     
     // Percentage consumed relative to TDEE
     let percentage = Math.min(Math.max(thaliMetrics.net / targetLimit, 0), 1);
@@ -429,9 +430,29 @@ function setupCalculatorListeners() {
     dragHandle.addEventListener('touchstart', handleTouchStart, { passive: true });
     dragHandle.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
-  if (barClick) {
+    if (barClick) {
     barClick.addEventListener('touchstart', handleTouchStart, { passive: true });
     barClick.addEventListener('touchend', handleTouchEnd, { passive: true });
+  }
+
+  // Apply Daily Target Button
+  const btnApplyTarget = document.getElementById('btn-apply-target');
+  if (btnApplyTarget) {
+    btnApplyTarget.addEventListener('click', () => {
+      state.customTarget = state.tdee;
+      saveState();
+      updateUI();
+      
+      // Visual feedback on click
+      btnApplyTarget.innerHTML = '<i class="ph ph-check-circle"></i> Target Applied!';
+      btnApplyTarget.style.background = 'var(--success)';
+      btnApplyTarget.style.boxShadow = '0 0 12px rgba(34, 197, 94, 0.3)';
+      setTimeout(() => {
+        btnApplyTarget.innerHTML = 'Use as Daily Target';
+        btnApplyTarget.style.background = '';
+        btnApplyTarget.style.boxShadow = '';
+      }, 2000);
+    });
   }
 }
 
