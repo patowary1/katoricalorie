@@ -1698,9 +1698,7 @@ header {
   font-size: 1.6rem;
   margin-bottom: var(--space-md);
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
+  display: block;
 }
 
 .info-title span {
