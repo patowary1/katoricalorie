@@ -103,6 +103,34 @@ function updateGenderSegmentedSlider() {
   }
 }
 
+// Dynamic Toast Notifications System
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  
+  let icon = 'ph-info';
+  if (type === 'success') icon = 'ph-check-circle';
+  else if (type === 'danger') icon = 'ph-warning-circle';
+  
+  toast.innerHTML = `
+    <i class="ph ${icon}" style="font-size: 1.25rem;"></i>
+    <span style="font-size: 0.95rem; font-weight: 500;">${message}</span>
+  `;
+  
+  container.appendChild(toast);
+  
+  // Auto dismiss after 3 seconds
+  setTimeout(() => {
+    toast.classList.add('hide');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3000);
+}
+
 // DOM Rendering Sync
 function updateUI() {
   // Update Sliders and UI Readouts
@@ -189,9 +217,20 @@ function updateUI() {
   if (thaliNetReadout) thaliNetReadout.textContent = thaliMetrics.net + ' kcal';
 
   // Update Progress Bar
-   const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
+  const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
+  const netCalories = thaliMetrics.net;
+
+  // Trigger Budget Warning once when exceeding
+  if (netCalories > targetLimit) {
+    if (!state.budgetExceededWarningShown) {
+      showToast('Daily calorie budget exceeded!', 'danger');
+      state.budgetExceededWarningShown = true;
+    }
+  } else {
+    state.budgetExceededWarningShown = false;
+  }
+
   if (progressFill && progressLabel) {
-    const netCalories = thaliMetrics.net;
     const pct = targetLimit > 0 ? Math.min(Math.max((netCalories / targetLimit) * 100, 0), 100) : 0;
     progressFill.style.width = pct + '%';
     
@@ -375,12 +414,16 @@ function setupCalculatorListeners() {
     });
   }
 
-   // Reset Thali Button
+     // Reset Thali Button
   const btnReset = document.getElementById('btn-reset-thali');
   if (btnReset) {
     btnReset.addEventListener('click', () => {
-      state.thali = {};
-      updateUI();
+      const itemCount = Object.values(state.thali).reduce((a, b) => a + b, 0);
+      if (itemCount > 0) {
+        state.thali = {};
+        showToast('Cleared all items from plate', 'info');
+        updateUI();
+      }
     });
   }
 
@@ -435,13 +478,15 @@ function setupCalculatorListeners() {
     barClick.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
 
-  // Apply Daily Target Button
+   // Apply Daily Target Button
   const btnApplyTarget = document.getElementById('btn-apply-target');
   if (btnApplyTarget) {
     btnApplyTarget.addEventListener('click', () => {
       state.customTarget = state.tdee;
       saveState();
       updateUI();
+      
+      showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');
       
       // Visual feedback on click
       btnApplyTarget.innerHTML = '<i class="ph ph-check-circle"></i> Target Applied!';
@@ -454,24 +499,35 @@ function setupCalculatorListeners() {
       }, 2000);
     });
   }
-}
 
 // Card add/subtract adjustments
 function adjustItemQty(itemId, change) {
+  const item = foodDatabase.find(f => f.id === itemId);
+  if (!item) return;
+  const isBurn = item.category === 'burn';
   const currentQty = state.thali[itemId] || 0;
   const newQty = Math.max(0, currentQty + change);
   if (newQty === 0) {
     delete state.thali[itemId];
+    showToast(`Removed ${item.name} from ${isBurn ? 'Burn' : 'Plate'}`, 'info');
   } else {
     state.thali[itemId] = newQty;
+    if (currentQty === 0) {
+      showToast(`Added ${item.name} to ${isBurn ? 'Burn' : 'Plate'}`, 'success');
+    }
   }
   updateUI();
 }
 
 // Delete item from Thali directly
 function deleteThaliItem(itemId) {
+  const item = foodDatabase.find(f => f.id === itemId);
   if (state.thali[itemId]) {
     delete state.thali[itemId];
+    if (item) {
+      const isBurn = item.category === 'burn';
+      showToast(`Removed ${item.name} from ${isBurn ? 'Burn' : 'Plate'}`, 'info');
+    }
     updateUI();
   }
 }
@@ -552,7 +608,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     return;
   }
 
-  filtered.forEach(item => {
+   filtered.forEach((item, index) => {
     const isBurn = item.category === 'burn';
     const isQty = state.thali[item.id] || 0;
     const isActive = isQty > 0 ? 'active' : '';
@@ -561,8 +617,11 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     // Get category-specific gradient and icon placeholder
     const placeholder = getCardPlaceholder(item.category, item.id);
 
+    // Staggered animation delay for the first 12 cards
+    const delayStyle = index < 12 ? `style="animation-delay: ${index * 40}ms;"` : '';
+
     const cardHTML = `
-      <div class="food-card ${isActive} ${isBurnClass}" data-id="${item.id}">
+      <div class="food-card ${isActive} ${isBurnClass}" data-id="${item.id}" ${delayStyle}>
         <!-- Top Image / Placeholder Area (16:9) -->
         <div class="card-image-area ${placeholder.gradientClass}">
           <div class="calorie-badge ${isBurnClass}">
@@ -715,9 +774,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCalculatorListeners();
   setupTabListeners();
   
-  // Render food grid
-  renderFoodGrid('all', '');
+  // Render food grid with a simulated delay to showcase shimmering skeletons
+  setTimeout(() => {
+    renderFoodGrid('all', '');
+    updateUI();
+  }, 300);
   
-  // Update BMR calculations and thali values
+  // Update BMR calculations and thali values immediately for initial shell readouts
   updateUI();
 });
