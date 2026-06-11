@@ -9,10 +9,13 @@
   --bg-surface: #161616;          /* Card panels */
   --bg-elevated: #1E1E1E;         /* Hover states and dropdowns */
 
-  /* Accents */
+    /* Accents */
   --accent-primary: #FF6B35;       /* Primary Brand Orange */
   --accent-secondary: #FF8C42;     /* Lighter secondary orange */
   --accent-glow: rgba(255, 107, 53, 0.3);
+  --accent-orange: var(--accent-primary);
+  --accent-orange-glow: var(--accent-glow);
+  --accent-orange-muted: rgba(255, 107, 53, 0.15);
 
   /* Text Colors */
   --text-primary: #F5F5F5;         /* Crisp main text */
