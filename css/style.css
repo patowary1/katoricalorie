@@ -1216,7 +1216,7 @@ header {
 
 .serving-lbl {
   font-size: var(--text-xs);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .serving-lbl span {
@@ -2297,8 +2297,34 @@ footer {
     margin-bottom: var(--space-md);
   }
   
-  .bmr-results-col .calculator-result-card .result-metrics {
+   .bmr-results-col .calculator-result-card .result-metrics {
     width: 100%;
     align-items: center;
+  }
+}
+
+/* Prefers Reduced Motion (Accessibility & Performance) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .food-card:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .food-card {
+    animation: none !important;
+  }
+  .toast {
+    animation: none !important;
+  }
+  .thali-footer {
+    transition: none !important;
+    transform: translateY(0) rotateX(0) !important;
   }
 }
