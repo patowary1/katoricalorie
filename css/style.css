@@ -9,13 +9,22 @@
   --bg-surface: #161616;          /* Card panels */
   --bg-elevated: #1E1E1E;         /* Hover states and dropdowns */
 
-    /* Accents */
+    /* Theme Colors Mappings */
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-tertiary: var(--bg-elevated);
+
+  /* Accents */
   --accent-primary: #FF6B35;       /* Primary Brand Orange */
   --accent-secondary: #FF8C42;     /* Lighter secondary orange */
   --accent-glow: rgba(255, 107, 53, 0.3);
   --accent-orange: var(--accent-primary);
   --accent-orange-glow: var(--accent-glow);
   --accent-orange-muted: rgba(255, 107, 53, 0.15);
+
+  /* Glass Panels */
+  --glass-bg: rgba(22, 22, 22, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
 
   /* Text Colors */
   --text-primary: #F5F5F5;         /* Crisp main text */
@@ -27,7 +36,7 @@
   --warning: #F59E0B;
   --danger: #EF4444;
 
-  /* Typography Sizes (Converted to rem for clean scaling, baseline 16px) */
+   /* Typography Sizes (Converted to rem for clean scaling, baseline 16px) */
   --text-xs: 0.75rem;              /* 12px */
   --text-sm: 0.875rem;             /* 14px */
   --text-base: 1rem;               /* 16px */
@@ -36,6 +45,10 @@
   --text-2xl: 1.5rem;              /* 24px */
   --text-3xl: 2rem;                /* 32px */
   --text-4xl: 2.5rem;              /* 40px */
+
+  /* Typography Fallbacks */
+  --font-md: var(--text-base);
+  --font-heading: var(--font-display);
 
   /* Typography Font Families & Weights */
   --font-display: 'Inter', system-ui, -apple-system, sans-serif;
@@ -63,6 +76,15 @@
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
+
+  /* Spacing Scale Mappings */
+  --space-xxs: var(--space-1);     /* 4px */
+  --space-xs: var(--space-2);      /* 8px */
+  --space-sm: var(--space-3);      /* 12px */
+  --space-md: var(--space-4);      /* 16px */
+  --space-lg: var(--space-6);      /* 24px */
+  --space-xl: var(--space-8);      /* 32px */
+  --space-xxl: var(--space-12);    /* 48px */
 
   /* Shadows & Glows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -776,6 +798,23 @@ header {
   color: var(--text-secondary);
 }
 
+.btn-clear-search {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0 var(--space-xs);
+  font-size: 1.25rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.btn-clear-search:hover {
+  color: var(--accent-primary);
+}
+
 .search-btn {
   background: var(--accent-orange);
   color: var(--bg-primary);
@@ -796,13 +835,15 @@ header {
 
 /* --- Navigation & Tabs containers --- */
 .tabs-container {
-  display: none; /* Mobile first: hide tabs, use category dropdown select */
+  display: flex;
   gap: var(--space-xs);
   overflow-x: auto;
   padding-bottom: var(--space-xs);
   margin-bottom: var(--space-xl);
   scrollbar-width: thin;
   scrollbar-color: var(--accent-orange) var(--bg-primary);
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tabs-container::-webkit-scrollbar {
@@ -815,10 +856,9 @@ header {
 }
 
 .mobile-category-container {
-  display: block; /* Mobile default: visible category select */
+  display: none !important;
   margin-bottom: var(--space-xl);
 }
-
 .mobile-category-select {
   border-radius: 30px;
   background: var(--bg-secondary);
