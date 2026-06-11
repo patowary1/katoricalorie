@@ -21,6 +21,8 @@
   --accent-orange: var(--accent-primary);
   --accent-orange-glow: var(--accent-glow);
   --accent-orange-muted: rgba(255, 107, 53, 0.15);
+   --accent-green: #00E676;         /* Neon Green for Exercise/Deficit */
+  --accent-green-glow: rgba(0, 230, 118, 0.35)
 
   /* Glass Panels */
   --glass-bg: rgba(22, 22, 22, 0.65);
