@@ -961,42 +961,46 @@ header {
 .food-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xxl);
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+  perspective: var(--perspective-container);
+  transform-style: preserve-3d;
 }
 
 .food-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-glow);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
-  transition: var(--transition-smooth);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   position: relative;
   will-change: transform, box-shadow;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   min-height: 280px;
+  transform-style: preserve-3d;
+  perspective: var(--perspective-card);
 }
 
 .food-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--border-color-glow);
-  box-shadow: var(--shadow-md), 0 12px 30px rgba(255, 107, 53, 0.08);
+  transform: perspective(var(--perspective-card)) rotateX(var(--tilt-max)) rotateY(2deg) translateY(-6px);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-lg), 0 12px 30px var(--accent-glow);
 }
 
 .food-card.active {
-  border-color: var(--accent-orange);
-  border-left: 4px solid var(--accent-orange);
-  background: linear-gradient(90deg, var(--accent-orange-muted) 0%, var(--bg-secondary) 100%);
-  box-shadow: var(--shadow-md), var(--shadow-glow-orange);
+  border-color: var(--accent-primary);
+  border-left: 4px solid var(--accent-primary);
+  background: linear-gradient(90deg, var(--accent-glow) 0%, var(--bg-surface) 100%);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .food-card.active.burn {
-  border-color: var(--accent-green);
-  border-left: 4px solid var(--accent-green);
-  background: linear-gradient(90deg, rgba(0, 230, 118, 0.04) 0%, var(--bg-secondary) 100%);
-  box-shadow: var(--shadow-md), 0 0 15px rgba(0, 230, 118, 0.08);
+  border-color: var(--success);
+  border-left: 4px solid var(--success);
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.04) 0%, var(--bg-surface) 100%);
+  box-shadow: var(--shadow-lg), 0 0 15px rgba(34, 197, 94, 0.15);
 }
 
 /* Card Image Area (16:9 aspect ratio, placeholder gradient) */
@@ -1005,8 +1009,8 @@ header {
   aspect-ratio: 16 / 9;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-elevated) 100%);
-  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-elevated) 100%);
+  border-bottom: 1px solid var(--accent-glow);
 }
 
 .card-image-placeholder {
@@ -1070,27 +1074,27 @@ header {
 /* Calorie Badge top-right */
 .calorie-badge {
   position: absolute;
-  top: var(--space-xs);
-  right: var(--space-xs);
-  background: var(--accent-orange);
-  color: var(--bg-primary);
-  padding: 0.25rem 0.6rem;
+  top: var(--space-2);
+  right: var(--space-2);
+  background: var(--accent-primary);
+  color: var(--bg-base);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: var(--font-xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xs);
   box-shadow: var(--shadow-sm);
   z-index: 2;
-  transition: var(--transition-fast);
+  transition: transform var(--transition-fast);
 }
 
 .calorie-badge.burn {
-  background: var(--accent-green);
+  background: var(--success);
 }
 
 /* Card Body padding */
 .card-body {
-  padding: var(--space-md);
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1101,22 +1105,23 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-2);
 }
 
 .card-title {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.15rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-lg);
   color: var(--text-primary);
-  line-height: 1.3;
+  line-height: var(--leading-tight);
 }
 
 .card-title .regional-lang {
   display: block;
-  font-size: var(--font-sm);
+  font-family: var(--font-regional);
+  font-size: var(--text-sm);
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: var(--font-normal);
   margin-top: 2px;
 }
 
@@ -1124,33 +1129,33 @@ header {
   width: 18px;
   height: 18px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--accent-glow);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.65rem;
   color: transparent;
-  transition: var(--transition-smooth);
+  transition: var(--transition-base);
 }
 
 .food-card.active .indicator-dot {
-  background: var(--accent-orange);
-  border-color: var(--accent-orange);
-  color: var(--bg-primary);
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-base);
 }
 
 .food-card.active.burn .indicator-dot {
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  color: var(--bg-primary);
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-base);
 }
 
 .card-desc {
-  font-size: var(--font-sm);
+  font-size: var(--text-sm);
   color: var(--text-secondary);
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-4);
   flex-grow: 1;
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 .card-bottom {
@@ -1159,71 +1164,122 @@ header {
   align-items: center;
 }
 
+.card-bottom .card-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .serving-lbl {
-  font-size: var(--font-xs);
-  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
 }
 
 .serving-lbl span {
   display: block;
-  font-family: var(--font-heading);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
   font-size: 1.1rem;
   color: var(--text-primary);
   margin-top: 2px;
 }
 
 .food-card.active.burn .serving-lbl span {
-  color: var(--accent-green);
+  color: var(--success);
 }
 
 .card-controls {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  background: var(--bg-tertiary);
-  border-radius: 30px;
-  padding: var(--space-xxs);
-  border: 1px solid rgba(255, 107, 53, 0.08);
+  gap: var(--space-3);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--accent-glow);
 }
 
 .card-controls.burn {
-  border-color: rgba(0, 230, 118, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
 }
 
 .control-btn {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-full);
-  background: var(--bg-secondary);
+  background: var(--bg-surface);
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--accent-glow);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: var(--transition-smooth);
+  transition: var(--transition-fast);
   outline: none;
 }
 
 .control-btn:hover {
-  background: var(--accent-orange);
-  border-color: var(--accent-orange);
-  color: var(--bg-primary);
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-base);
 }
 
 .control-btn.btn-burn:hover {
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  color: var(--bg-primary);
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-base);
+}
+
+/* Button Active Press Depth Animation */
+.control-btn:active,
+.btn-add-plate:active {
+  transform: var(--press-depth) scale(0.97);
+}
+
+/* Full-width Add to Plate / Burn Button */
+.btn-add-plate {
+  width: 100%;
+  background: var(--accent-primary);
+  color: var(--bg-base);
+  border: none;
+  outline: none;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 12px var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.btn-add-plate:hover {
+  background: var(--accent-secondary);
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn-add-plate.burn {
+  background: var(--success);
+  color: var(--bg-base);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+}
+
+.btn-add-plate.burn:hover {
+  background: #33ff99;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
 }
 
 .control-qty {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
   min-width: 15px;
   text-align: center;
 }
