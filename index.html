@@ -184,16 +184,23 @@
       </div>
     </section>
 
-    <!-- User Guide Panel (Bilingual instructions) -->
-    <div class="user-guide-panel" style="margin: 1.5rem 0; padding: 1.2rem; border-left: 4px solid #ff6600; background: rgba(255, 255, 255, 0.03); border-radius: 6px; text-align: left;">
-      <h4 style="margin-top: 0; margin-bottom: 0.8rem; color: #ff6600; font-size: 1.1rem; font-family: inherit;">
-        💡 How to Use the Plate Tracker:(কেনেকৈ ব্যৱহাৰ কৰিব)
-      </h4>
-      <ul style="list-style-type: none; padding-left: 0; margin: 0; line-height: 1.7; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem;">
-        <li style="margin-bottom: 0.5rem;">👉 <strong>Step 1:</strong> Go to the <strong>Metabolic Engine</strong> on the right side. Select your Gender and adjust your Weight, Height, and Age to instantly set your daily target budget (BMR/TDEE).</li>
-        <li style="margin-bottom: 0.5rem;">👉 <strong>Step 2:</strong> Browse the traditional regional items below and use the <strong>`+`</strong> or <strong>`-`</strong> buttons to add or remove portions to your digital plate.</li>
-        <li>👉 <strong>Step 3:</strong> Watch the sticky <strong>Plate Tracker</strong> bar at the bottom to see your real-time Net Calories vs. your daily energy allowance!</li>
-      </ul>
+        <!-- User Guide Panel (Bilingual instructions) -->
+    <div class="user-guide-panel" style="margin: 1.5rem 0; padding: 1.2rem; border-left: 4px solid #ff6600; background: rgba(255, 255, 255, 0.03); border-radius: 6px; text-align: left; display: flex; flex-direction: column; gap: var(--space-sm);">
+      <div>
+        <h4 style="margin-top: 0; margin-bottom: 0.8rem; color: #ff6600; font-size: 1.1rem; font-family: inherit;">
+          💡 How to Use the Plate Tracker:(কেনেকৈ ব্যৱহাৰ কৰিব)
+        </h4>
+        <ul style="list-style-type: none; padding-left: 0; margin: 0; line-height: 1.7; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem;">
+          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 1:</strong> Go to the <strong>Metabolic Engine</strong> on the right side. Select your Gender and adjust your Weight, Height, and Age to instantly set your daily target budget (BMR/TDEE).</li>
+          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 2:</strong> Browse the traditional regional items below and use the <strong>`+`</strong> or <strong>`-`</strong> buttons to add or remove portions to your digital plate.</li>
+          <li>👉 <strong>Step 3:</strong> Watch the sticky <strong>Plate Tracker</strong> bar at the bottom to see your real-time Net Calories vs. your daily energy allowance!</li>
+        </ul>
+      </div>
+      <div style="margin-top: var(--space-xs);">
+        <button type="button" id="btn-start-tour" class="btn-submit" style="width: auto; padding: 0.5rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: var(--radius-full);">
+          <i class="ph ph-compass"></i> Take Interactive Tour (ইন্টারেক্টিভ ট্যুর)
+        </button>
+      </div>
     </div>
 
     <!-- Category Tabs Selector (Desktop) -->
