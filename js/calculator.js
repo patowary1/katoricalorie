@@ -461,18 +461,25 @@ function updateUI() {
     
     meterValReadout.textContent = Math.abs(thaliMetrics.net);
     
-    if (thaliMetrics.net < 0) {
+    const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
+    
+    if (thaliMetrics.net > targetLimit) {
+      // Budget exceeded
+      meterLblReadout.textContent = "Over Budget";
+      progressCircle.classList.add('exceeded');
+      progressCircle.classList.remove('positive');
+    } else if (thaliMetrics.net < 0) {
       // Net deficit
       meterLblReadout.textContent = "Deficit";
       progressCircle.classList.add('positive');
+      progressCircle.classList.remove('exceeded');
     } else {
       meterLblReadout.textContent = "Logged Net";
       progressCircle.classList.remove('positive');
+      progressCircle.classList.remove('exceeded');
     }
-
-        // Dasharray circumference: 2 * PI * r = 2 * 3.14159 * 90 = 565.48
+    // Dasharray circumference: 2 * PI * r = 2 * 3.14159 * 90 = 565.48
     const circumference = 565.48;
-    const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
     
     // Percentage consumed relative to TDEE
     let percentage = Math.min(Math.max(thaliMetrics.net / targetLimit, 0), 1);
