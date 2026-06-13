@@ -2255,7 +2255,6 @@ footer {
     gap: var(--space-xxl);
     align-items: start;
   }
-}
 
   .sidebar-section {
     order: 2; /* Sidebar on the right on desktops */
