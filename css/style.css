@@ -2257,15 +2257,16 @@ footer {
     max-width: 1280px;
     margin: 0 auto;
   }
-
   .sidebar-section {
     order: 2; /* Sidebar on the right on desktops */
     position: sticky;
     top: var(--space-md);
     height: fit-content;
     z-index: 10;
+    width: 380px;
+    display: flex;
+    justify-content: center;
   }
-
   .food-section {
     order: 1; /* Food section on the left on desktops */
   }
@@ -2560,6 +2561,8 @@ footer {
   transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   width: 280px;
   height: 280px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   box-shadow: var(--shadow-lg), inset 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
@@ -2569,13 +2572,6 @@ footer {
     height: 340px;
   }
 }
-@media (min-width: 1024px) {
-  .thali-plate {
-    width: 440px;
-    height: 440px;
-  }
-}
-
 .thali-plate-rim {
   position: absolute;
   top: 8px;
