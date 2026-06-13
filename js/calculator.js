@@ -336,18 +336,17 @@ function updateUI() {
   const resultTdeePercent = document.getElementById('result-tdee-percent');
 
   if (resultCard) {
-    // Add show class to trigger fade-in scale animation
     resultCard.classList.add('show');
   }
   if (resultBmrVal) resultBmrVal.textContent = state.bmr + ' kcal';
   if (resultTdeeVal) resultTdeeVal.textContent = state.tdee + ' kcal';
 
   if (resultTdeeFill && resultTdeePercent) {
-    const baseline = 2000; // General target adult active baseline comparison
+    const baseline = 2000;
     const pctVal = Math.round((state.tdee / baseline) * 100);
     resultTdeePercent.textContent = pctVal + '%';
 
-    const circumference = 251.2; // Circumference of progress ring circle r=40
+    const circumference = 251.2;
     const offset = circumference - (Math.min(pctVal, 150) / 100 * circumference);
     resultTdeeFill.style.strokeDashoffset = offset;
   }
@@ -393,6 +392,20 @@ function updateUI() {
     progressLabel.textContent = `${netCalories} / ${targetLimit} kcal`;
   }
 
+  // Update mobile thali tab badge count
+  const mobileThaliBadge = document.getElementById('mobile-thali-badge');
+  if (mobileThaliBadge) {
+    const activeFoodItems = Object.entries(state.thali).filter(([id, qty]) => {
+      if (qty <= 0) return false;
+      const item = foodDatabase.find(f => f.id === id);
+      return item && item.category !== 'burn';
+    });
+    mobileThaliBadge.textContent = activeFoodItems.length;
+  }
+
+  // Render Visual Thali Plate in Sidebar
+  updateVisualThali(netCalories, targetLimit);
+
   // Render Drawer Items List
   if (itemsListEl) {
     itemsListEl.innerHTML = '';
@@ -408,12 +421,19 @@ function updateUI() {
       const itemCal = Math.abs(item.calories) * qty;
       const calDisplay = isBurn ? `-${itemCal}` : `${itemCal}`;
       const burnClass = isBurn ? 'burn' : '';
+
+      let qtyText = `${qty} × ${item.unit}`;
+      if (!isBurn) {
+        if (qty === 0.7) qtyText = `Small portion (${qty} × ${item.unit})`;
+        else if (qty === 1.0) qtyText = `Medium portion (${item.unit})`;
+        else if (qty === 1.4) qtyText = `Large portion (${qty} × ${item.unit})`;
+      }
       
       const itemHTML = `
         <li class="thali-item-row" data-id="${item.id}">
           <div class="thali-item-name-info">
             <span class="thali-item-name">${item.name}</span>
-            <span class="thali-item-qty-desc">${qty} × ${item.unit}</span>
+            <span class="thali-item-qty-desc">${qtyText}</span>
           </div>
           <span class="thali-item-calories ${burnClass}">${calDisplay} kcal</span>
           <button class="btn-delete-item" onclick="deleteThaliItem('${item.id}')" aria-label="Delete ${item.name}">
@@ -424,7 +444,7 @@ function updateUI() {
       itemsListEl.insertAdjacentHTML('beforeend', itemHTML);
     }
     
-        if (renderedCount === 0) {
+    if (renderedCount === 0) {
       itemsListEl.innerHTML = `
         <li style="width: 100%; border-bottom: none;">
           <div class="empty-plate-state">
@@ -441,7 +461,7 @@ function updateUI() {
     }
   }
 
-  // Show/Hide Floating Thali bar depending on items (using .visible class instead of inline styles)
+  // Show/Hide Floating Thali bar depending on items
   if (footerDrawer) {
     if (thaliMetrics.count > 0) {
       footerDrawer.classList.add('visible');
@@ -451,55 +471,23 @@ function updateUI() {
     }
   }
 
-  // Update Radial Progress Wheel (Dynamic Conic Meter)
-  const progressCircle = document.getElementById('radial-meter-fill');
-  const meterValReadout = document.getElementById('radial-meter-val');
-  const meterLblReadout = document.getElementById('radial-meter-lbl');
-
-  if (progressCircle && meterValReadout) {
-    progressCircle.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease';
-    
-    meterValReadout.textContent = Math.abs(thaliMetrics.net);
-    
-    const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
-    
-    if (thaliMetrics.net > targetLimit) {
-      // Budget exceeded
-      meterLblReadout.textContent = "Over Budget";
-      progressCircle.classList.add('exceeded');
-      progressCircle.classList.remove('positive');
-    } else if (thaliMetrics.net < 0) {
-      // Net deficit
-      meterLblReadout.textContent = "Deficit";
-      progressCircle.classList.add('positive');
-      progressCircle.classList.remove('exceeded');
-    } else {
-      meterLblReadout.textContent = "Logged Net";
-      progressCircle.classList.remove('positive');
-      progressCircle.classList.remove('exceeded');
-    }
-    // Dasharray circumference: 2 * PI * r = 2 * 3.14159 * 90 = 565.48
-    const circumference = 565.48;
-    
-    // Percentage consumed relative to TDEE
-    let percentage = Math.min(Math.max(thaliMetrics.net / targetLimit, 0), 1);
-    if (thaliMetrics.net < 0) {
-      percentage = Math.min(Math.abs(thaliMetrics.net) / 1000, 1);
-    }
-    
-    const offset = circumference - (percentage * circumference);
-    progressCircle.style.strokeDashoffset = offset;
-  }
-
   // Update individual food card quantity readouts
   document.querySelectorAll('.food-card').forEach(card => {
     const itemId = card.dataset.id;
     const qty = state.thali[itemId] || 0;
     const qtyEl = card.querySelector('.control-qty');
+    const item = foodDatabase.find(f => f.id === itemId);
+    const isBurn = item && item.category === 'burn';
     
     if (qty > 0) {
       card.classList.add('active');
-      if (qtyEl) qtyEl.textContent = qty;
+      if (qtyEl) {
+        if (isBurn) {
+          qtyEl.textContent = `${qty} portion${qty > 1 ? 's' : ''}`;
+        } else {
+          qtyEl.textContent = qty === 0.7 ? 'Small' : qty === 1.0 ? 'Medium' : 'Large';
+        }
+      }
     } else {
       card.classList.remove('active');
       if (qtyEl) qtyEl.textContent = '0';
@@ -674,14 +662,59 @@ function adjustItemQty(itemId, change) {
   if (!item) return;
   const isBurn = item.category === 'burn';
   const currentQty = state.thali[itemId] || 0;
-  const newQty = Math.max(0, currentQty + change);
-  if (newQty === 0) {
-    delete state.thali[itemId];
-    showToast(`Removed ${item.name} from ${isBurn ? 'Burn' : 'Plate'}`, 'info');
+
+  if (isBurn) {
+    const newQty = Math.max(0, currentQty + change);
+    if (newQty === 0) {
+      delete state.thali[itemId];
+      showToast(`Removed ${item.name} from Burn`, 'info');
+    } else {
+      state.thali[itemId] = newQty;
+      if (currentQty === 0) {
+        showToast(`Added ${item.name} to Burn`, 'success');
+      }
+    }
   } else {
-    state.thali[itemId] = newQty;
-    if (currentQty === 0) {
-      showToast(`Added ${item.name} to ${isBurn ? 'Burn' : 'Plate'}`, 'success');
+    // Food item
+    if (change > 0) {
+      if (currentQty === 0) {
+        // Check 6-item limit for food items
+        const foodItemsCount = Object.keys(state.thali).filter(id => {
+          const f = foodDatabase.find(x => x.id === id);
+          return f && f.category !== 'burn' && state.thali[id] > 0;
+        }).length;
+        
+        if (foodItemsCount >= 6) {
+          showToast("Your Thali is full! Remove a food to add another.", "danger");
+          return;
+        }
+        state.thali[itemId] = 1.0; // Default portion
+        showToast(`Added ${item.name} to Plate`, 'success');
+      } else {
+        // Increment portion multiplier: 0.7 -> 1.0 -> 1.4
+        if (currentQty === 0.7) {
+          state.thali[itemId] = 1.0;
+          showToast(`Portion increased to Medium for ${item.name}`, 'success');
+        } else if (currentQty === 1.0) {
+          state.thali[itemId] = 1.4;
+          showToast(`Portion increased to Large for ${item.name}`, 'success');
+        } else {
+          showToast(`Maximum portion reached for ${item.name}`, 'info');
+        }
+      }
+    } else {
+      // Decrease portion multiplier: 1.4 -> 1.0 -> 0.7 -> remove
+      if (currentQty === 1.4) {
+        state.thali[itemId] = 1.0;
+        showToast(`Portion decreased to Medium for ${item.name}`, 'info');
+      } else if (currentQty === 1.0) {
+        state.thali[itemId] = 0.7;
+        showToast(`Portion decreased to Small for ${item.name}`, 'info');
+      } else {
+        // 0.7 or less -> remove completely
+        delete state.thali[itemId];
+        showToast(`Removed ${item.name} from Plate`, 'info');
+      }
     }
   }
   updateUI();
@@ -700,6 +733,370 @@ function deleteThaliItem(itemId) {
   }
 }
 window.deleteThaliItem = deleteThaliItem;
+
+// Active Katori reference for the portion popup
+let activeKatoriId = null;
+
+// Render Visual Thali Plate in Sidebar
+function updateVisualThali(netCalories, targetLimit) {
+  const plate = document.getElementById('thali-plate');
+  if (!plate) return;
+
+  // Clear existing katori elements
+  plate.querySelectorAll('.thali-katori').forEach(el => el.remove());
+
+  // Filter food items (excluding burn/activity items)
+  const activeItems = Object.entries(state.thali).filter(([id, qty]) => {
+    if (qty <= 0) return false;
+    const item = foodDatabase.find(f => f.id === id);
+    return item && item.category !== 'burn';
+  });
+  
+  const total = activeItems.length;
+
+  activeItems.forEach(([id, qty], index) => {
+    const item = foodDatabase.find(f => f.id === id);
+    if (!item) return;
+
+    // Arrange in a circle inside the Thali Plate
+    const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
+    const isMobile = window.innerWidth < 640;
+    const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
+    const radius = isMobile ? 80 : (isTablet ? 105 : 130);
+
+    const x = Math.round(radius * Math.cos(angle));
+    const y = Math.round(radius * Math.sin(angle));
+
+    const placeholder = getCardPlaceholder(item.category, item.id);
+
+    const katori = document.createElement('div');
+    katori.className = `thali-katori ${placeholder.gradientClass}`;
+    katori.style.left = `calc(50% + ${x}px)`;
+    katori.style.top = `calc(50% + ${y}px)`;
+    katori.style.transform = 'translate(-50%, -50%)';
+    katori.setAttribute('data-id', item.id);
+
+    katori.innerHTML = `
+      <i class="ph ${placeholder.iconClass}"></i>
+      <span class="katori-portion-badge">${qty}x</span>
+      <div class="katori-label">${item.name.length > 12 ? item.name.substring(0, 10) + '..' : item.name}</div>
+    `;
+
+    katori.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPortionPopup(item, katori);
+    });
+
+    plate.appendChild(katori);
+  });
+
+  // Update Thali border colors & text status
+  plate.className = 'thali-plate';
+  const badge = document.getElementById('thali-status-badge');
+  const builderTotalEl = document.getElementById('thali-builder-total');
+  
+  if (builderTotalEl) {
+    let foodCals = 0;
+    activeItems.forEach(([id, qty]) => {
+      const item = foodDatabase.find(f => f.id === id);
+      if (item) {
+        foodCals += item.calories * qty;
+      }
+    });
+    builderTotalEl.textContent = `${Math.round(foodCals)} kcal`;
+  }
+  
+  if (total === 0) {
+    if (badge) {
+      badge.textContent = 'Empty Thali';
+      badge.className = 'thali-status-badge status-balanced';
+    }
+  } else {
+    const pct = (netCalories / targetLimit);
+    if (pct < 0.7) {
+      plate.classList.add('glow-green');
+      if (badge) {
+        badge.textContent = 'Balanced';
+        badge.className = 'thali-status-badge status-balanced';
+      }
+    } else if (pct <= 1.0) {
+      plate.classList.add('glow-yellow');
+      if (badge) {
+        badge.textContent = 'Almost Full';
+        badge.className = 'thali-status-badge status-warning';
+      }
+    } else {
+      plate.classList.add('glow-red');
+      if (badge) {
+        badge.textContent = 'Thali Overloaded!';
+        badge.className = 'thali-status-badge status-danger';
+      }
+    }
+  }
+}
+
+// Open Portion Popup next to clicked Katori
+function openPortionPopup(item, katoriEl) {
+  const popup = document.getElementById('portion-popup');
+  const readout = document.getElementById('popup-cal-readout');
+  if (!popup || !readout) return;
+
+  activeKatoriId = item.id;
+  const currentMultiplier = state.thali[item.id] || 1.0;
+
+  // Highlight the active portion button
+  popup.querySelectorAll('.portion-opt-btn').forEach(btn => {
+    const mult = parseFloat(btn.dataset.multiplier);
+    if (Math.abs(mult - currentMultiplier) < 0.05) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  readout.textContent = `${Math.round(item.calories * currentMultiplier)} kcal`;
+
+  // Display the popup
+  popup.style.display = 'block';
+  
+  // Align portion popup centered above or below the katori
+  const wrapper = document.querySelector('.thali-plate-wrapper');
+  const wrapperRect = wrapper.getBoundingClientRect();
+  const katoriRect = katoriEl.getBoundingClientRect();
+  
+  const left = katoriRect.left - wrapperRect.left + (katoriRect.width / 2);
+  const top = katoriRect.top - wrapperRect.top;
+  
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+}
+
+// Setup listeners for the portion select popup buttons
+function setupPortionPopupListeners() {
+  const popup = document.getElementById('portion-popup');
+  const closeBtn = document.getElementById('btn-close-popup');
+  if (!popup) return;
+
+  popup.querySelectorAll('.portion-opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mult = parseFloat(btn.dataset.multiplier);
+      if (activeKatoriId) {
+        state.thali[activeKatoriId] = mult;
+        
+        popup.querySelectorAll('.portion-opt-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const item = foodDatabase.find(f => f.id === activeKatoriId);
+        if (item) {
+          const readout = document.getElementById('popup-cal-readout');
+          if (readout) {
+            readout.textContent = `${Math.round(item.calories * mult)} kcal`;
+          }
+          showToast(`Portion size updated to ${btn.querySelector('.portion-name').textContent} for ${item.name}`, 'success');
+        }
+        
+        updateUI();
+      }
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+      activeKatoriId = null;
+    });
+  }
+
+  // Close popup when clicking outside of the popup and thali plate
+  document.addEventListener('click', (e) => {
+    if (popup.style.display === 'block') {
+      if (!popup.contains(e.target) && !e.target.closest('.thali-katori')) {
+        popup.style.display = 'none';
+        activeKatoriId = null;
+      }
+    }
+  });
+}
+
+// Setup Mobile Tab bar Switcher
+function setupMobileTabListeners() {
+  const tabBtns = document.querySelectorAll('.mobile-tab-btn');
+  const foodSection = document.getElementById('food-section');
+  const sidebarSection = document.getElementById('sidebar-section');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const tab = btn.dataset.tab;
+      if (tab === 'foods') {
+        if (foodSection) foodSection.classList.remove('hidden');
+        if (sidebarSection) sidebarSection.classList.remove('active');
+      } else if (tab === 'thali') {
+        if (foodSection) foodSection.classList.add('hidden');
+        if (sidebarSection) sidebarSection.classList.add('active');
+      }
+    });
+  });
+}
+
+// Zero-dependency Canvas Exporter (#0D0D0D background)
+function screenshotThali() {
+  const activeItems = Object.entries(state.thali).filter(([id, qty]) => qty > 0);
+  if (activeItems.length === 0) {
+    showToast("Thali is empty! Add foods first.", "info");
+    return;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 600;
+  canvas.height = 600;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0D0D0D';
+  ctx.fillRect(0, 0, 600, 600);
+
+  // Thali plate circle
+  const grad = ctx.createRadialGradient(300, 300, 50, 300, 300, 220);
+  grad.addColorStop(0, '#1e1e1e');
+  grad.addColorStop(1, '#0d0d0d');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(300, 300, 220, 0, 2 * Math.PI);
+  ctx.fill();
+
+  // Glow Border representation
+  const thaliMetrics = calculateThali();
+  const targetLimit = state.customTarget || (state.tdee > 0 ? state.tdee : 2000);
+  const pct = thaliMetrics.net / targetLimit;
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = pct < 0.7 ? '#22c55e' : (pct <= 1.0 ? '#f59e0b' : '#ef4444');
+  ctx.stroke();
+
+  // Filter food items (excluding burn/activity items)
+  const foodItems = activeItems.filter(([id, qty]) => {
+    const item = foodDatabase.find(f => f.id === id);
+    return item && item.category !== 'burn';
+  });
+
+  // Katoris (Colored circles with portion multiplier labels)
+  foodItems.forEach(([id, qty], index) => {
+    const item = foodDatabase.find(f => f.id === id);
+    if (!item) return;
+
+    const angle = (index / foodItems.length) * 2 * Math.PI - Math.PI / 2;
+    const radius = 135;
+    const x = 300 + radius * Math.cos(angle);
+    const y = 300 + radius * Math.sin(angle);
+
+    // Circle background color based on category color mapping
+    const categoryColors = {
+      'assamese': '#FF6B35',
+      'northeast': '#3B82F6',
+      'staples': '#10B981',
+      'snacks': '#F59E0B',
+      'beverages': '#8B5CF6'
+    };
+    ctx.fillStyle = categoryColors[item.category] || '#FF6B35';
+
+    ctx.beginPath();
+    ctx.arc(x, y, 26, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#fff';
+    ctx.stroke();
+
+    // Centered Multiplier label inside the circle
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${qty}x`, x, y);
+
+    // Food Title text below the circle
+    ctx.fillStyle = '#A3A3A3';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText(item.name.substring(0, 12), x, y + 40);
+  });
+
+  // Header Title & Calorie stats
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('KatoriCalorie Thali Setup', 300, 50);
+  
+  ctx.fillStyle = '#FF6B35';
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillText(`${thaliMetrics.net} / ${targetLimit} kcal`, 300, 555);
+
+  // Exercises (Burn list) text
+  const burnItems = activeItems.filter(([id, qty]) => {
+    const item = foodDatabase.find(f => f.id === id);
+    return item && item.category === 'burn';
+  });
+
+  if (burnItems.length > 0) {
+    ctx.fillStyle = '#22C55E';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    const burnText = "Exercise Burn: " + burnItems.map(([id, qty]) => {
+      const item = foodDatabase.find(f => f.id === id);
+      return `${item.name} (-${Math.abs(item.calories) * qty} kcal)`;
+    }).join(', ');
+    ctx.fillText(burnText, 300, 515);
+  }
+
+  // Trigger download
+  const link = document.createElement('a');
+  link.download = `katori-thali-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  
+  showToast("Thali image saved successfully!", "success");
+}
+
+// LocalStorage Bookmarking for Saved Meals
+function saveBookmarkedMeal() {
+  const activeItems = Object.entries(state.thali).filter(([id, qty]) => qty > 0);
+  if (activeItems.length === 0) {
+    showToast("Thali is empty! Add foods first.", "info");
+    return;
+  }
+  
+  const thaliMetrics = calculateThali();
+  const bookmarks = JSON.parse(localStorage.getItem('katori_calorie_bookmarks') || '[]');
+  const mealName = `Thali Meal - ${thaliMetrics.net} kcal (${new Date().toLocaleDateString(undefined, {month: 'short', day: 'numeric'})})`;
+  
+  bookmarks.push({
+    id: Date.now().toString(),
+    name: mealName,
+    thali: { ...state.thali },
+    netCalories: thaliMetrics.net,
+    timestamp: new Date().toISOString()
+  });
+  
+  localStorage.setItem('katori_calorie_bookmarks', JSON.stringify(bookmarks));
+  showToast("Meal bookmarked successfully!", "success");
+}
+
+// Setup Thali Builder Panel UI hooks
+function setupThaliBuilderListeners() {
+  setupPortionPopupListeners();
+  setupMobileTabListeners();
+
+  const screenshotBtn = document.getElementById('btn-screenshot-thali');
+  if (screenshotBtn) {
+    screenshotBtn.addEventListener('click', screenshotThali);
+  }
+
+  const saveMealBtn = document.getElementById('btn-save-meal');
+  if (saveMealBtn) {
+    saveMealBtn.addEventListener('click', saveBookmarkedMeal);
+  }
+}
 
 // Get category-specific gradient and Phosphor Icon class
 function getCardPlaceholder(category, id) {
@@ -941,6 +1338,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadState();
   setupCalculatorListeners();
   setupTabListeners();
+  setupThaliBuilderListeners();
   
   // Render food grid with a simulated delay to showcase shimmering skeletons
   setTimeout(() => {
