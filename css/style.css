@@ -2242,8 +2242,9 @@ footer {
     grid-template-columns: 2fr 1fr 1fr;
   }
 
-  .footer-bottom {
+    .footer-bottom {
     flex-direction: row;
+    align-items: flex-start;
   }
 }
 
