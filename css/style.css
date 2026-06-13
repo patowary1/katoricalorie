@@ -2861,3 +2861,39 @@ footer {
   color: var(--accent-orange);
   transform: translateY(-2px);
 }
+/* Calculator Trust Badge */
+.calculator-trust-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(255, 107, 53, 0.03);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.calculator-trust-badge i {
+  color: var(--accent-orange);
+  font-size: 1.25rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.calculator-trust-badge p {
+  margin: 0;
+}
+
+.calculator-trust-badge a {
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.calculator-trust-badge a:hover {
+  text-decoration: underline;
+}
