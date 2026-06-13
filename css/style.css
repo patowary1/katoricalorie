@@ -2251,9 +2251,11 @@ footer {
 @media (min-width: 992px) {
   .main-grid {
     display: grid;
-    grid-template-columns: 7fr 5fr;
+    grid-template-columns: 6.2fr 3.8fr;
     gap: var(--space-xxl);
+    align-items: start;
   }
+}
 
   .sidebar-section {
     order: 2; /* Sidebar on the right on desktops */
