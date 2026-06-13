@@ -236,101 +236,120 @@
       <section class="food-section" aria-labelledby="food-heading">
         <h2 class="food-section-title" id="food-heading">Select Food or Activity</h2>
         
-              <!-- Interactive Mifflin-St Jeor Calculator Panel -->
-        <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
-          <h2 class="panel-title" id="bmr-engine-heading">
-            <span>Metabolic</span> Target Calculator
-          </h2>
-          
-          <div class="bmr-calculator-grid">
-            <div class="bmr-inputs-col">
-              <!-- Gender Select (Segmented Control Pill Toggle) -->
-              <div class="form-group">
-                <span class="form-label">Biological Gender</span>
-                <div class="segmented-control" role="radiogroup" aria-label="Select gender">
-                  <div class="segmented-slider" id="gender-slider"></div>
-                  <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
-                  <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
-                </div>
-              </div>
-
-              <!-- Weight Slider -->
-              <div class="form-group">
-                <label class="form-label" for="weight-input">
-                  Weight
-                  <span class="value-val"><span id="weight-val" class="sliding-value">65</span> kg</span>
-                </label>
-                <div class="range-container">
-                  <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
-                  <div class="range-track-fill" id="weight-track-fill"></div>
-                </div>
-              </div>
-
-              <!-- Height Slider -->
-              <div class="form-group">
-                <label class="form-label" for="height-input">
-                  Height
-                  <span class="value-val"><span id="height-val" class="sliding-value">165</span> cm</span>
-                </label>
-                <div class="range-container">
-                  <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
-                  <div class="range-track-fill" id="height-track-fill"></div>
-                </div>
-              </div>
-
-              <!-- Age Slider -->
-              <div class="form-group">
-                <label class="form-label" for="age-input">
-                  Age
-                  <span class="value-val"><span id="age-val" class="sliding-value">28</span> years</span>
-                </label>
-                <div class="range-container">
-                  <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
-                  <div class="range-track-fill" id="age-track-fill"></div>
-                </div>
-              </div>
-
-              <!-- Activity Level Select -->
-              <div class="form-group" style="margin-bottom: 0;">
-                <label class="form-label" for="activity-select">Physical Activity Factor</label>
-                <select id="activity-select" class="select-input">
-                  <option value="1.2">Sedentary (desk work, minimal activity)</option>
-                  <option value="1.375">Lightly Active (active household, soft walks)</option>
-                  <option value="1.55">Moderately Active (exercise 3-5 days/week)</option>
-                  <option value="1.725">Very Active (hard daily training / field labor)</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="bmr-results-col">
-              <!-- Interactive Calculator Result Card -->
-              <div class="calculator-result-card" id="calculator-result-card">
-                <div class="result-ring-container">
-                  <svg class="result-ring-svg" viewBox="0 0 100 100">
-                    <circle class="result-ring-track" cx="50" cy="50" r="40"></circle>
-                    <circle class="result-ring-fill" id="result-tdee-fill" cx="50" cy="50" r="40"></circle>
-                  </svg>
-                  <div class="result-ring-text">
-                    <span class="result-ring-percent" id="result-tdee-percent">0%</span>
-                    <span class="result-ring-label">of normal</span>
-                  </div>
-                </div>
-                <div class="result-metrics">
-                  <div class="metric-item">
-                    <span class="metric-title">Basal Metabolic Rate (BMR)</span>
-                    <span class="metric-value orange" id="result-bmr-val">0 kcal</span>
-                  </div>
-                  <div class="metric-item" style="margin-top: 0.5rem;">
-                    <span class="metric-title">Active TDEE Budget</span>
-                    <span class="metric-value green" id="result-tdee-val">0 kcal</span>
-                  </div>
-                  <button type="button" class="btn-submit" id="btn-apply-target" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; margin-top: 0.75rem; border-radius: var(--radius-full); width: 100%;">Use as Daily Target</button>
-                </div>
-              </div>
+                  <!-- Interactive Mifflin-St Jeor Calculator Panel -->
+    <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
+      <h2 class="panel-title" id="bmr-engine-heading">
+        <span>Metabolic</span> Target Calculator
+      </h2>
+      
+      <div class="bmr-calculator-grid">
+        <div class="bmr-inputs-col">
+          <!-- Gender Select (Segmented Control Pill Toggle) -->
+          <div class="form-group">
+            <span class="form-label">Biological Gender</span>
+            <div class="segmented-control" role="radiogroup" aria-label="Select gender">
+              <div class="segmented-slider" id="gender-slider"></div>
+              <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
+              <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
             </div>
           </div>
-        </section>
 
+          <!-- Weight Slider -->
+          <div class="form-group">
+            <label class="form-label" for="weight-input">
+              Weight
+              <span class="value-val"><span id="weight-val" class="sliding-value">65</span> kg</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
+              <div class="range-track-fill" id="weight-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Height Slider -->
+          <div class="form-group">
+            <label class="form-label" for="height-input">
+              Height
+              <span class="value-val"><span id="height-val" class="sliding-value">165</span> cm</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
+              <div class="range-track-fill" id="height-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Age Slider -->
+          <div class="form-group">
+            <label class="form-label" for="age-input">
+              Age
+              <span class="value-val"><span id="age-val" class="sliding-value">28</span> years</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
+              <div class="range-track-fill" id="age-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Activity Level Select -->
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="activity-select">Physical Activity Factor</label>
+            <select id="activity-select" class="select-input">
+              <option value="1.2">Sedentary (desk work, minimal activity)</option>
+              <option value="1.375">Lightly Active (active household, soft walks)</option>
+              <option value="1.55">Moderately Active (exercise 3-5 days/week)</option>
+              <option value="1.725">Very Active (hard daily training / field labor)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bmr-results-col">
+          <!-- Interactive Calculator Result Card -->
+          <div class="calculator-result-card" id="calculator-result-card">
+            <div class="result-ring-container">
+              <svg class="result-ring-svg" viewBox="0 0 100 100">
+                <circle class="result-ring-track" cx="50" cy="50" r="40"></circle>
+                <circle class="result-ring-fill" id="result-tdee-fill" cx="50" cy="50" r="40"></circle>
+              </svg>
+              <div class="result-ring-text">
+                <span class="result-ring-percent" id="result-tdee-percent">0%</span>
+                <span class="result-ring-label">of normal</span>
+              </div>
+            </div>
+            <div class="result-metrics">
+              <div class="metric-item">
+                <span class="metric-title">Basal Metabolic Rate (BMR)</span>
+                <span class="metric-value orange" id="result-bmr-val">0 kcal</span>
+              </div>
+              <div class="metric-item" style="margin-top: 0.5rem;">
+                <span class="metric-title">Active TDEE Budget</span>
+                <span class="metric-value green" id="result-tdee-val">0 kcal</span>
+              </div>
+              <button type="button" class="btn-submit" id="btn-apply-target" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; margin-top: 0.75rem; border-radius: var(--radius-full); width: 100%;">Use as Daily Target</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile Tab Switcher (Visible only on screens < 640px) -->
+    <div class="mobile-tab-bar">
+      <button type="button" class="mobile-tab-btn active" data-tab="foods">
+        <i class="ph ph-list-bullets"></i> Browse Foods
+      </button>
+      <button type="button" class="mobile-tab-btn" data-tab="thali">
+        <i class="ph ph-bowl"></i> My Thali 
+        <span class="mobile-thali-badge" id="mobile-thali-badge">0</span>
+      </button>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="main-grid">
+
+      <!-- Left/Bottom Column: Food Matrix Cards Container -->
+      <section class="food-section" id="food-section" aria-labelledby="food-heading">
+        <h2 class="food-section-title" id="food-heading">Select Food or Activity</h2>
+
+        <div class="food-grid" id="food-grid-container">
         <div class="food-grid" id="food-grid-container">
           <!-- Premium Loading Skeletons (rendered while JS parses database) -->
           <div class="food-card skeleton-card">
@@ -376,37 +395,61 @@
         </div>
       </section>
 
-            <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
-      <aside class="sidebar-section" aria-label="Calculators and readouts">
+                <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
+      <aside class="sidebar-section" id="sidebar-section" aria-label="Visual Thali Builder">
       
-        <!-- Elevated Calorie progress and circular dashboard wheel -->
-        <section class="glass-panel" aria-labelledby="calorie-balance-heading">
-          <h2 class="panel-title" id="calorie-balance-heading">
-            <span>Calorie Balance</span> Meter
-          </h2>
+        <!-- Visual Thali Builder Component -->
+        <section class="glass-panel thali-builder-panel" id="thali-builder-panel" aria-labelledby="thali-builder-heading">
+          <div class="thali-builder-header">
+            <h2 class="panel-title" id="thali-builder-heading">
+              <span>My Digital</span> Thali Plate
+            </h2>
+            <span class="thali-status-badge status-balanced" id="thali-status-badge">Empty Thali</span>
+          </div>
 
-          <div class="meter-wrapper">
-            <div class="radial-meter" aria-live="polite">
-              <svg class="radial-svg" viewBox="0 0 200 200" aria-hidden="true">
-                <circle class="radial-track" cx="100" cy="100" r="90"></circle>
-                <circle class="radial-progress" id="radial-meter-fill" cx="100" cy="100" r="90"></circle>
-              </svg>
-              <div class="meter-center">
-                <div class="meter-val" id="radial-meter-val">0</div>
-                <div class="meter-lbl" id="radial-meter-lbl">Net Calories</div>
+          <!-- Centered Interactive Plate Area -->
+          <div class="thali-plate-wrapper">
+            <div class="thali-plate" id="thali-plate">
+              <div class="thali-plate-rim"></div>
+              <!-- Katoris will be dynamically generated here -->
+            </div>
+
+            <!-- Floating Portion Selector Popup -->
+            <div class="portion-popup" id="portion-popup" style="display: none;">
+              <h4 class="popup-title">Adjust Katori Portion</h4>
+              <div class="portion-options">
+                <button type="button" class="portion-opt-btn" data-multiplier="0.7">
+                  <span class="portion-name">Small</span>
+                  <span class="portion-mult">x0.7</span>
+                </button>
+                <button type="button" class="portion-opt-btn active" data-multiplier="1.0">
+                  <span class="portion-name">Medium</span>
+                  <span class="portion-mult">x1.0</span>
+                </button>
+                <button type="button" class="portion-opt-btn" data-multiplier="1.4">
+                  <span class="portion-name">Large</span>
+                  <span class="portion-mult">x1.4</span>
+                </button>
               </div>
+              <div class="popup-info">
+                Portion Calories: <span id="popup-cal-readout">0 kcal</span>
+              </div>
+              <button type="button" class="popup-close-btn" id="btn-close-popup" aria-label="Close popup">&times;</button>
             </div>
           </div>
 
-          <!-- Summary list parameters -->
-          <div class="summary-stats">
-            <div class="stat-item">
-              <div class="stat-val orange" id="bmr-val-readout">0 kcal</div>
-              <div class="stat-lbl">Basal BMR</div>
+          <!-- Thali Control Bar -->
+          <div class="thali-builder-footer">
+            <div class="thali-builder-stats">
+              Total Calories: <span id="thali-builder-total">0 kcal</span>
             </div>
-            <div class="stat-item">
-              <div class="stat-val green" id="tdee-val-readout">0 kcal</div>
-              <div class="stat-lbl">Active TDEE</div>
+            <div class="thali-builder-actions">
+              <button type="button" class="btn-submit" id="btn-screenshot-thali">
+                <i class="ph ph-camera"></i> Save Image
+              </button>
+              <button type="button" class="btn-submit btn-secondary" id="btn-save-meal">
+                <i class="ph ph-bookmark-simple"></i> Bookmark Meal
+              </button>
             </div>
           </div>
         </section>
@@ -415,6 +458,8 @@
         <div class="adsense-placeholder ads-sidebar" style="margin-top: 2rem;" id="adsense-sidebar-banner" aria-hidden="true">
           <span>Sponsored Ad Placement — Column Banner</span>
         </div>
+
+      </aside>
 
       </aside>
 
