@@ -156,7 +156,7 @@ const foodDatabase = [
     desc: "Traditional Assamese glutinous sticky rice. Rich in amylopectin starch, it yields a sticky texture and is highly valued for Bihu pithas and traditional breakfast treats.",
     category: "assamese"
   },
-  {
+   {
     id: "joha-rice",
     name: "Joha Rice",
     nameRegional: "জোহা চাউল",
