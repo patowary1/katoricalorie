@@ -2846,10 +2846,9 @@ footer {
 }
 
 .footer-socials {
-  display: flex;
+  display: none; /* Hidden until official social media pages are active */
   gap: var(--space-md);
 }
-
 .footer-socials a {
   color: var(--text-secondary);
   font-size: 1.35rem;
