@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Traditional Food & Activity Comparison Tool | KatoriCalorie</title>
+  <meta name="description" content="Compare calories, proteins, carbohydrates, fats, and dietary fiber of traditional Northeast Indian and national staples side-by-side. Make informed portion decisions.">
+  <link rel="canonical" href="https://www.katoricalorie.in/compare.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.katoricalorie.in/compare.html">
+  <meta property="og:title" content="Traditional Food & Activity Comparison Tool | KatoriCalorie">
+  <meta property="og:description" content="Compare the nutritional makeup of regional foods like Masor Tenga and Omita Khar side-by-side with national staples.">
+  <meta property="og:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
+
+  <!-- Preconnect and Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css?v=1.0.2">
+  
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.katoricalorie.in/compare#webpage",
+    "url": "https://www.katoricalorie.in/compare",
+    "name": "Traditional Food & Activity Comparison Tool",
+    "description": "Compare calories, proteins, carbohydrates, fats, and dietary fiber of traditional Northeast Indian and national staples side-by-side.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://www.katoricalorie.in/#website"
+    }
+  }
+  </script>
+  
+  <style>
+    /* Toast notification pop-up styling */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 100px);
+      background: var(--accent-orange);
+      color: var(--bg-primary);
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      pointer-events: none;
+    }
+        .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  </style>
+  <!-- Phosphor Icons CDN (Premium Icon System) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3/src/index.js"></script>
+</head>
+<body>
+
+  <!-- Skip-to-Content Link for Accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="/" class="logo">
+        Katori<span>Calorie</span>
+      </a>
+      
+      <!-- Hamburger Menu Icon for Mobile -->
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/compare.html" class="active">Compare Foods</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/disclaimer">Medical Disclaimer</a></li>
+        <li><a href="/sources">Sources & Methodology</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="wrapper">
+    
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb" style="margin-bottom: var(--space-md); font-size: var(--font-sm); color: var(--text-secondary);">
+      <a href="/" style="color: var(--accent-orange); text-decoration: none; font-weight: 500;">Home</a> &gt; <span>Compare Foods</span>
+    </nav>
+
+    <!-- Page Title Section -->
+    <section class="info-section" style="margin-top: 0; margin-bottom: 2rem; border-left: 4px solid var(--accent-orange);">
+      <h1 class="info-title" style="margin-bottom: 0.5rem; font-size: 2rem;">
+        Side-by-Side <span>Food Comparison</span> Tool
+      </h1>
+      <p class="info-text">
+        Compare the calories and macronutrients of traditional Northeast Indian dishes against national favorites. Select two items below to calculate the healthier option for your dietary goals.
+      </p>
+    </section>
+
+        <!-- Food Selection Dropdowns (Dual Columns) -->
+    <section class="compare-selector-grid" aria-label="Select foods to compare" style="margin-bottom: var(--space-xl);">
+      
+      <!-- Selector Card A -->
+      <div class="glass-panel" style="padding: var(--space-md);">
+        <label for="food1-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">Select First Food / Activity</label>
+        <select id="food1-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
+          <!-- Loaded dynamically -->
+        </select>
+      </div>
+
+      <!-- Selector Card B -->
+      <div class="glass-panel" style="padding: var(--space-md);">
+        <label for="food2-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">Select Second Food / Activity</label>
+        <select id="food2-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
+          <!-- Loaded dynamically -->
+        </select>
+      </div>
+
+    </section>
+
+    <!-- Main Comparison Output Panel -->
+    <section class="glass-panel" id="comparison-display-panel" aria-label="Comparison results" style="margin-bottom: var(--space-xl);">
+      <h2 class="panel-title" style="border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); font-size: 1.5rem;">
+        Comparative <span>Nutritional Breakdown</span>
+      </h2>
+
+      <!-- Display Food Titles comparison header -->
+      <div class="compare-header-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); text-align: center; margin-bottom: var(--space-lg);">
+        <div>
+          <h3 id="food1-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">Food Item A</h3>
+          <span id="food1-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">Serving info</span>
+        </div>
+        <div style="border-left: 1px solid var(--border-color);">
+          <h3 id="food2-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">Food Item B</h3>
+          <span id="food2-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">Serving info</span>
+        </div>
+      </div>
+
+      <!-- Comparison Rows (Calorie, Protein, Carbs, Fat, Fiber) -->
+      <div class="comparison-matrix" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Calories Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-cal1">0 kcal</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Calories</span>
+            <span class="comp-val right-val" id="comp-cal2">0 kcal</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill orange" id="fill-cal1" style="height: 100%; width: 0%; float: right; background: var(--accent-orange); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-orange-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill orange" id="fill-cal2" style="height: 100%; width: 0%; background: var(--accent-orange); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-orange-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-cal" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Protein Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-pro1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Protein</span>
+            <span class="comp-val right-val" id="comp-pro2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill green" id="fill-pro1" style="height: 100%; width: 0%; float: right; background: var(--accent-green); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-green-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill green" id="fill-pro2" style="height: 100%; width: 0%; background: var(--accent-green); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-green-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-pro" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Carbs Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-carb1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Carbohydrates</span>
+            <span class="comp-val right-val" id="comp-carb2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill teal" id="fill-carb1" style="height: 100%; width: 0%; float: right; background: #00bcd4; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(0, 188, 212, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill teal" id="fill-carb2" style="height: 100%; width: 0%; background: #00bcd4; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(0, 188, 212, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-carb" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Fat Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-fat1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Fat</span>
+            <span class="comp-val right-val" id="comp-fat2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill red" id="fill-fat1" style="height: 100%; width: 0%; float: right; background: #e91e63; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(233, 30, 99, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill red" id="fill-fat2" style="height: 100%; width: 0%; background: #e91e63; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(233, 30, 99, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-fat" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Fiber Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-fib1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Dietary Fiber</span>
+            <span class="comp-val right-val" id="comp-fib2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill yellow" id="fill-fib1" style="height: 100%; width: 0%; float: right; background: var(--accent-warning); border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(255, 214, 0, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill yellow" id="fill-fib2" style="height: 100%; width: 0%; background: var(--accent-warning); border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(255, 214, 0, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-fib" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div class="compare-actions" style="display: flex; flex-direction: column; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl); border-top: 1px solid var(--border-color); padding-top: var(--space-lg);">
+        <button class="btn-submit" id="btn-add-both">Add Both to Active Plate</button>
+        <button class="btn-reset" id="btn-share-comparison">Share Comparison Link</button>
+      </div>
+
+    </section>
+
+    <!-- Side-by-Side Detailed Insight text card -->
+    <section class="glass-panel" id="comparison-insight-panel" style="margin-bottom: var(--space-3xl);">
+      <h3 class="panel-title" style="font-size: 1.25rem;">
+        📊 Comparison <span>Verdict & Advice</span>
+      </h3>
+      <div id="comparison-insight-text" class="info-text">
+        Select two food items to see the comparison analysis and recommendations.
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification confirmation for copied links -->
+  <div class="toast" id="copy-toast" role="alert" aria-live="assertive">
+    📋 Comparison link copied to clipboard!
+  </div>
+
+  <!-- Footer compliance panel -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h4>Katori<span>Calorie</span></h4>
+        <p>India's specialized Regional & National Food Nutrition platform. Dedicated to preserving authentic cultural recipes while supporting metabolic fitness goals through verified energy calculations.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer legal compliance links">
+        <h5>Core Compliance</h5>
+        <ul>
+          <li><a href="/about">About Creator's Vision</a></li>
+          <li><a href="/disclaimer">Medical Disclaimer</a></li>
+          <li><a href="/sources">Sources & Methodology</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="Footer traffic directory links">
+        <h5>Traffic Engines</h5>
+        <ul>
+          <li><a href="/blog">Cornerstone Articles</a></li>
+          <li><a href="/food">Food Specific Guides</a></li>
+          <li><a href="/contact">Support & Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
+      <p style="font-size: 0.75rem; color: var(--text-secondary);">Disclaimer: Calculated values are purely for educational and meal planning support.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/food-db.js"></script>
+  <script src="../js/compare.js"></script>
+  <script>
+    // Simple Hamburger Menu Toggle Action for comparison page
+    document.addEventListener('DOMContentLoaded', () => {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const navMenu = document.querySelector('.nav-menu');
+      if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+          navMenu.classList.toggle('active');
+          mobileMenuBtn.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

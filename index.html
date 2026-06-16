@@ -9,6 +9,10 @@
   <title>KatoriCalorie | Premium Regional & National Food Nutrition Platform</title>
   <meta name="description" content="India's leading food nutrition tracker specializing in regional Northeast, Assamese, and national staples. Compute your BMR using the Mifflin-St Jeor equation and track your daily plate calories dynamically.">
   <link rel="canonical" href="https://www.katoricalorie.in/">
+  <link rel="alternate" hreflang="x-default" href="https://www.katoricalorie.in/">
+  <link rel="alternate" hreflang="en" href="https://www.katoricalorie.in/">
+  <link rel="alternate" hreflang="as" href="https://www.katoricalorie.in/as">
+  <link rel="alternate" hreflang="hi" href="https://www.katoricalorie.in/hi">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -168,6 +172,14 @@
         <li><a href="/disclaimer">Medical Disclaimer</a></li>
         <li><a href="/sources">Sources & Methodology</a></li>
         <li><a href="/contact">Contact Us</a></li>
+        <li class="lang-selector-item" style="margin-left: 1rem; display: flex; align-items: center; gap: 0.25rem;">
+          <span style="color: var(--text-secondary); font-size: 0.9rem; display: flex; align-items: center;"><i class="ph ph-globe"></i></span>
+          <a href="/" style="padding: 0 4px; display: inline; font-size: 0.85rem; font-weight: 600; color: var(--accent-orange);" aria-label="English">EN</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/as" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="Assamese">অসমীয়া</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/hi" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="Hindi">हिन्दी</a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -191,30 +203,146 @@
       </div>
     </section>
 
-        <!-- User Guide Panel (Bilingual instructions) -->
-    <div class="user-guide-panel" style="margin: 1.5rem 0; padding: 1.2rem; border-left: 4px solid #ff6600; background: rgba(255, 255, 255, 0.03); border-radius: 6px; text-align: left; display: flex; flex-direction: column; gap: var(--space-sm);">
-      <div>
-        <h4 style="margin-top: 0; margin-bottom: 0.8rem; color: #ff6600; font-size: 1.1rem; font-family: inherit;">
-          💡 How to Use Katori Calorie. उपयोग कैसे करें?  কেনেকৈ ব্যৱহাৰ কৰিব?
-        </h4>
-        <ul style="list-style-type: none; padding-left: 0; margin: 0; line-height: 1.7; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem;">
-          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 1: GET YOUR DAILY CALORIE BUDGET</strong><br>
-          Fill out your weight, height, age, and activity level in the Metabolic Calculator above. It uses standard equations to figure out your active daily calorie budget (TDEE) based on your lifestyle.</li>
-          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 2: ADD FOOD TO YOUR THALI</strong><br>
-          Scroll down to the food matrix. Tap the "+ Add to Plate" button on any staple or traditional dish (like Masor Tenga or plain rice). The food will pop onto your visual Thali plate as a digital Katori (bowl).</li>
-          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 3: ADJUST BOWL SIZES & WATCH THE COLOR</strong><br>
-          Click on any Katori on your plate to choose your portion size (Small, Medium, or Large).<br>
-          - Green border = Your daily calorie count is safe and balanced! 🟢<br>
-          - Red border = Your plate has crossed your active daily budget! 🔴</li>
-          <li style="margin-top: 0.5rem; color: rgba(255, 255, 255, 0.9);">✨ Once your plate is ready, click "Save Image" to download and share your healthy meal setup!</li>
-        </ul>
+      <!-- Visual Quick Start & Explainer Dashboard -->
+    <section class="explainer-dashboard glass-panel" aria-label="Visual Guide and Explainer Animation">
+      <div class="explainer-grid">
+        <!-- Left Side: Clean Step Guide -->
+        <div class="explainer-guide-col">
+          <h3 class="explainer-heading">
+            <i class="ph ph-sparkles"></i> 
+            How KatoriCalorie Works
+          </h3>
+          <ol class="explainer-steps">
+            <li class="explainer-step-item">
+              <span class="explainer-step-num">1</span>
+              <div>
+                <strong>Calculate TDEE Budget</strong>
+                <p>Input weight, height, and age to compute your exact daily calorie baseline.</p>
+              </div>
+            </li>
+            <li class="explainer-step-item">
+              <span class="explainer-step-num">2</span>
+              <div>
+                <strong>Add Food to Thali</strong>
+                <p>Click "+ Add to Plate" on any regional dish to place a digital Katori (bowl).</p>
+              </div>
+            </li>
+            <li class="explainer-step-item">
+              <span class="explainer-step-num">3</span>
+              <div>
+                <strong>Adjust Bowl Size & Track</strong>
+                <p>Toggle Katori sizes (S, M, L) to instantly balance your daily calorie goals.</p>
+              </div>
+            </li>
+          </ol>
+          <div class="explainer-guide-actions">
+            <button type="button" id="btn-start-tour" class="btn-submit" style="width: auto; padding: 0.5rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: var(--radius-full);">
+              <i class="ph ph-compass"></i> Take Interactive Tour
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side: Animated Explainer SVG Stage -->
+        <div class="explainer-animation-col" id="explainer-animation-window">
+          <!-- Play/Pause Overlay for Mobile (Touch-Safe) -->
+          <div class="explainer-mobile-overlay" id="explainer-mobile-toggle">
+            <div class="explainer-play-btn">
+              <i class="ph ph-play-fill" id="explainer-toggle-icon"></i>
+              <span id="explainer-toggle-text">Tap to Demo</span>
+            </div>
+          </div>
+
+          <!-- Manual Play/Pause Control Button -->
+          <button type="button" class="explainer-control-btn" id="btn-explainer-play-pause" aria-label="Play or Pause Explainer">
+            <i class="ph ph-pause"></i>
+          </button>
+          
+          <div class="explainer-visual-stage">
+            <div class="explainer-visual-hud">
+              <span class="hud-badge" id="hud-step-badge">1. Select Food</span>
+              <span class="hud-cal-wheel" id="hud-cal-counter">Target: 2000 kcal</span>
+            </div>
+
+            <!-- SVG Animation Stage -->
+            <svg class="explainer-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="thali-depth" cx="50%" cy="50%" r="50%">
+                  <stop offset="70%" stop-color="#18110f" />
+                  <stop offset="100%" stop-color="#0e0807" />
+                </radialGradient>
+              </defs>
+
+              <!-- Grid Background Gridlines -->
+              <g opacity="0.05">
+                <line x1="0" y1="50" x2="400" y2="50" stroke="#fff" stroke-width="0.5" />
+                <line x1="0" y1="100" x2="400" y2="100" stroke="#fff" stroke-width="0.5" />
+                <line x1="0" y1="150" x2="400" y2="150" stroke="#fff" stroke-width="0.5" />
+                <line x1="0" y1="200" x2="400" y2="200" stroke="#fff" stroke-width="0.5" />
+                <line x1="100" y1="0" x2="100" y2="250" stroke="#fff" stroke-width="0.5" />
+                <line x1="200" y1="0" x2="200" y2="250" stroke="#fff" stroke-width="0.5" />
+                <line x1="300" y1="0" x2="300" y2="250" stroke="#fff" stroke-width="0.5" />
+              </g>
+
+              <!-- Food Card (Basmati Rice) -->
+              <g id="explainer-food-card" transform="translate(25, 60)">
+                <rect width="120" height="130" rx="8" fill="#1b1210" stroke="#ff6b35" stroke-opacity="0.15" stroke-width="1.5" />
+                <text x="12" y="24" fill="#fff" font-size="12" font-family="Outfit, sans-serif" font-weight="600">Basmati Rice</text>
+                <text x="12" y="40" fill="#a79a97" font-size="9" font-family="Outfit, sans-serif">130 kcal / katori</text>
+                
+                <!-- Simulated Add Button -->
+                <g id="explainer-add-btn" transform="translate(12, 90)">
+                  <rect id="explainer-add-btn-bg" width="96" height="26" rx="13" fill="#ff6b35" />
+                  <text id="explainer-add-btn-text" x="48" y="17" fill="#000" font-size="10" font-family="Outfit, sans-serif" font-weight="600" text-anchor="middle">+ Add to Plate</text>
+                </g>
+              </g>
+
+              <!-- Plate & Calorie Gauge View -->
+              <g id="explainer-plate-view" transform="translate(230, 20)">
+                <!-- Calorie circular gauge background and fill -->
+                <circle cx="70" cy="50" r="34" fill="none" stroke="#261715" stroke-width="5" />
+                <circle id="explainer-ring-fill" cx="70" cy="50" r="34" fill="none" stroke="#2ec4b6" stroke-width="5" stroke-dasharray="213.6" stroke-dashoffset="213.6" transform="rotate(-90 70 50)" />
+                <text id="explainer-ring-pct" x="70" y="55" fill="#fff" font-size="14" font-family="Outfit, sans-serif" font-weight="700" text-anchor="middle">0%</text>
+
+                <!-- Thali Plate Base -->
+                <circle cx="70" cy="150" r="65" fill="url(#thali-depth)" stroke="#2d1d1a" stroke-width="3" />
+                <circle cx="70" cy="150" r="58" fill="none" stroke="#1d1211" stroke-width="1.5" />
+
+                <!-- Katori Bowl (starts out invisible) -->
+                <g id="explainer-katori" opacity="0" transform="translate(70, 150)">
+                  <circle id="explainer-katori-outer" cx="0" cy="0" r="22" fill="#ff6b35" fill-opacity="0.1" stroke="#ff6b35" stroke-width="1.5" />
+                  <circle cx="0" cy="0" r="19" fill="#e2dcdb" />
+                  <path d="M-8,-4 L-4,-4 M4,-6 L8,-6 M-6,4 L-2,4 M2,6 L6,6 M-2,-8 L2,-8 M-4,8 L0,8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                  <circle id="explainer-katori-ring" cx="0" cy="0" r="22" fill="none" stroke="#2ec4b6" stroke-width="2" />
+                </g>
+
+                <!-- Simulated Portion Toggle Hud -->
+                <g id="explainer-portion-hud" opacity="0" transform="translate(0, 58)">
+                  <rect x="15" y="0" width="110" height="26" rx="13" fill="#150d0c" stroke="#ff6b35" stroke-opacity="0.2" stroke-width="1" />
+                  <g id="hud-btn-s" transform="translate(25, 4)" cursor="pointer">
+                    <rect width="26" height="18" rx="9" fill="#221513" />
+                    <text x="13" y="12" fill="#a79a97" font-size="9" font-family="Outfit, sans-serif" font-weight="600" text-anchor="middle">S</text>
+                  </g>
+                  <g id="hud-btn-m" transform="translate(57, 4)" cursor="pointer">
+                    <rect width="26" height="18" rx="9" fill="#2ec4b6" />
+                    <text x="13" y="12" fill="#000" font-size="9" font-family="Outfit, sans-serif" font-weight="600" text-anchor="middle">M</text>
+                  </g>
+                  <g id="hud-btn-l" transform="translate(89, 4)" cursor="pointer">
+                    <rect width="26" height="18" rx="9" fill="#221513" />
+                    <text x="13" y="12" fill="#a79a97" font-size="9" font-family="Outfit, sans-serif" font-weight="600" text-anchor="middle">L</text>
+                  </g>
+                </g>
+              </g>
+
+              <!-- Simulated Mouse Pointer -->
+              <g id="explainer-cursor" transform="translate(180, 220)">
+                <circle id="explainer-ripple" cx="0" cy="0" r="0" fill="none" stroke="#ff6b35" stroke-width="1.5" opacity="0" />
+                <path d="M0,0 L-6,14 L-2,10 L3,15 L5,13 L0,8 Z" fill="#ffffff" stroke="#000" stroke-width="1.5" />
+              </g>
+            </svg>
+          </div>
+        </div>
       </div>
-      <div style="margin-top: var(--space-xs);">
-        <button type="button" id="btn-start-tour" class="btn-submit" style="width: auto; padding: 0.5rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: var(--radius-full);">
-          <i class="ph ph-compass"></i> Take Interactive Tour (ইন্টারেক্টিভ ট্যুর)
-        </button>
-      </div>
-    </div>
+    </section>
 
     <!-- Category Tabs Selector (Desktop) -->
     <nav class="tabs-container" aria-label="Filter category tabs">
@@ -479,8 +607,6 @@
 
       </aside>
 
-      </aside>
-
     </div>
 
     <!-- Regional food nutrition details segment (EEAT support) -->
@@ -610,6 +736,6 @@
   <!-- Scripts -->
   <script src="/js/food-db.js"></script>
   <script src="/js/calculator.js"></script>
+  <script src="/js/explainer-animation.js" defer></script>
 </body>
 </html>
-<!-- Scripts --> to <!-- Scripts Update -->

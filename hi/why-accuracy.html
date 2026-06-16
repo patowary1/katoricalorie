@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="bdefdf2c-68cb-4bcf-8c60-e4da57c7f9c8"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Calculator Accuracy & Precision Standards | KatoriCalorie</title>
+  <meta name="description" content="Learn why metabolic calculator accuracy matters. Discover how standard calculators misinterpret height inputs and how KatoriCalorie ensures 100% precision using metric formulas.">
+  <link rel="canonical" href="https://www.katoricalorie.in/why-accuracy.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.katoricalorie.in/why-accuracy.html">
+  <meta property="og:title" content="Calculator Accuracy & Precision Standards | KatoriCalorie">
+  <meta property="og:description" content="Discover how a simple decimal height bug on standard online calculators throws off your calorie budget, and how KatoriCalorie solves it.">
+  <meta property="og:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
+
+  <!-- Preconnect and Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css?v=1.0.2">
+  
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.katoricalorie.in/why-accuracy#webpage",
+    "url": "https://www.katoricalorie.in/why-accuracy",
+    "name": "Calculator Accuracy & Precision Standards",
+    "description": "Learn why metabolic BMR calculator accuracy matters and how KatoriCalorie avoids common decimal feet calculation bugs.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://www.katoricalorie.in/#website"
+    }
+  }
+  </script>
+  
+  <!-- Custom Table and Info Styling -->
+  <style>
+    .accuracy-section {
+      padding: var(--space-xl) var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    
+    .article-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .article-header h1 {
+      font-size: var(--text-3xl);
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+    
+    .article-header p {
+      color: var(--text-secondary);
+      font-size: var(--text-lg);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .accuracy-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-2xl);
+    }
+    
+    @media (min-width: 992px) {
+      .accuracy-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: start;
+      }
+    }
+    
+    /* Comparison Table Styling */
+    .comparison-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      margin: var(--space-lg) 0;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      min-width: 600px; /* Prevents columns from squishing on mobile viewports */
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      padding: var(--space-md);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .comparison-table th {
+      background: rgba(255, 107, 53, 0.05);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-family: var(--font-heading);
+    }
+    
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .comparison-table td.feature-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 25%;
+    }
+    
+    .comparison-table td.standard-flaw {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.02);
+      width: 37.5%;
+    }
+    
+    .comparison-table td.katori-fix {
+      color: #22c55e;
+      background: rgba(34, 197, 94, 0.02);
+      width: 37.5%;
+      font-weight: 500;
+    }
+    
+    .math-explanation-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+    
+    .math-explanation-card h3 {
+      color: var(--accent-orange);
+      margin-top: 0;
+      margin-bottom: var(--space-sm);
+    }
+    
+    .math-equation {
+      background: #111;
+      padding: var(--space-md);
+      border-radius: var(--radius-sm);
+      font-family: monospace;
+      color: var(--text-primary);
+      margin: var(--space-md) 0;
+      border-left: 3px solid var(--accent-orange);
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-orange);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+      transition: transform 0.2s ease;
+    }
+    
+    .back-btn:hover {
+      transform: translateX(-4px);
+    }
+  </style>
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3/src/index.js"></script>
+</head>
+<body>
+
+  <!-- Skip-to-Content Link -->
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="/" class="logo">
+        Katori<span>Calorie</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/compare">Compare Foods</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/disclaimer" class="active">Medical Disclaimer</a></li>
+        <li><a href="/sources">Sources & Methodology</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="wrapper">
+
+    <section class="accuracy-section" aria-labelledby="accuracy-title">
+      <a href="/" class="back-btn">
+        <i class="ph ph-arrow-left"></i> Back to Dashboard
+      </a>
+      
+      <div class="article-header">
+        <h1 id="accuracy-title">Precision Standards & Calculator Accuracy</h1>
+        <p>Why metric centimeters matter in calorie tracking, and how a simple height conversion bug on popular websites can offset your metabolic target.</p>
+      </div>
+
+      <div class="accuracy-grid">
+        <!-- Main Article Content -->
+        <div class="glass-panel">
+          <h2>Why We Don't Trust Decimal Height Sliders</h2>
+          <p>Calculating BMR and TDEE requires exact numbers. A daily calorie budget is only as useful as the math behind it. Unfortunately, many popular health widgets make a simple user-interface design mistake that results in incorrect target calculations.</p>
+          
+          <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Calculation Parameter</th>
+                  <th>Standard Calculators (e.g. Bajaj Finserv)</th>
+                  <th>KatoriCalorie Engine</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="feature-name">Height Input Method</td>
+                  <td class="standard-flaw">Uses a decimal slider in feet (e.g., 5.5). The system reads 5.5 ft incorrectly as 5 feet 5 inches.</td>
+                  <td class="katori-fix">Uses absolute metric Centimeters (cm). Zero ambiguity or rounding errors.</td>
+                </tr>
+                <tr>
+                  <td class="feature-name">Calculation Accuracy</td>
+                  <td class="standard-flaw">Flawed conversion math offsets final BMI and daily TDEE values by up to 100+ calories.</td>
+                  <td class="katori-fix">Mifflin-St Jeor metabolic formulas are run directly on exact centimeter inputs.</td>
+                </tr>
+                <tr>
+                  <td class="feature-name">Activity Level Clues</td>
+                  <td class="standard-flaw">Uses generic terms (e.g. "Active") leaving the user to guess their physical multiplier.</td>
+                  <td class="katori-fix">Provides real-world examples matching Indian lifestyles (e.g., desk work, active household).</td>
+                </tr>
+                <tr>
+                  <td class="feature-name">Food Database Integration</td>
+                  <td class="standard-flaw">Only lists basic Western dishes. Excludes regional Indian staples and curries.</td>
+                  <td class="katori-fix">Seamlessly tracks national Indian staples alongside regional Northeast and Assamese foods.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="math-explanation-card">
+            <h3>The Decimal Height Bug Explained</h3>
+            <p>Standard mathematics dictates that a decimal slider representing feet must be read base-12. If a slider is set to <strong>5.5 feet</strong>, the calculation is:</p>
+            <div class="math-equation">
+              5.5 feet = 5 feet + (0.5 * 12 inches) = 5 feet 6 inches (167.64 cm)
+            </div>
+            <p>However, basic database forms incorrectly read the decimal fraction directly as inches:</p>
+            <div class="math-equation">
+              System Reads: 5.5 = 5 feet 5 inches (165.10 cm) [Error of 2.54 cm / 1 inch]
+            </div>
+            <p>Under the Mifflin-St Jeor equation, a 1-inch discrepancy alters your BMR by up to 16 kcal/day. Once multiplied by a moderate activity factor (e.g., 1.55), your calculated active calorie budget (TDEE) is miscalculated by <strong>25 to 50 calories every day</strong>. Over the course of a year, this small error can derail your fitness goals entirely.</p>
+          </div>
+        </div>
+
+        <!-- Sidebar / EEAT Details -->
+        <aside class="sidebar-section">
+          <div class="glass-panel" style="margin-bottom: var(--space-md);">
+            <h3 style="color: var(--accent-orange); margin-top: 0;"><i class="ph ph-shield-check"></i> Verified Calculations</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);">
+              At KatoriCalorie, our metabolic formulas are built on clinical peer-reviewed standards. By utilizing metric values (cm and kg), we align directly with international medical databases, guaranteeing exact targets.
+            </p>
+          </div>
+          
+          <div class="glass-panel">
+            <h3 style="color: var(--accent-orange); margin-top: 0;"><i class="ph ph-info"></i> How We Calculate</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);">
+              Your Basal Metabolic Rate (BMR) is determined using the Mifflin-St Jeor formula:
+            </p>
+            <div style="font-family: monospace; font-size: 0.8rem; background: #111; padding: 10px; border-radius: var(--radius-sm); color: var(--text-primary); margin: 10px 0;">
+              Men: 10W + 6.25H - 5A + 5<br>
+              Women: 10W + 6.25H - 5A - 161
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-tertiary);">
+              Where W = Weight in kg, H = Height in cm, and A = Age in years.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer compliance panel -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h4>Katori<span>Calorie</span></h4>
+        <p>India's specialized Regional & National Food Nutrition platform. Dedicated to preserving authentic cultural recipes while supporting metabolic fitness goals through verified energy calculations.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer legal compliance links">
+        <h5>Core Compliance</h5>
+        <ul>
+          <li><a href="/about">About Creator's Vision</a></li>
+          <li><a href="/disclaimer">Medical Disclaimer</a></li>
+          <li><a href="/sources">Sources & Methodology</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="Footer traffic directory links">
+        <h5>Traffic Engines</h5>
+        <ul>
+          <li><a href="/blog">Cornerstone Articles</a></li>
+          <li><a href="/food">Food Specific Guides</a></li>
+          <li><a href="/contact">Support & Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright-area">
+        <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
+        <div class="footer-socials">
+          <a href="YOUR_FACEBOOK_URL" target="_blank" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+          <a href="YOUR_INSTAGRAM_URL" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+          <a href="YOUR_YOUTUBE_URL" target="_blank" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+        </div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-secondary);">Disclaimer: Calculated values are purely for educational and meal planning support.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

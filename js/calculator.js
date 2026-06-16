@@ -702,6 +702,22 @@ function adjustItemQty(itemId, change) {
           showToast(`Maximum portion reached for ${item.name}`, 'info');
         }
       }
+
+      // Smooth scroll target fix when adding/incrementing food item
+      setTimeout(() => {
+        const isMobile = window.innerWidth < 640;
+        if (isMobile) {
+          const thaliTabBtn = document.querySelector('.mobile-tab-btn[data-tab="thali"]');
+          if (thaliTabBtn) {
+            thaliTabBtn.click();
+          }
+        }
+        const thaliPlate = document.getElementById('thali-plate');
+        if (thaliPlate) {
+          thaliPlate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 50);
+
     } else {
       // Decrease portion multiplier: 1.4 -> 1.0 -> 0.7 -> remove
       if (currentQty === 1.4) {

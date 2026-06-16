@@ -143,6 +143,45 @@ const foodDatabase = [
     desc: "A unique, native variety of precooked soft rice that needs only simple soaking in cold water. Served with cream (doi) and jaggery for a traditional breakfast.",
     category: "assamese"
   },
+  {
+    id: "bora-saul",
+    name: "Bora Saul",
+    nameRegional: "বৰা চাউল",
+    calories: 160,
+    protein: 3.0,
+    carbs: 36.0,
+    fat: 0.3,
+    fiber: 1.0,
+    unit: "1 cup (150g cooked)",
+    desc: "Traditional Assamese glutinous sticky rice. Rich in amylopectin starch, it yields a sticky texture and is highly valued for Bihu pithas and traditional breakfast treats.",
+    category: "assamese"
+  },
+  {
+    id: "joha-rice",
+    name: "Joha Rice",
+    nameRegional: "জোহা চাউল",
+    calories: 130,
+    protein: 2.8,
+    carbs: 28.5,
+    fat: 0.2,
+    fiber: 0.8,
+    unit: "1 cup (150g cooked)",
+    desc: "Premium indigenous aromatic rice variety from Assam, known for its sweet scent, high antioxidants, and excellent export-quality taste.",
+    category: "assamese"
+  },
+  {
+    id: "bao-dhan",
+    name: "Bao Dhan",
+    nameRegional: "বাও ধান",
+    calories: 120,
+    protein: 3.1,
+    carbs: 26.5,
+    fat: 0.5,
+    fiber: 2.2,
+    unit: "1 cup (150g cooked)",
+    desc: "Deepwater red rice from the Brahmaputra floodplain. Packed with anthocyanin antioxidants, iron, and trace zinc. Recognized globally as a nutrient-dense superfood.",
+    category: "assamese"
+  },
 
   // --- NORTHEAST SPECIALTIES ---
   {
@@ -302,6 +341,18 @@ const foodDatabase = [
     category: "staples"
   },
   {
+    id: "brown-basmati-rice",
+    name: "Brown Basmati Rice",
+    calories: 140,
+    protein: 3.2,
+    carbs: 30.0,
+    fat: 0.8,
+    fiber: 1.8,
+    unit: "1 cup (150g cooked)",
+    desc: "Whole grain basmati rice retaining its outer bran layer. High in fiber, trace minerals, and offers a nuttier flavor with a lower glycemic index.",
+    category: "staples"
+  },
+  {
     id: "dal-tadka",
     name: "Dal Tadka",
     calories: 120,
@@ -311,6 +362,45 @@ const foodDatabase = [
     fiber: 4.2,
     unit: "1 cup (150ml)",
     desc: "Yellow pigeon pea lentils boiled with turmeric, then tempered with a touch of ghee, cumin seeds, garlic, and dried red chilies. Great source of plant protein.",
+    category: "staples"
+  },
+  {
+    id: "boiled-egg",
+    name: "Boiled Egg",
+    nameRegional: "সিজোৱা কণী",
+    calories: 75,
+    protein: 6.3,
+    carbs: 0.6,
+    fat: 5.0,
+    fiber: 0.0,
+    unit: "1 piece",
+    desc: "A whole egg boiled until firm. An excellent and convenient source of high-quality complete protein and essential healthy fats.",
+    category: "staples"
+  },
+  {
+    id: "mug-dal",
+    name: "Mug Dal (Moong Dal)",
+    nameRegional: "মুগ দাইল",
+    calories: 120,
+    protein: 8.0,
+    carbs: 18.0,
+    fat: 1.2,
+    fiber: 4.0,
+    unit: "1 serving (150ml)",
+    desc: "Yellow split mung bean soup slow-cooked with ginger and mild spices. A light, nutritious, and easily digestible source of plant protein.",
+    category: "staples"
+  },
+  {
+    id: "masor-dal",
+    name: "Masor Dal (Masoor Dal)",
+    nameRegional: "মচুৰ দাইল",
+    calories: 110,
+    protein: 7.8,
+    carbs: 17.0,
+    fat: 1.0,
+    fiber: 3.8,
+    unit: "1 serving (150ml)",
+    desc: "Split red lentil soup simmered with tomatoes, turmeric, and local tempering. Highly nutritious, low in fat, and rich in essential minerals.",
     category: "staples"
   },
   {
