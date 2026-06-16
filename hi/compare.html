@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>खाद्य और गतिविधि तुलना उपकरण | KatoriCalorie</title>
+  <meta name="description" content="अपनी कटोरी थाली के लिए पारंपरिक भारतीय और क्षेत्रीय खाद्य पदार्थों की कैलोरी, प्रोटीन, कार्बोहाइड्रेट, वसा और आहार फाइबर की तुलना करें।">
+  <link rel="canonical" href="https://www.katoricalorie.in/hi/compare.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.katoricalorie.in/hi/compare.html">
+  <meta property="og:title" content="खाद्य और गतिविधि तुलना उपकरण | KatoriCalorie">
+  <meta property="og:description" content="अपनी कटोरी थाली के लिए पारंपरिक भारतीय और क्षेत्रीय खाद्य पदार्थों की कैलोरी, प्रोटीन, कार्बोहाइड्रेट, वसा और आहार फाइबर की तुलना करें।">
+  <meta property="og:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
+
+  <!-- Preconnect and Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css?v=1.0.2">
+  
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.katoricalorie.in/hi/compare#webpage",
+    "url": "https://www.katoricalorie.in/hi/compare.html",
+    "name": "खाद्य और गतिविधि तुलना उपकरण",
+    "description": "अपनी कटोरी थाली के लिए पारंपरिक भारतीय और क्षेत्रीय खाद्य पदार्थों की कैलोरी, प्रोटीन, कार्बोहाइड्रेट, वसा और आहार फाइबर की तुलना करें।",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://www.katoricalorie.in/#website"
+    }
+  }
+  </script>
+  
+  <style>
+    /* Toast notification pop-up styling */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 100px);
+      background: var(--accent-orange);
+      color: var(--bg-primary);
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  </style>
+  <!-- Phosphor Icons CDN (Premium Icon System) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3/src/index.js"></script>
+</head>
+<body>
+
+  <!-- Skip-to-Content Link for Accessibility -->
+  <a href="#main-content" class="skip-to-content">मुख्य सामग्री पर जाएँ</a>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="nav-container" aria-label="मुख्य नेविगेशन">
+      <a href="/" class="logo">
+        Katori<span>Calorie</span>
+      </a>
+      
+      <!-- Hamburger Menu Icon for Mobile -->
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="मेन्यू खोलें/बंद करें" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-menu">
+        <li><a href="/hi">होम</a></li>
+        <li><a href="/hi/compare" class="active">भोजन की तुलना</a></li>
+        <li><a href="/about">हमारे बारे में</a></li>
+        <li><a href="/disclaimer">चिकित्सा अस्वीकरण</a></li>
+        <li><a href="/sources">स्रोत और पद्धति</a></li>
+        <li><a href="/contact">संपर्क करें</a></li>
+        <li class="lang-selector-item" style="margin-left: 1rem; display: flex; align-items: center; gap: 0.25rem;">
+          <span style="color: var(--text-secondary); font-size: 0.9rem; display: flex; align-items: center;"><i class="ph ph-globe"></i></span>
+          <a href="/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="English">EN</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/as/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="Assamese">অসমীয়া</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/hi/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; font-weight: 600; color: var(--accent-orange);" aria-label="Hindi">हिन्दी</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="wrapper">
+    
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav" aria-label="ब्रेडक्रम्ब" style="margin-bottom: var(--space-md); font-size: var(--font-sm); color: var(--text-secondary);">
+      <a href="/hi" style="color: var(--accent-orange); text-decoration: none; font-weight: 500;">होम</a> &gt; <span>भोजन की तुलना</span>
+    </nav>
+
+    <!-- Page Title Section -->
+    <section class="info-section" style="margin-top: 0; margin-bottom: 2rem; border-left: 4px solid var(--accent-orange);">
+      <h1 class="info-title" style="margin-bottom: 0.5rem; font-size: 2rem;">
+        खाद्य पदार्थों की <span>तुलना</span>
+      </h1>
+      <p class="info-text">
+        पारंपरिक क्षेत्रीय और राष्ट्रीय पसंदीदा खाद्य पदार्थों की कैलोरी और मैक्रोन्यूट्रिएंट्स की तुलना करें। अपने आहार लक्ष्यों के लिए स्वास्थ्यप्रद विकल्प की गणना करने के लिए नीचे दो आइटम चुनें।
+      </p>
+    </section>
+
+        <!-- Food Selection Dropdowns (Dual Columns) -->
+    <section class="compare-selector-grid" aria-label="तुलना के लिए भोजन चुनें" style="margin-bottom: var(--space-xl);">
+      
+      <!-- Selector Card A -->
+      <div class="glass-panel" style="padding: var(--space-md);">
+        <label for="food1-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">पहला भोजन / गतिविधि चुनें</label>
+        <select id="food1-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
+          <!-- Loaded dynamically -->
+        </select>
+      </div>
+
+      <!-- Selector Card B -->
+      <div class="glass-panel" style="padding: var(--space-md);">
+        <label for="food2-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">दूसरा भोजन / गतिविधि चुनें</label>
+        <select id="food2-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
+          <!-- Loaded dynamically -->
+        </select>
+      </div>
+
+    </section>
+
+    <!-- Main Comparison Output Panel -->
+    <section class="glass-panel" id="comparison-display-panel" aria-label="तुलना का परिणाम" style="margin-bottom: var(--space-xl);">
+      <h2 class="panel-title" style="border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); font-size: 1.5rem;">
+        पोषक तत्वों का <span>तुलनात्मक विवरण</span>
+      </h2>
+
+      <!-- Display Food Titles comparison header -->
+      <div class="compare-header-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); text-align: center; margin-bottom: var(--space-lg);">
+        <div>
+          <h3 id="food1-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">भोजन क</h3>
+          <span id="food1-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">भाग का आकार</span>
+        </div>
+        <div style="border-left: 1px solid var(--border-color);">
+          <h3 id="food2-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">भोजन ख</h3>
+          <span id="food2-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">भाग का आकार</span>
+        </div>
+      </div>
+
+      <!-- Comparison Rows (Calorie, Protein, Carbs, Fat, Fiber) -->
+      <div class="comparison-matrix" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Calories Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-cal1">0 kcal</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">कैलोरी</span>
+            <span class="comp-val right-val" id="comp-cal2">0 kcal</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill orange" id="fill-cal1" style="height: 100%; width: 0%; float: right; background: var(--accent-orange); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-orange-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill orange" id="fill-cal2" style="height: 100%; width: 0%; background: var(--accent-orange); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-orange-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-cal" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Protein Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-pro1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">प्रोटीन</span>
+            <span class="comp-val right-val" id="comp-pro2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill green" id="fill-pro1" style="height: 100%; width: 0%; float: right; background: var(--accent-green); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-green-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill green" id="fill-pro2" style="height: 100%; width: 0%; background: var(--accent-green); border-radius: var(--radius-full); box-shadow: 0 0 8px var(--accent-green-glow); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-pro" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Carbs Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-carb1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">कार्बोहाइड्रेट</span>
+            <span class="comp-val right-val" id="comp-carb2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill teal" id="fill-carb1" style="height: 100%; width: 0%; float: right; background: #00bcd4; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(0, 188, 212, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill teal" id="fill-carb2" style="height: 100%; width: 0%; background: #00bcd4; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(0, 188, 212, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-carb" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Fat Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-fat1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">वसा (Fat)</span>
+            <span class="comp-val right-val" id="comp-fat2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill red" id="fill-fat1" style="height: 100%; width: 0%; float: right; background: #e91e63; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(233, 30, 99, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill red" id="fill-fat2" style="height: 100%; width: 0%; background: #e91e63; border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(233, 30, 99, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-fat" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+        <!-- Fiber Comparison Row -->
+        <div class="comparison-row">
+          <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="comp-val left-val" id="comp-fib1">0g</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">आहार फाइबर</span>
+            <span class="comp-val right-val" id="comp-fib2">0g</span>
+          </div>
+          <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
+            <div class="comp-bar-container left-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%; position: relative;">
+              <div class="comp-bar-fill left-bar-fill yellow" id="fill-fib1" style="height: 100%; width: 0%; float: right; background: var(--accent-warning); border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(255, 214, 0, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+            <div class="comp-bar-container right-bar-container" style="background: var(--bg-tertiary); border-radius: var(--radius-full); overflow: hidden; height: 100%;">
+              <div class="comp-bar-fill right-bar-fill yellow" id="fill-fib2" style="height: 100%; width: 0%; background: var(--accent-warning); border-radius: var(--radius-full); box-shadow: 0 0 8px rgba(255, 214, 0, 0.35); transition: width 0.6s ease-in-out;"></div>
+            </div>
+          </div>
+          <div class="winner-indicator-row" style="text-align: center; margin-top: 4px; min-height: 18px;">
+            <span class="winner-tag" id="winner-fat" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent-green);"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div class="compare-actions" style="display: flex; flex-direction: column; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl); border-top: 1px solid var(--border-color); padding-top: var(--space-lg);">
+        <button class="btn-submit" id="btn-add-both">दोनों को सक्रिय थाली में जोड़ें</button>
+        <button class="btn-reset" id="btn-share-comparison">तुलना लिंक साझा करें</button>
+      </div>
+
+    </section>
+
+    <!-- Side-by-Side Detailed Insight text card -->
+    <section class="glass-panel" id="comparison-insight-panel" style="margin-bottom: var(--space-3xl);">
+      <h3 class="panel-title" style="font-size: 1.25rem;">
+        📊 तुलना का <span>निर्णय और सलाह</span>
+      </h3>
+      <div id="comparison-insight-text" class="info-text">
+        तुलनात्मक विश्लेषण और सिफारिशें देखने के लिए दो खाद्य पदार्थ चुनें।
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification confirmation for copied links -->
+  <div class="toast" id="copy-toast" role="alert" aria-live="assertive">
+    📋 तुलना लिंक क्लिपबोर्ड में कॉपी किया गया!
+  </div>
+
+  <!-- Footer compliance panel -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h4>Katori<span>Calorie</span></h4>
+        <p>भारत का विशेष क्षेत्रीय और राष्ट्रीय खाद्य पोषण मंच। सत्यापित ऊर्जा गणनाओं के माध्यम से स्वास्थ्य लक्ष्यों का समर्थन करते हुए पारंपरिक व्यंजनों को सहेजने के लिए समर्पित।</p>
+      </div>
+      <nav class="footer-links" aria-label="मुख्य अनुपालन लिंक">
+        <h5>मुख्य अनुपालन</h5>
+        <ul>
+          <li><a href="/about">निर्माता का दृष्टिकोण</a></li>
+          <li><a href="/disclaimer">चिकित्सा अस्वीकरण</a></li>
+          <li><a href="/sources">स्रोत और कार्यप्रणाली</a></li>
+          <li><a href="/privacy">गोपनीयता नीति</a></li>
+          <li><a href="/terms">नियम और शर्तें</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="मुख्य लिंक">
+        <h5>मुख्य लिंक</h5>
+        <ul>
+          <li><a href="/blog">महत्वपूर्ण लेख</a></li>
+          <li><a href="/food">भोजन संबंधी मार्गदर्शिकाएँ</a></li>
+          <li><a href="/contact">सहायता और संपर्क</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 KatoriCalorie प्लेटफॉर्म। सर्वाधिकार सुरक्षित। FSSAI, ICMR-NIN हैदराबाद, और USDA पोषक तत्व डेटाबेस के तहत तैयार किया गया।</p>
+      <p style="font-size: 0.75rem; color: var(--text-secondary);">अस्वीकरण: गणना किए गए मान केवल शैक्षिक और भोजन योजना समर्थन के लिए हैं।</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/food-db.js"></script>
+  <script src="../js/compare.js"></script>
+  <script>
+    // Simple Hamburger Menu Toggle Action for comparison page
+    document.addEventListener('DOMContentLoaded', () => {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const navMenu = document.querySelector('.nav-menu');
+      if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+          navMenu.classList.toggle('active');
+          mobileMenuBtn.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
