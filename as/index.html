@@ -376,23 +376,106 @@
       <section class="food-section" id="food-section" aria-labelledby="food-heading">
         <h2 class="food-section-title" id="food-heading">Select Food or Activity</h2>
 
-        <!-- Interactive Mifflin-St Jeor Calculator Panel -->
-        <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
-          <h2 class="panel-title" id="bmr-engine-heading">
-            <span>Metabolic</span> Target Calculator
-          </h2>
-          
-          <div class="bmr-calculator-grid">
-            <div class="bmr-inputs-col">
-              <!-- Gender Select (Segmented Control Pill Toggle) -->
-              <div class="form-group">
-                <span class="form-label">Biological Gender</span>
-                <div class="segmented-control" role="radiogroup" aria-label="Select gender">
-                  <div class="segmented-slider" id="gender-slider"></div>
-                  <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
-                  <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
-                </div>
+                         <!-- Interactive Mifflin-St Jeor Calculator Panel -->
+    <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
+      <h2 class="panel-title" id="bmr-engine-heading">
+        <span>দৈনিক মেটাবলিক</span> লক্ষ্য কেলকুলেটৰ
+      </h2>
+      
+      <div class="bmr-calculator-grid">
+        <div class="bmr-inputs-col">
+          <!-- Gender Select -->
+          <div class="form-group">
+            <span class="form-label">জৈৱিক লিংগ</span>
+            <div class="segmented-control" role="radiogroup" aria-label="Select gender">
+              <div class="segmented-slider" id="gender-slider"></div>
+              <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">পুৰুষ</button>
+              <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">মহিলা</button>
+            </div>
+          </div>
+
+          <!-- Weight Slider -->
+          <div class="form-group">
+            <label class="form-label" for="weight-input">
+              ওজন
+              <span class="value-val"><span id="weight-val" class="sliding-value">65</span> kg</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
+              <div class="range-track-fill" id="weight-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Height Slider -->
+          <div class="form-group">
+            <label class="form-label" for="height-input">
+              উচ্চতা
+              <span class="value-val"><span id="height-val" class="sliding-value">165</span> cm</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
+              <div class="range-track-fill" id="height-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Age Slider -->
+          <div class="form-group">
+            <label class="form-label" for="age-input">
+              বয়স
+              <span class="value-val"><span id="age-val" class="sliding-value">28</span> বছৰ</span>
+            </label>
+            <div class="range-container">
+              <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
+              <div class="range-track-fill" id="age-track-fill"></div>
+            </div>
+          </div>
+
+          <!-- Activity Level Select -->
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="activity-select">শাৰীৰিক পৰিশ্ৰমৰ মাত্ৰা</label>
+            <select id="activity-select" class="select-input">
+              <option value="1.2">বহি কাম কৰা / পৰিশ্ৰম নথকা (desk work, minimal activity)</option>
+              <option value="1.375">কম সক্ৰিয় (ঘৰুৱা কাম-কাজ কৰা, খোজ কঢ়া)</option>
+              <option value="1.55">মজলীয়া সক্ৰিয় (সপ্তাহত ৩-৫ দিন ব্যায়াম কৰা)</option>
+              <option value="1.725">অতি সক্ৰিয় (দৈনিক কঠোৰ শাৰীৰিক পৰিশ্ৰম কৰা)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bmr-results-col">
+          <!-- Interactive Calculator Result Card -->
+          <div class="calculator-result-card" id="calculator-result-card">
+            <div class="result-ring-container">
+              <svg class="result-ring-svg" viewBox="0 0 100 100">
+                <circle class="result-ring-track" cx="50" cy="50" r="40"></circle>
+                <circle class="result-ring-fill" id="result-tdee-fill" cx="50" cy="50" r="40"></circle>
+              </svg>
+              <div class="result-ring-text">
+                <span class="result-ring-percent" id="result-tdee-percent">0%</span>
+                <span class="result-ring-label">প্ৰয়োজনীয়তাৰ</span>
               </div>
+            </div>
+            <div class="result-metrics">
+              <div class="metric-item">
+                <span class="metric-title">বেচেল মেটাবলিক ৰেট (BMR)</span>
+                <span class="metric-value orange" id="result-bmr-val">0 kcal</span>
+              </div>
+              <div class="metric-item" style="margin-top: 0.5rem;">
+                <span class="metric-title">সক্ৰিয় কেলৰি বাজেট (TDEE)</span>
+                <span class="metric-value green" id="result-tdee-val">0 kcal</span>
+              </div>
+              <button type="button" class="btn-submit" id="btn-apply-target" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; margin-top: 0.75rem; border-radius: var(--radius-full); width: 100%;">দৈনিক লক্ষ্য হিচাপে ব্যৱহাৰ কৰক</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Accuracy Trust Badge -->
+      <div class="calculator-trust-badge">
+        <i class="ph ph-shield-check"></i>
+        <p><strong>শুদ্ধতাৰ টোকা:</strong> বহুতো অনলাইন কেলকুলেটৰে ৫.৫ ফুটক ৫ ফুট ৫ ইঞ্চি বুলি ধৰে (যাৰ ফলত ৩০+ কেলৰি কম-বেছি হয়)। সঠিক কেলৰি গণনাৰ বাবে আমি চেন্টিমিটাৰ (cm) ব্যৱহাৰ কৰোঁ। <a href="/why-accuracy.html">উচ্চতাৰ নিখুঁত হিচাপ কিয় গুৰুত্বপূৰ্ণ পঢ়ক &rarr;</a></p>
+      </div>
+    </section>
 
               <!-- Weight Slider -->
               <div class="form-group">
@@ -477,16 +560,23 @@
           </div>
         </section>
 
-        <!-- Mobile Tab Switcher (Visible only on screens < 640px) -->
-        <div class="mobile-tab-bar">
-          <button type="button" class="mobile-tab-btn active" data-tab="foods">
-            <i class="ph ph-list-bullets"></i> Browse Foods
-          </button>
-          <button type="button" class="mobile-tab-btn" data-tab="thali">
-            <i class="ph ph-bowl"></i> My Thali 
-            <span class="mobile-thali-badge" id="mobile-thali-badge">0</span>
-          </button>
-        </div>
+           <!-- Mobile Tab Switcher -->
+    <div class="mobile-tab-bar">
+      <button type="button" class="mobile-tab-btn active" data-tab="foods">
+        <i class="ph ph-list-bullets"></i> খাদ্য বিচাৰক
+      </button>
+      <button type="button" class="mobile-tab-btn" data-tab="thali">
+        <i class="ph ph-bowl"></i> মোৰ থালি 
+        <span class="mobile-thali-badge" id="mobile-thali-badge">0</span>
+      </button>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="main-grid">
+
+      <!-- Left/Bottom Column: Food Matrix Cards Container -->
+      <section class="food-section" id="food-section" aria-labelledby="food-heading">
+        <h2 class="food-section-title" id="food-heading">খাদ্য বা পৰিশ্ৰম বাচনি কৰক</h2>
 
         <!-- Inner Food Cards Grid -->
         <div class="food-grid" id="food-grid-container">
