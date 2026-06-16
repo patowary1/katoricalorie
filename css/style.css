@@ -2896,3 +2896,262 @@ footer {
 .calculator-trust-badge a:hover {
   text-decoration: underline;
 }
+/* ==========================================================================
+   Phase 2: Explainer Video / Visual Animation Styles
+   ========================================================================== */
+.explainer-dashboard {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-align: left;
+}
+
+.explainer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .explainer-grid {
+    grid-template-columns: 1.15fr 1.35fr;
+    gap: var(--space-xl);
+  }
+}
+
+.explainer-heading {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  color: var(--accent-orange);
+  font-size: 1.25rem;
+  font-family: var(--font-heading);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.explainer-steps {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0 0 var(--space-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.explainer-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.explainer-step-num {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 107, 53, 0.1);
+  border: 1.5px solid var(--accent-orange);
+  color: var(--accent-orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.explainer-step-item strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.explainer-step-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.explainer-guide-actions {
+  margin-top: var(--space-sm);
+}
+
+/* Right Column: Animation Window */
+.explainer-animation-col {
+  position: relative;
+  background: #0f0a09;
+  border: 1.5px solid rgba(255, 107, 53, 0.1);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 1.6 / 1;
+  width: 100%;
+  box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Touch-Safe Mobile Overlay */
+.explainer-mobile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 10, 9, 0.85);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Hide mobile overlay on desktop by default unless active */
+@media (min-width: 768px) {
+  .explainer-mobile-overlay {
+    display: none; /* Desktop handles hover overrides seamlessly */
+  }
+}
+
+.explainer-play-btn {
+  background: var(--accent-orange);
+  color: #000;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  font-size: 0.85rem;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.explainer-play-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Manual Play/Pause Control Button */
+.explainer-control-btn {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(15, 10, 9, 0.75);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.2s ease;
+}
+
+.explainer-control-btn:hover {
+  background: var(--accent-orange);
+  color: #000;
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 10px rgba(255, 107, 53, 0.4);
+}
+
+/* Stage & Hud */
+.explainer-visual-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-xs);
+}
+
+.explainer-visual-hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hud-badge {
+  background: rgba(255, 107, 53, 0.15);
+  border: 1px solid var(--accent-orange);
+  color: var(--accent-orange);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  transition: all 0.3s ease;
+}
+
+.hud-badge.hud-warning {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.hud-cal-wheel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+}
+
+.explainer-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* CSS transition classes managed by script */
+#explainer-katori {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+  transform-origin: 0px 0px;
+}
+
+#explainer-portion-hud {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+#explainer-ring-fill {
+  transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
+}
+
+#explainer-ripple {
+  transform-origin: center;
+}
+
+#explainer-cursor {
+  pointer-events: none;
+}
+
+/* Animations for simulated interactions */
+.click-active {
+  animation: svgClickPulse 0.2s ease;
+}
+
+@keyframes svgClickPulse {
+  0% { transform: scale(1.0); }
+  50% { transform: scale(0.92); }
+  100% { transform: scale(1.0); }
+}
