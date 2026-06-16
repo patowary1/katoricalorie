@@ -35,13 +35,20 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebApplication",
+        "@type": "WebSite",
         "@id": "https://www.katoricalorie.in/#website",
         "url": "https://www.katoricalorie.in/",
         "name": "KatoriCalorie",
+        "description": "India's specialized Regional & National Food Calorie Calculator using the Mifflin-St Jeor equation and interactive Thali tracker."
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.katoricalorie.in/#webapplication",
+        "url": "https://www.katoricalorie.in/",
+        "name": "KatoriCalorie Web Application",
         "applicationCategory": "HealthApplication",
         "operatingSystem": "All",
-        "description": "India's specialized Regional & National Food Calorie Calculator using the Mifflin-St Jeor equation and interactive Thali tracker.",
+        "description": "Calculate BMR using the Mifflin-St Jeor equation and build your custom digital Katori Thali dynamically.",
         "browserRequirements": "Requires JavaScript. Requires HTML5."
       },
       {
@@ -188,12 +195,18 @@
     <div class="user-guide-panel" style="margin: 1.5rem 0; padding: 1.2rem; border-left: 4px solid #ff6600; background: rgba(255, 255, 255, 0.03); border-radius: 6px; text-align: left; display: flex; flex-direction: column; gap: var(--space-sm);">
       <div>
         <h4 style="margin-top: 0; margin-bottom: 0.8rem; color: #ff6600; font-size: 1.1rem; font-family: inherit;">
-          💡 How to Use the Plate Tracker:(কেনেকৈ ব্যৱহাৰ কৰিব)
+          💡 How to Use Katori Calorie. उपयोग कैसे करें?  কেনেকৈ ব্যৱহাৰ কৰিব?
         </h4>
         <ul style="list-style-type: none; padding-left: 0; margin: 0; line-height: 1.7; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem;">
-          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 1:</strong> Go to the <strong>Metabolic Engine</strong> on the right side. Select your Gender and adjust your Weight, Height, and Age to instantly set your daily target budget (BMR/TDEE).</li>
-          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 2:</strong> Browse the traditional regional items below and use the <strong>`+`</strong> or <strong>`-`</strong> buttons to add or remove portions to your digital plate.</li>
-          <li>👉 <strong>Step 3:</strong> Watch the sticky <strong>Plate Tracker</strong> bar at the bottom to see your real-time Net Calories vs. your daily energy allowance!</li>
+          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 1: GET YOUR DAILY CALORIE BUDGET</strong><br>
+          Fill out your weight, height, age, and activity level in the Metabolic Calculator above. It uses standard equations to figure out your active daily calorie budget (TDEE) based on your lifestyle.</li>
+          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 2: ADD FOOD TO YOUR THALI</strong><br>
+          Scroll down to the food matrix. Tap the "+ Add to Plate" button on any staple or traditional dish (like Masor Tenga or plain rice). The food will pop onto your visual Thali plate as a digital Katori (bowl).</li>
+          <li style="margin-bottom: 0.8rem;">👉 <strong>STEP 3: ADJUST BOWL SIZES & WATCH THE COLOR</strong><br>
+          Click on any Katori on your plate to choose your portion size (Small, Medium, or Large).<br>
+          - Green border = Your daily calorie count is safe and balanced! 🟢<br>
+          - Red border = Your plate has crossed your active daily budget! 🔴</li>
+          <li style="margin-top: 0.5rem; color: rgba(255, 255, 255, 0.9);">✨ Once your plate is ready, click "Save Image" to download and share your healthy meal setup!</li>
         </ul>
       </div>
       <div style="margin-top: var(--space-xs);">
@@ -327,6 +340,12 @@
             </div>
           </div>
         </div>
+      </div>
+      
+      <!-- Accuracy Trust Badge -->
+      <div class="calculator-trust-badge">
+        <i class="ph ph-shield-check"></i>
+        <p><strong>Accuracy Note:</strong> Many online calculators have a slider bug that reads 5.5 feet as 5 feet 5 inches instead of 5 feet 6 inches (throwing off calculations by 30+ calories). Katori Calorie uses exact centimeters (cm) to keep your BMR and TDEE formulas 100% accurate. <a href="/why-accuracy.html">Learn why height precision matters &rarr;</a></p>
       </div>
     </section>
 
@@ -576,7 +595,14 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
+      <div class="footer-copyright-area">
+        <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
+        <div class="footer-socials">
+          <a href="YOUR_FACEBOOK_URL" target="_blank" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+          <a href="YOUR_INSTAGRAM_URL" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+          <a href="YOUR_YOUTUBE_URL" target="_blank" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+        </div>
+      </div>
       <p style="font-size: 0.75rem; color: var(--text-secondary);">Disclaimer: Calculated values are purely for educational and meal planning support.</p>
     </div>
   </footer>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="bdefdf2c-68cb-4bcf-8c60-e4da57c7f9c8"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>KatoriCalorie | Premium Regional & National Food Nutrition Platform</title>
+  <meta name="description" content="India's leading food nutrition tracker specializing in regional Northeast, Assamese, and national staples. Compute your BMR using the Mifflin-St Jeor equation and track your daily plate calories dynamically.">
+  <link rel="canonical" href="https://www.katoricalorie.in/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.katoricalorie.in/">
+  <meta property="og:title" content="KatoriCalorie | Premium Regional & National Food Nutrition Platform">
+  <meta property="og:description" content="Compute your BMR with the Mifflin-St Jeor formula and dynamically track calories for traditional Indian and Northeast staples like Masor Tenga, Omita Khar, and Til Pitha.">
+  <meta property="og:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
+  <meta property="og:site_name" content="KatoriCalorie">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://www.katoricalorie.in/">
+  <meta name="twitter:title" content="KatoriCalorie | Premium Regional & National Food Nutrition Platform">
+  <meta name="twitter:description" content="Compute your BMR with the Mifflin-St Jeor formula and dynamically track calories for traditional Indian and Northeast staples like Masor Tenga, Omita Khar, and Til Pitha.">
+  <meta name="twitter:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
+
+  <!-- Preconnect and Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/style.css?v=1.0.1">
+
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.katoricalorie.in/#website",
+        "url": "https://www.katoricalorie.in/",
+        "name": "KatoriCalorie",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "All",
+        "description": "India's specialized Regional & National Food Calorie Calculator using the Mifflin-St Jeor equation and interactive Thali tracker.",
+        "browserRequirements": "Requires JavaScript. Requires HTML5."
+      },
+      {
+        "@type": "Recipe",
+        "@id": "https://www.katoricalorie.in/#recipe-masor-tenga",
+        "name": "Traditional Assamese Masor Tenga (Sour Fish Curry)",
+        "image": "https://www.katoricalorie.in/assets/masor-tenga.jpg",
+        "description": "A light, tangy traditional Assamese river fish broth cooked with tomatoes and lemon, made oil-free.",
+        "recipeCategory": "Entree",
+        "recipeCuisine": "Assamese",
+        "nutrition": {
+          "@type": "NutritionInformation",
+          "calories": "140 calories",
+          "fatContent": "6.8g",
+          "proteinContent": "14.5g",
+          "carbohydrateContent": "4.0g",
+          "fiberContent": "1.2g"
+        }
+      },
+      {
+        "@type": "Recipe",
+        "@id": "https://www.katoricalorie.in/#recipe-omita-khar",
+        "name": "Traditional Assamese Omita Khar (Green Papaya)",
+        "image": "https://www.katoricalorie.in/assets/omita-khar.jpg",
+        "description": "A classic starter in Assamese meals, green papaya cooked in natural alkaline banana-peel filtrate.",
+        "recipeCategory": "Starter",
+        "recipeCuisine": "Assamese",
+        "nutrition": {
+          "@type": "NutritionInformation",
+          "calories": "55 calories",
+          "fatContent": "0.2g",
+          "proteinContent": "1.2g",
+          "carbohydrateContent": "9.8g",
+          "fiberContent": "2.4g"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Inline style additions for accessibility and skeletons -->
+  <style>
+    /* Skip to content link styling */
+    .skip-to-content {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: -999;
+    }
+    .skip-to-content:focus {
+      position: fixed;
+      top: var(--space-md, 16px);
+      left: var(--space-md, 16px);
+      width: auto;
+      height: auto;
+      overflow: visible;
+      background: var(--accent-orange, #ff6b35);
+      color: var(--bg-primary, #0a0605);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm, 8px);
+      font-weight: 600;
+      z-index: 9999;
+      outline: none;
+      box-shadow: var(--shadow-lg);
+      text-decoration: none;
+    }
+
+    /* Skeleton Loading State Shimmer & Pulse */
+    .skeleton-card {
+      pointer-events: none;
+      border-color: rgba(255, 107, 53, 0.05) !important;
+    }
+    .skeleton-element {
+      background: linear-gradient(
+        90deg,
+        rgba(31, 20, 18, 0.6) 25%,
+        rgba(40, 26, 23, 0.8) 37%,
+        rgba(31, 20, 18, 0.6) 63%
+      );
+      background-size: 400% 100%;
+      animation: shimmer 1.4s ease infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 100% 50%; }
+      100% { background-position: 0 50%; }
+    }
+  </style>
+   <!-- Phosphor Icons CDN (Premium Icon System) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3/src/index.js"></script>
+</head>
+<body>
+
+  <!-- Skip-to-Content Link for Screen Readers & Keyboard Users -->
+  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="/" class="logo">
+        Katori<span>Calorie</span>
+      </a>
+      
+      <!-- Hamburger Menu Icon for Mobile -->
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+            <ul class="nav-menu">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/compare">Compare Foods</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/disclaimer">Medical Disclaimer</a></li>
+        <li><a href="/sources">Sources & Methodology</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="wrapper">
+
+    <!-- AdSense Top Leaderboard Placeholder -->
+    <div class="adsense-placeholder ads-top" id="adsense-top-banner" aria-hidden="true">
+      <span>Sponsored Ad Placement — Leaderboard Space</span>
+    </div>
+
+        <!-- Search Section -->
+    <section class="search-wrapper" aria-label="Food and Activity Search">
+      <div class="search-container">
+        <input type="text" id="food-search" class="search-input" placeholder="Search Roti, Rice, Masor Tenga, Pork with Bamboo Shoot, or Walk...">
+        <button type="button" class="btn-clear-search" id="btn-clear-search" aria-label="Clear search">
+          <i class="ph ph-x-circle"></i>
+        </button>
+        <button class="search-btn" aria-label="Submit search">Search</button>
+      </div>
+    </section>
+
+        <!-- User Guide Panel (Bilingual instructions) -->
+    <div class="user-guide-panel" style="margin: 1.5rem 0; padding: 1.2rem; border-left: 4px solid #ff6600; background: rgba(255, 255, 255, 0.03); border-radius: 6px; text-align: left; display: flex; flex-direction: column; gap: var(--space-sm);">
+      <div>
+        <h4 style="margin-top: 0; margin-bottom: 0.8rem; color: #ff6600; font-size: 1.1rem; font-family: inherit;">
+          💡 How to Use the Plate Tracker:(কেনেকৈ ব্যৱহাৰ কৰিব)
+        </h4>
+        <ul style="list-style-type: none; padding-left: 0; margin: 0; line-height: 1.7; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem;">
+          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 1:</strong> Go to the <strong>Metabolic Engine</strong> on the right side. Select your Gender and adjust your Weight, Height, and Age to instantly set your daily target budget (BMR/TDEE).</li>
+          <li style="margin-bottom: 0.5rem;">👉 <strong>Step 2:</strong> Browse the traditional regional items below and use the <strong>`+`</strong> or <strong>`-`</strong> buttons to add or remove portions to your digital plate.</li>
+          <li>👉 <strong>Step 3:</strong> Watch the sticky <strong>Plate Tracker</strong> bar at the bottom to see your real-time Net Calories vs. your daily energy allowance!</li>
+        </ul>
+      </div>
+      <div style="margin-top: var(--space-xs);">
+        <button type="button" id="btn-start-tour" class="btn-submit" style="width: auto; padding: 0.5rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: var(--radius-full);">
+          <i class="ph ph-compass"></i> Take Interactive Tour (ইন্টারেক্টিভ ট্যুর)
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Tabs Selector (Desktop) -->
+    <nav class="tabs-container" aria-label="Filter category tabs">
+      <button class="tab-btn active" data-category="all">Pan-India & Regional Items</button>
+      <button class="tab-btn" data-category="staples">Pan-India Staples</button>
+      <button class="tab-btn" data-category="assamese">Assamese Traditional</button>
+      <button class="tab-btn" data-category="northeast">Northeast Specialties</button>
+      <button class="tab-btn" data-category="snacks">Snacks & Street Food</button>
+      <button class="tab-btn" data-category="beverages">Traditional Beverages</button>
+      <button class="tab-btn btn-burn" data-category="burn">⚡ Burn Calories</button>
+    </nav>
+
+    <!-- Mobile Category Dropdown Selector -->
+    <div class="mobile-category-container">
+      <label for="mobile-category-select" class="skip-to-content">Select category filter</label>
+      <select id="mobile-category-select" class="mobile-category-select">
+        <option value="all">Pan-India & Regional Items</option>
+        <option value="staples">Pan-India Staples</option>
+        <option value="assamese">Assamese Traditional</option>
+        <option value="northeast">Northeast Specialties</option>
+        <option value="snacks">Snacks & Street Food</option>
+        <option value="beverages">Traditional Beverages</option>
+        <option value="burn">⚡ Burn Calories</option>
+      </select>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="main-grid">
+
+           <!-- Left/Bottom Column: Food Matrix Cards Container -->
+      <section class="food-section" aria-labelledby="food-heading">
+        <h2 class="food-section-title" id="food-heading">Select Food or Activity</h2>
+        
+              <!-- Interactive Mifflin-St Jeor Calculator Panel -->
+        <section class="glass-panel" style="margin-bottom: 2rem;" aria-labelledby="bmr-engine-heading">
+          <h2 class="panel-title" id="bmr-engine-heading">
+            <span>Metabolic</span> Target Calculator
+          </h2>
+          
+          <div class="bmr-calculator-grid">
+            <div class="bmr-inputs-col">
+              <!-- Gender Select (Segmented Control Pill Toggle) -->
+              <div class="form-group">
+                <span class="form-label">Biological Gender</span>
+                <div class="segmented-control" role="radiogroup" aria-label="Select gender">
+                  <div class="segmented-slider" id="gender-slider"></div>
+                  <button type="button" class="segmented-btn gender-btn active" data-gender="male" role="radio" aria-checked="true">Men</button>
+                  <button type="button" class="segmented-btn gender-btn" data-gender="female" role="radio" aria-checked="false">Women</button>
+                </div>
+              </div>
+
+              <!-- Weight Slider -->
+              <div class="form-group">
+                <label class="form-label" for="weight-input">
+                  Weight
+                  <span class="value-val"><span id="weight-val" class="sliding-value">65</span> kg</span>
+                </label>
+                <div class="range-container">
+                  <input type="range" id="weight-input" min="30" max="150" value="65" class="range-input">
+                  <div class="range-track-fill" id="weight-track-fill"></div>
+                </div>
+              </div>
+
+              <!-- Height Slider -->
+              <div class="form-group">
+                <label class="form-label" for="height-input">
+                  Height
+                  <span class="value-val"><span id="height-val" class="sliding-value">165</span> cm</span>
+                </label>
+                <div class="range-container">
+                  <input type="range" id="height-input" min="100" max="220" value="165" class="range-input">
+                  <div class="range-track-fill" id="height-track-fill"></div>
+                </div>
+              </div>
+
+              <!-- Age Slider -->
+              <div class="form-group">
+                <label class="form-label" for="age-input">
+                  Age
+                  <span class="value-val"><span id="age-val" class="sliding-value">28</span> years</span>
+                </label>
+                <div class="range-container">
+                  <input type="range" id="age-input" min="15" max="85" value="28" class="range-input">
+                  <div class="range-track-fill" id="age-track-fill"></div>
+                </div>
+              </div>
+
+              <!-- Activity Level Select -->
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="activity-select">Physical Activity Factor</label>
+                <select id="activity-select" class="select-input">
+                  <option value="1.2">Sedentary (desk work, minimal activity)</option>
+                  <option value="1.375">Lightly Active (active household, soft walks)</option>
+                  <option value="1.55">Moderately Active (exercise 3-5 days/week)</option>
+                  <option value="1.725">Very Active (hard daily training / field labor)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="bmr-results-col">
+              <!-- Interactive Calculator Result Card -->
+              <div class="calculator-result-card" id="calculator-result-card">
+                <div class="result-ring-container">
+                  <svg class="result-ring-svg" viewBox="0 0 100 100">
+                    <circle class="result-ring-track" cx="50" cy="50" r="40"></circle>
+                    <circle class="result-ring-fill" id="result-tdee-fill" cx="50" cy="50" r="40"></circle>
+                  </svg>
+                  <div class="result-ring-text">
+                    <span class="result-ring-percent" id="result-tdee-percent">0%</span>
+                    <span class="result-ring-label">of normal</span>
+                  </div>
+                </div>
+                <div class="result-metrics">
+                  <div class="metric-item">
+                    <span class="metric-title">Basal Metabolic Rate (BMR)</span>
+                    <span class="metric-value orange" id="result-bmr-val">0 kcal</span>
+                  </div>
+                  <div class="metric-item" style="margin-top: 0.5rem;">
+                    <span class="metric-title">Active TDEE Budget</span>
+                    <span class="metric-value green" id="result-tdee-val">0 kcal</span>
+                  </div>
+                  <button type="button" class="btn-submit" id="btn-apply-target" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; margin-top: 0.75rem; border-radius: var(--radius-full); width: 100%;">Use as Daily Target</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="food-grid" id="food-grid-container">
+          <!-- Premium Loading Skeletons (rendered while JS parses database) -->
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 65%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 90%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 40%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+          
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 50%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 85%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 45%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+
+          <div class="food-card skeleton-card">
+            <div class="card-top">
+              <div class="skeleton-element" style="width: 60%; height: 20px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 18px; height: 18px; border-radius: 50%;"></div>
+            </div>
+            <div class="skeleton-element" style="width: 88%; height: 35px; border-radius: var(--radius-sm); margin: var(--space-md) 0;"></div>
+            <div class="card-bottom">
+              <div class="skeleton-element" style="width: 35%; height: 24px; border-radius: var(--radius-sm);"></div>
+              <div class="skeleton-element" style="width: 65px; height: 28px; border-radius: 30px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AdSense In-Feed Ad Placement Placeholder -->
+        <div class="adsense-placeholder ads-in-feed" id="adsense-mid-feed" aria-hidden="true">
+          <span>Sponsored Ad Placement — In-Feed Banner</span>
+        </div>
+      </section>
+
+            <!-- Right/Top Column: BMR Mifflin-St Jeor Engine & Radial Progress Wheel -->
+      <aside class="sidebar-section" aria-label="Calculators and readouts">
+      
+        <!-- Elevated Calorie progress and circular dashboard wheel -->
+        <section class="glass-panel" aria-labelledby="calorie-balance-heading">
+          <h2 class="panel-title" id="calorie-balance-heading">
+            <span>Calorie Balance</span> Meter
+          </h2>
+
+          <div class="meter-wrapper">
+            <div class="radial-meter" aria-live="polite">
+              <svg class="radial-svg" viewBox="0 0 200 200" aria-hidden="true">
+                <circle class="radial-track" cx="100" cy="100" r="90"></circle>
+                <circle class="radial-progress" id="radial-meter-fill" cx="100" cy="100" r="90"></circle>
+              </svg>
+              <div class="meter-center">
+                <div class="meter-val" id="radial-meter-val">0</div>
+                <div class="meter-lbl" id="radial-meter-lbl">Net Calories</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary list parameters -->
+          <div class="summary-stats">
+            <div class="stat-item">
+              <div class="stat-val orange" id="bmr-val-readout">0 kcal</div>
+              <div class="stat-lbl">Basal BMR</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val green" id="tdee-val-readout">0 kcal</div>
+              <div class="stat-lbl">Active TDEE</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AdSense Sidebar Column Placeholder -->
+        <div class="adsense-placeholder ads-sidebar" style="margin-top: 2rem;" id="adsense-sidebar-banner" aria-hidden="true">
+          <span>Sponsored Ad Placement — Column Banner</span>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- Regional food nutrition details segment (EEAT support) -->
+    <section class="info-section" aria-labelledby="insights-heading">
+      <h2 class="info-title" id="insights-heading">
+        <span>Scientific Insights</span> into Regional Nutrition
+      </h2>
+      
+      <!-- Featured Placeholder Image (Lazy-loaded with fallback) -->
+      <div style="margin-bottom: var(--space-lg); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); background: var(--bg-secondary); position: relative; aspect-ratio: 16/9;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Crect width='100%25' height='100%25' fill='%23130d0b'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Outfit, sans-serif' font-size='24' fill='%23a79a97'%3EFeatured Regional Thali Setup%3C/text%3E%3C/svg%3E" 
+             data-src="/assets/featured-recipe.jpg" 
+             alt="Traditional regional Indian nutritional setup banner" 
+             loading="lazy" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      
+      <article class="info-block">
+        <h3 class="info-subtitle">The Alkaline Balance of Omita Khar</h3>
+        <p class="info-text">
+          Traditional Assamese meals start with Omita Khar, a preparation that extracts potassium-rich minerals from the ash of banana skins. This unique alkaline profile assists in lubricating the stomach walls and neutralizes acidic discomfort, making it a highly effective prebiotic helper prior to consuming heavier staples.
+        </p>
+      </article>
+
+      <article class="info-block">
+        <h3 class="info-subtitle">Masor Tenga: Light, Tangy, and Nutrient-Dense</h3>
+        <p class="info-text">
+          Authentic Assamese Masor Tenga relies on native local pond, lake, or river fish cooked with traditional cross-cut drying of garcinia pedunculata (thekera tenga), acidic tomatoes, elephant apple (outenga), or fresh lemon juice. This light broth provides rich omega-3 fatty acids without any heavy cream or commercial fats.
+        </p>
+      </article>
+
+      <article class="info-block">
+        <h3 class="info-subtitle">The Metabolic Impact of Mifflin-St Jeor Calculations</h3>
+        <p class="info-text">
+          Your Basal Metabolic Rate (BMR) represents the energy expended to support essential life processes while at rest. By utilizing the Mifflin-St Jeor formula—widely validated as the most accurate metabolic predictor for active populations—KatoriCalorie gives you a verified baseline. Multiplying this value by your daily activity quotient calculates your Total Daily Energy Expenditure (TDEE), establishing a reliable mathematical target for healthy portion adjustment.
+        </p>
+      </article>
+    </section>
+
+  </main>
+
+   <!-- Sticky Floating Plate Bar (Thali Drawer) -->
+  <aside class="thali-footer" id="thali-drawer" aria-label="Active Plate summary">
+    <!-- Touch Drag Handle for Mobile Expansion -->
+    <div class="thali-drag-handle" id="thali-drag-handle"></div>
+
+    <div class="thali-bar" id="thali-bar-click">
+      <div class="thali-info">
+        <div class="thali-icon-container" aria-hidden="true">
+          <i class="ph ph-hand-heart"></i>
+          <span class="thali-badge" id="thali-badge-count">0</span>
+        </div>
+        <div class="thali-text">
+          <div class="thali-title">
+            Active <span>Plate</span>
+          </div>
+          <div class="thali-subtitle" id="thali-items-count-text">
+            0 items selected
+          </div>
+        </div>
+      </div>
+
+           <!-- Center Progress Bar -->
+      <div class="thali-progress-wrapper">
+        <div class="thali-progress-bar">
+          <div class="thali-progress-fill" id="thali-progress-fill"></div>
+        </div>
+        <span class="thali-progress-label" id="thali-progress-label">0 / 2000 kcal</span>
+      </div>
+     
+      <div class="thali-actions">
+        <div class="thali-net-readout-wrapper">
+          Net: <span id="thali-net-readout" style="font-weight: 700; color: var(--accent-primary);">0 kcal</span>
+        </div>
+        <button class="btn-reset" id="btn-reset-thali" aria-label="Clear Plate">Clear Plate</button>
+      </div>
+    </div>
+
+    <!-- Collapsible drawer items list -->
+    <div class="thali-drawer-content" id="thali-drawer-content">
+      <h3 class="drawer-section-title">Selected Foods & Activities</h3>
+      <ul class="thali-items-list" id="thali-items-list">
+        <!-- Dynamically rendered selected items with delete buttons -->
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Footer compliance panel -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h4>Katori<span>Calorie</span></h4>
+        <p>India's specialized Regional & National Food Nutrition platform. Dedicated to preserving authentic cultural recipes while supporting metabolic fitness goals through verified energy calculations.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer legal compliance links">
+        <h5>Core Compliance</h5>
+        <ul>
+          <li><a href="/about">About Creator's Vision</a></li>
+          <li><a href="/disclaimer">Medical Disclaimer</a></li>
+          <li><a href="/sources">Sources & Methodology</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-links" aria-label="Footer traffic directory links">
+        <h5>Traffic Engines</h5>
+        <ul>
+          <li><a href="/blog">Cornerstone Articles</a></li>
+          <li><a href="/food">Food Specific Guides</a></li>
+          <li><a href="/contact">Support & Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
+      <p style="font-size: 0.75rem; color: var(--text-secondary);">Disclaimer: Calculated values are purely for educational and meal planning support.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/food-db.js"></script>
+  <script src="/js/calculator.js"></script>
+</body>
+</html>
+<!-- Scripts --> to <!-- Scripts Update -->
