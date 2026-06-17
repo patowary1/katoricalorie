@@ -2445,8 +2445,8 @@ footer {
   color: var(--text-secondary);
   font-family: var(--font-display);
   font-weight: var(--font-semibold);
-  font-size: 0.9rem;
-  padding: 10px 16px;
+  font-size: 0.85rem;
+  padding: 8px 12px;
   border-radius: var(--radius-full);
   cursor: pointer;
   display: flex;
@@ -2454,6 +2454,8 @@ footer {
   justify-content: center;
   gap: var(--space-xs);
   transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .mobile-tab-btn.active {
