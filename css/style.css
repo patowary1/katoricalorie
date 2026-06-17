@@ -2434,6 +2434,8 @@ footer {
   justify-content: space-between;
   align-items: center;
   box-shadow: var(--shadow-md);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .mobile-tab-btn {
