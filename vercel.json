@@ -8,6 +8,12 @@
     { "source": "/sources", "destination": "/compliance/sources" },
     { "source": "/privacy", "destination": "/compliance/privacy" },
     { "source": "/terms", "destination": "/compliance/terms" },
+    { "source": "/as/about", "destination": "/as/compliance/about" },
+    { "source": "/as/disclaimer", "destination": "/as/compliance/disclaimer" },
+    { "source": "/as/sources", "destination": "/as/compliance/sources" },
+    { "source": "/hi/about", "destination": "/hi/compliance/about" },
+    { "source": "/hi/disclaimer", "destination": "/hi/compliance/disclaimer" },
+    { "source": "/hi/sources", "destination": "/hi/compliance/sources" },
     { "source": "/cornerstone-articles", "destination": "/blog" },
     { "source": "/food-guides", "destination": "/food" }
   ]
