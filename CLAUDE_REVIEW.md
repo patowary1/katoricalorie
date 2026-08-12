@@ -1,131 +1,88 @@
-# CLAUDE_REVIEW.md — Batch 2 review, round 2
+# CLAUDE_REVIEW.md — Batch 2 review, round 3 (final)
 
-**Branch:** `repair/batch-2-cleanup`
-**Verdict: close. Three fixes, all in the card generator.** Everything outside the cards is approved and unchanged from my last review.
+**The blocker is fixed.** Assamese renders correctly on every card I checked. Donuts are real, all three macros populated, `FAT` label cleaned up.
 
----
-
-## Real progress
-
-The cards are now genuinely cards. I verified:
-
-- All 18 images have **distinct hashes** — the duplication is gone
-- All are **1200×900**, 106–114 KB
-- Real rendered text: dish name, category label, calorie figure, branding, footer attribution
-- Category colour coding works — amber for Til Pitha, river blue for Masor Tenga
-- The layout is clean and looks intentional
-
-Good recovery. Three defects remain, and the first is serious.
+Three small fixes and this merges. All three are in the pill/donut area of `generate-card-images.js`. **This is the last round on Batch 2** — after these, push and I approve.
 
 ---
 
-## 🔴 FIX 1 — Assamese renders as tofu boxes
+## Verified fixed
 
-On every card, the Assamese line renders as empty rectangles:
+- `মাছৰ টেঙা` and `উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য` render with correct glyphs — no tofu boxes
+- Font vendored to `assets/fonts/` and registered
+- Macro donut segments are proportional and correct: Masor Tenga (14.5p / 4.0c / 6.8f) renders ≈43% / 12% / 45% by calorie contribution, which is right
+- All three pills carry values
+- 18 distinct hashes, all 1200×900
 
-```
-Masor Tenga (Assamese Fish Curry)
-▯▯▯▯ ▯▯▯▯                          ← should read মাছৰ টেঙা
+---
 
-Til Pitha (Sesame Rice Roll)
-▯▯▯ ▯▯▯▯                           ← should read তিল পিঠা
+## FIX 1 — Pill background colours contradict the donut
+
+The donut colour code, from the source:
+
+```js
+protein → card.accentColor
+carbs   → #FF9800   (orange)
+fat     → #E53935   (red)
 ```
 
-The data is correct — `scripts/generate-card-images.js` line 17 has `assamese: 'মাছৰ টেঙা'`. The problem is the renderer.
+The *value text* in each pill uses those same colours — correct. But the *pill backgrounds* are inherited from whatever `fillStyle` was last set, and they don't follow the code. On `masor-tenga.jpg`:
 
-`@napi-rs/canvas` is loaded but **`GlobalFonts.registerFromPath()` is never called**, and no Bengali-Assamese font exists in the build environment. Canvas falls back to `.notdef` glyphs — the tofu box. This is the exact silent-font-fallback failure I flagged as the risk with this approach.
+| Pill | Background | Meaning implied | Donut says orange = |
+|---|---|---|---|
+| CARBS | light blue | — | carbs |
+| **FAT** | **orange** | fat is orange | **carbs** |
 
-This matters more than any other item in the batch. Assamese-language search is the least contested space this site can win, and a card that renders Assamese as broken squares is worse than one that omits it — it signals the site can't handle the language it claims to serve.
+A reader maps orange → FAT from the pill, then reads the donut's small orange segment as fat. Fat is actually the *largest* macro in that dish. The card is actively misleading.
 
-**Fix — vendor the font, don't rely on the system:**
+**Fix:** make every pill background neutral and let colour carry one meaning only.
 
-1. Download **Noto Sans Bengali** (SIL Open Font License, free to redistribute) and commit the TTFs to `assets/fonts/`:
-   ```
-   assets/fonts/NotoSansBengali-Regular.ttf
-   assets/fonts/NotoSansBengali-Bold.ttf
-   ```
-2. Register before drawing:
-   ```js
-   const { GlobalFonts } = require('@napi-rs/canvas');
-   const ok = GlobalFonts.registerFromPath(
-     path.join(projectRoot, 'assets/fonts/NotoSansBengali-Bold.ttf'),
-     'Noto Sans Bengali'
-   );
-   if (!ok) throw new Error('Bengali font failed to register — aborting');
-   ```
-   **Throw on failure.** Never let the generator continue with a missing font — that's how this shipped in the first place.
-3. Use that family for the Assamese line specifically. The Latin face is fine as-is.
-
-Note `assets/fonts/` will be served publicly. That's fine — the OFL permits it — but exclude it from the sitemap.
-
-If you later add Hindi cards, register **Noto Sans Devanagari** the same way.
-
----
-
-## 🟠 FIX 2 — Two of the three macro chips are empty
-
-Every card shows:
-
-```
-[ PROTEIN ]   [ CARBS ]   [ FAT / TYPE ]
-[  14.5g   ]  [         ] [            ]
+```js
+// all three pills, same treatment
+ctx.fillStyle = 'rgba(255,255,255,0.06)';
+ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+// then a 12px colour dot before the label, using the donut colour:
+//   protein → card.accentColor
+//   carbs   → '#FF9800'
+//   fat     → '#E53935'
 ```
 
-Only protein has a value. `CARBS` and `FAT / TYPE` are bare labels.
-
-The data exists — the Recipe schema you wrote in this same batch has `carbohydrateContent: 4.0g` and `fatContent: 6.8g` for Masor Tenga. Pull all three from the same source rather than hardcoding one into the card spec.
-
-Also rename `FAT / TYPE` to just `FAT`. "TYPE" appears to be a leftover template token.
+That gives an implicit legend, fixes the contradiction, and solves Fix 2 at the same time.
 
 ---
 
-## 🟠 FIX 3 — The "NUTRITION PROFILE" ring is decoration, not data
+## FIX 2 — Value text is barely legible
 
-The large circle on the right contains the literal words "NUTRITION PROFILE" inside two plain rings. It looks like a chart but conveys nothing.
+Consequence of the above. Currently:
 
-Either:
+- `4.0g` in orange `#FF9800` on a light blue fill
+- `6.8g` in red `#E53935` on an orange fill
 
-- **Make it real** — a macro donut where the arc segments are proportional to protein/carbs/fat by calorie contribution, with the calorie figure in the centre. This is the single element that would make these cards genuinely useful at a glance. Or
-- **Remove it** and let the layout breathe.
-
-A ring that pretends to be a chart is the weakest option. Given you already have all three macros, making it real is a small amount of work.
+Both fail contrast badly, and these cards need to be readable as small thumbnails in a search result. Neutral dark pill backgrounds (Fix 1) put coloured text on dark, which reads cleanly. Verify each combination reaches at least 4.5:1.
 
 ---
 
-## Fix the test alongside the code
+## FIX 3 — The calculator article has a fabricated donut
 
-The current assertions now catch duplicates and dimensions — good, that's the improvement I asked for. Add two more that would have caught this round's defects:
+`bug-blog.jpg` (the decimal-height-bug article) has:
 
-```
-- Font registration returns true, else the build fails (assert in the generator itself)
-- No rendered card contains .notdef glyphs
-    → simplest reliable proxy: after registering the font, assert
-      ctx.measureText('মাছৰ').width differs measurably from the
-      unregistered-fallback width, and fail if it doesn't
-- Every macro chip has a non-empty numeric value
-    → assert the spec object for each card has protein, carbs AND fat
-      before rendering; throw on any missing
+```js
+protein: 'BMR', carbs: 'Mifflin', fat: 'Formula',
+proteinG: 10, carbsG: 50, fatG: 15,
 ```
 
-The principle from last time still applies: assert the outcome, not the attempt.
+The labels are placeholder words and the gram values are invented purely to make a donut render. That article isn't about a food and has no macros. A chart drawn from made-up numbers is the same category of problem as the fabricated `lastmod` dates.
+
+**Fix:** add an `isFood: false` flag for non-food articles. When false, skip the donut and the three pills entirely, and let the title and category band fill the space. Check the other article cards for the same issue — anything where the macro values aren't real nutrition data for a real dish.
 
 ---
 
-## Everything else stays approved
+## Then
 
-No changes needed to: Recipe schema on the six food guides, homepage schema removal, recipe step formatting, social link removal, `og-banner.jpg`, or any Batch 1 guarantee.
+1. Apply the three fixes
+2. Regenerate all 17
+3. Push, re-run the suite against a fresh preview
+4. Update `CLAUDE_HANDOFF.md` — include the paths of `masor-tenga.jpg`, `bug-blog.jpg` and one more
+5. Do not merge; I'll approve on this round
 
----
-
-## To do
-
-1. Vendor Noto Sans Bengali, register it, throw on failure
-2. Populate carbs and fat; rename `FAT / TYPE` → `FAT`
-3. Make the ring a real macro donut, or remove it
-4. Add the three assertions above
-5. Regenerate all 17 cards
-6. Push, re-run the suite against a fresh preview
-7. In `CLAUDE_HANDOFF.md`, list the paths of 3 regenerated cards — including one with a long Assamese name — so I can view them
-8. Do not merge
-
-This is the last blocker I expect on Batch 2.
+Nothing else in Batch 2 needs changing. Recipe schema, homepage schema removal, step formatting, social links and `og-banner.jpg` are all approved.

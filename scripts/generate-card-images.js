@@ -35,14 +35,14 @@ if (Math.abs(registeredWidth - fallbackWidth) < 1) {
 }
 console.log(`[PASS] Noto Sans Bengali font registered and verified! ('মাছৰ' width: ${registeredWidth.toFixed(1)}px vs fallback: ${fallbackWidth.toFixed(1)}px)`);
 
-// 17 Card Specifications with ALL 3 Macros (Protein, Carbs, Fat) populated
+// 17 Card Specifications
 const cards = [
   {
     file: 'masor-tenga.jpg',
     title: 'Masor Tenga (Assamese Fish Curry)',
     assamese: 'মাছৰ টেঙা',
     calories: '140 kcal / katori',
-    calNum: 140,
+    isFood: true,
     protein: '14.5g', carbs: '4.0g', fat: '6.8g',
     proteinG: 14.5, carbsG: 4.0, fatG: 6.8,
     category: 'TRADITIONAL FISH CURRY',
@@ -55,7 +55,7 @@ const cards = [
     title: 'Omita Khar (Green Papaya)',
     assamese: 'ওমিতা খাৰ',
     calories: '55 kcal / portion',
-    calNum: 55,
+    isFood: true,
     protein: '1.2g', carbs: '9.8g', fat: '0.2g',
     proteinG: 1.2, carbsG: 9.8, fatG: 0.2,
     category: 'ALKALINE STARTER',
@@ -68,7 +68,7 @@ const cards = [
     title: 'Aloo Pitika (Mashed Potato)',
     assamese: 'আলু পিটিকা',
     calories: '110 kcal / serving',
-    calNum: 110,
+    isFood: true,
     protein: '2.5g', carbs: '21.0g', fat: '2.2g',
     proteinG: 2.5, carbsG: 21.0, fatG: 2.2,
     category: 'ASSAMESE COMFORT SIDE',
@@ -81,7 +81,7 @@ const cards = [
     title: 'Dosa & Sambar',
     assamese: 'দচু আৰু চম্বাৰ',
     calories: '280 kcal / plate',
-    calNum: 280,
+    isFood: true,
     protein: '8.2g', carbs: '52.0g', fat: '4.5g',
     proteinG: 8.2, carbsG: 52.0, fatG: 4.5,
     category: 'SOUTH INDIAN BREAKFAST',
@@ -94,7 +94,7 @@ const cards = [
     title: 'Naga Pork with Bamboo Shoot',
     assamese: 'নাগা পোৰ্ক',
     calories: '320 kcal / serving',
-    calNum: 320,
+    isFood: true,
     protein: '28.0g', carbs: '4.2g', fat: '18.5g',
     proteinG: 28.0, carbsG: 4.2, fatG: 18.5,
     category: 'NORTHEAST MEAT SPECIALTY',
@@ -107,7 +107,7 @@ const cards = [
     title: 'Til Pitha (Sesame Rice Roll)',
     assamese: 'তিল পিঠা',
     calories: '95 kcal / 2 pieces',
-    calNum: 95,
+    isFood: true,
     protein: '2.1g', carbs: '16.5g', fat: '2.8g',
     proteinG: 2.1, carbsG: 16.5, fatG: 2.8,
     category: 'BIHU SWEET DELICACY',
@@ -121,8 +121,8 @@ const cards = [
     file: 'khar-blog.jpg',
     title: 'Khar Calories & Alkaline Benefits',
     assamese: 'অসমীয়া খাৰ আৰু মেটাবলিজম',
-    calories: 'Cornerstone Guide',
-    calNum: 55,
+    calories: '55 kcal / portion',
+    isFood: true,
     protein: '1.2g', carbs: '9.8g', fat: '0.2g',
     proteinG: 1.2, carbsG: 9.8, fatG: 0.2,
     category: 'NUTRITION ARTICLE',
@@ -134,8 +134,8 @@ const cards = [
     file: 'pitha-blog.jpg',
     title: 'Bihu Pitha Carbohydrates & Portion Control',
     assamese: 'বিহু পিঠা কেলৰি আৰু পৰিমাণ নিৰূপণ',
-    calories: 'Glycemic Audit',
-    calNum: 95,
+    calories: '95 kcal / serving',
+    isFood: true,
     protein: '2.1g', carbs: '16.5g', fat: '2.8g',
     proteinG: 2.1, carbsG: 16.5, fatG: 2.8,
     category: 'CORNERSTONE ARTICLE',
@@ -147,8 +147,8 @@ const cards = [
     file: 'roti-rice-blog.jpg',
     title: 'Roti vs Rice for Indian Weight Loss',
     assamese: 'ৰুটি নে ভাত? ওজন হ্ৰাসৰ নিৰ্ণয়',
-    calories: 'Diet Audit',
-    calNum: 120,
+    calories: '120 kcal / portion',
+    isFood: true,
     protein: '3.5g', carbs: '23.0g', fat: '1.5g',
     proteinG: 3.5, carbsG: 23.0, fatG: 1.5,
     category: 'DIET AUDIT',
@@ -160,8 +160,8 @@ const cards = [
     file: 'masor-tenga-blog.jpg',
     title: 'Masor Tenga Nutrition & Heart Acids',
     assamese: 'মাছৰ টেঙাৰ স্বাস্থ্য গুণাগুণ',
-    calories: 'Omega-3 Guide',
-    calNum: 140,
+    calories: '140 kcal / katori',
+    isFood: true,
     protein: '14.5g', carbs: '4.0g', fat: '6.8g',
     proteinG: 14.5, carbsG: 4.0, fatG: 6.8,
     category: 'HEALTH ARTICLE',
@@ -173,8 +173,8 @@ const cards = [
     file: 'fermented-foods-blog.jpg',
     title: 'Fermented Foods of Northeast India',
     assamese: 'উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য',
-    calories: 'Microbiome Guide',
-    calNum: 85,
+    calories: '85 kcal / portion',
+    isFood: true,
     protein: '4.5g', carbs: '11.0g', fat: '2.1g',
     proteinG: 4.5, carbsG: 11.0, fatG: 2.1,
     category: 'WELLNESS ARTICLE',
@@ -186,8 +186,8 @@ const cards = [
     file: 'herbs-blog.jpg',
     title: 'Traditional Assamese Herbs & Health',
     assamese: 'অসমীয়া থলুৱা শাক-পাচলি আৰু স্বাস্থ্য',
-    calories: 'Herbal Wellness',
-    calNum: 40,
+    calories: '40 kcal / portion',
+    isFood: true,
     protein: '2.0g', carbs: '6.5g', fat: '0.4g',
     proteinG: 2.0, carbsG: 6.5, fatG: 0.4,
     category: 'HERBAL WELLNESS',
@@ -199,11 +199,9 @@ const cards = [
     file: 'bug-blog.jpg',
     title: 'Calculator Accuracy: BMR Feet Bug',
     assamese: 'কেলকুলেটৰ সঠিকতা বিশ্লেষণ',
-    calories: 'Technical Audit',
-    calNum: 1650,
-    protein: 'BMR', carbs: 'Mifflin', fat: 'Formula',
-    proteinG: 10, carbsG: 50, fatG: 15,
-    category: 'TECH INSIGHT',
+    calories: 'Mifflin-St Jeor Audit',
+    isFood: false, // Non-food article: skips fake macro donut & fake pills
+    category: 'TECH CASE STUDY',
     primaryColor: '#26C6DA',
     bgColor: '#0F2224',
     accentColor: '#80DEEA'
@@ -212,8 +210,8 @@ const cards = [
     file: 'brown-basmati-blog.jpg',
     title: 'Brown Basmati Rice Weight Loss',
     assamese: 'ব্ৰাউন বাছমতী চাউলৰ প্ৰভাৱ',
-    calories: 'Fiber Guide',
-    calNum: 160,
+    calories: '160 kcal / katori',
+    isFood: true,
     protein: '4.5g', carbs: '33.0g', fat: '1.2g',
     proteinG: 4.5, carbsG: 33.0, fatG: 1.2,
     category: 'GRAIN GUIDE',
@@ -225,8 +223,8 @@ const cards = [
     file: 'bora-saul-blog.jpg',
     title: 'Bora Saul Sticky Rice Glycemic Index',
     assamese: 'বৰা চাউলৰ এমিলা পেক্টিন বিশ্লেষণ',
-    calories: 'Amylopectin Audit',
-    calNum: 180,
+    calories: '180 kcal / katori',
+    isFood: true,
     protein: '3.2g', carbs: '38.0g', fat: '0.8g',
     proteinG: 3.2, carbsG: 38.0, fatG: 0.8,
     category: 'GRAIN AUDIT',
@@ -238,8 +236,8 @@ const cards = [
     file: 'joha-rice-blog.jpg',
     title: 'Joha Rice Antioxidants & Benefits',
     assamese: 'জোহা চাউলৰ সুগন্ধি আৰু পুষ্টি',
-    calories: 'Superfood Guide',
-    calNum: 150,
+    calories: '150 kcal / katori',
+    isFood: true,
     protein: '3.8g', carbs: '31.5g', fat: '1.0g',
     proteinG: 3.8, carbsG: 31.5, fatG: 1.0,
     category: 'SUPERFOOD GUIDE',
@@ -251,8 +249,8 @@ const cards = [
     file: 'bao-dhan-blog.jpg',
     title: 'Bao Dhan Red Rice Superfood',
     assamese: 'বাও ধান ৰঙা চাউলৰ লৌহ উপাদান',
-    calories: 'Iron & Complex Carbs',
-    calNum: 155,
+    calories: '155 kcal / katori',
+    isFood: true,
     protein: '4.2g', carbs: '32.0g', fat: '1.1g',
     proteinG: 4.2, carbsG: 32.0, fatG: 1.1,
     category: 'RED RICE GUIDE',
@@ -262,10 +260,12 @@ const cards = [
   }
 ];
 
-// Assert all cards have non-empty protein, carbs, and fat values
+// Assert food cards have non-empty protein, carbs, and fat values
 cards.forEach(card => {
-  if (!card.protein || !card.carbs || !card.fat) {
-    throw new Error(`Card ${card.file} missing macro data! protein='${card.protein}', carbs='${card.carbs}', fat='${card.fat}'`);
+  if (card.isFood) {
+    if (!card.protein || !card.carbs || !card.fat) {
+      throw new Error(`Food card ${card.file} missing macro data! protein='${card.protein}', carbs='${card.carbs}', fat='${card.fat}'`);
+    }
   }
 });
 
@@ -346,86 +346,125 @@ function renderCard(card) {
   ctx.font = 'bold 38px sans-serif';
   ctx.fillText(card.calories, 90, yPos + 65);
 
-  // FIX 3: REAL MACRO DONUT CHART (Right Side Graphic)
-  const cx = 880;
-  const cy = 510;
-  const radius = 170;
-  const strokeW = 32;
+  if (card.isFood) {
+    // REAL MACRO DONUT CHART (Right Side Graphic)
+    const cx = 880;
+    const cy = 510;
+    const radius = 170;
+    const strokeW = 32;
 
-  const pVal = card.proteinG * 4;
-  const cVal = card.carbsG * 4;
-  const fVal = card.fatG * 9;
-  const totalCal = pVal + cVal + fVal || 100;
+    const pVal = card.proteinG * 4;
+    const cVal = card.carbsG * 4;
+    const fVal = card.fatG * 9;
+    const totalCal = pVal + cVal + fVal || 100;
 
-  const pAngle = (pVal / totalCal) * (Math.PI * 2);
-  const cAngle = (cVal / totalCal) * (Math.PI * 2);
-  const fAngle = (fVal / totalCal) * (Math.PI * 2);
+    const pAngle = (pVal / totalCal) * (Math.PI * 2);
+    const cAngle = (cVal / totalCal) * (Math.PI * 2);
+    const fAngle = (fVal / totalCal) * (Math.PI * 2);
 
-  let startAngle = -Math.PI / 2;
+    let startAngle = -Math.PI / 2;
 
-  // 1. Protein Segment (Blue/Pink)
-  ctx.strokeStyle = card.primaryColor;
-  ctx.lineWidth = strokeW;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, startAngle, startAngle + pAngle);
-  ctx.stroke();
-  startAngle += pAngle;
+    // 1. Protein Segment (Blue/Primary accent)
+    ctx.strokeStyle = card.primaryColor;
+    ctx.lineWidth = strokeW;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, startAngle, startAngle + pAngle);
+    ctx.stroke();
+    startAngle += pAngle;
 
-  // 2. Carbs Segment (Orange/Gold)
-  ctx.strokeStyle = '#FF9800';
-  ctx.lineWidth = strokeW;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, startAngle, startAngle + cAngle);
-  ctx.stroke();
-  startAngle += cAngle;
+    // 2. Carbs Segment (Orange #FF9800)
+    ctx.strokeStyle = '#FF9800';
+    ctx.lineWidth = strokeW;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, startAngle, startAngle + cAngle);
+    ctx.stroke();
+    startAngle += cAngle;
 
-  // 3. Fat Segment (Red/Accent)
-  ctx.strokeStyle = '#E53935';
-  ctx.lineWidth = strokeW;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, startAngle, startAngle + fAngle);
-  ctx.stroke();
+    // 3. Fat Segment (Red #E53935)
+    ctx.strokeStyle = '#E53935';
+    ctx.lineWidth = strokeW;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, startAngle, startAngle + fAngle);
+    ctx.stroke();
 
-  // Donut Inner Circle & Center Text
-  ctx.fillStyle = card.bgColor;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius - (strokeW / 2) - 4, 0, Math.PI * 2);
-  ctx.fill();
+    // Donut Inner Circle & Center Text
+    ctx.fillStyle = card.bgColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius - (strokeW / 2) - 4, 0, Math.PI * 2);
+    ctx.fill();
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 34px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('MACRO', cx, cy - 15);
-  ctx.fillStyle = card.accentColor;
-  ctx.font = 'bold 28px sans-serif';
-  ctx.fillText('SPLIT', cx, cy + 25);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 34px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('MACRO', cx, cy - 15);
+    ctx.fillStyle = card.accentColor;
+    ctx.font = 'bold 28px sans-serif';
+    ctx.fillText('SPLIT', cx, cy + 25);
 
-  // Bottom Macro Pills (Protein, Carbs, Fat)
-  const pillY = 665;
+    // FIX 1 & 2: NEUTRAL DARK PILL BACKGROUNDS WITH COLOR-CODED DOTS
+    const pillY = 665;
 
-  // Protein Pill
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-  ctx.strokeStyle = card.primaryColor;
-  ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.roundRect(65, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('PROTEIN', 165, pillY + 32);
-  ctx.fillStyle = card.accentColor; ctx.font = 'bold 24px sans-serif';
-  ctx.fillText(card.protein, 165, pillY + 64);
+    // 1. Protein Pill (Neutral dark background, color dot = card.primaryColor)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    ctx.lineWidth = 2;
 
-  // Carbs Pill
-  ctx.beginPath(); ctx.roundRect(290, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('CARBS', 390, pillY + 32);
-  ctx.fillStyle = '#FF9800'; ctx.font = 'bold 24px sans-serif';
-  ctx.fillText(card.carbs, 390, pillY + 64);
+    // Protein Box
+    ctx.beginPath(); ctx.roundRect(65, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+    // Color Dot (12px radius)
+    ctx.fillStyle = card.primaryColor;
+    ctx.beginPath(); ctx.arc(95, pillY + 30, 8, 0, Math.PI * 2); ctx.fill();
+    // Label & Value in high-contrast crisp white/accent
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('PROTEIN', 112, pillY + 35);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 24px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(card.protein, 165, pillY + 65);
 
-  // Fat Pill (Renamed FAT from FAT / TYPE)
-  ctx.beginPath(); ctx.roundRect(515, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('FAT', 615, pillY + 32);
-  ctx.fillStyle = '#E53935'; ctx.font = 'bold 24px sans-serif';
-  ctx.fillText(card.fat, 615, pillY + 64);
+    // 2. Carbs Pill (Neutral dark background, color dot = #FF9800)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.beginPath(); ctx.roundRect(290, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+    // Color Dot (Orange)
+    ctx.fillStyle = '#FF9800';
+    ctx.beginPath(); ctx.arc(325, pillY + 30, 8, 0, Math.PI * 2); ctx.fill();
+    // Label & Value
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('CARBS', 342, pillY + 35);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 24px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(card.carbs, 390, pillY + 65);
+
+    // 3. Fat Pill (Neutral dark background, color dot = #E53935, label = FAT)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.beginPath(); ctx.roundRect(515, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+    // Color Dot (Red)
+    ctx.fillStyle = '#E53935';
+    ctx.beginPath(); ctx.arc(555, pillY + 30, 8, 0, Math.PI * 2); ctx.fill();
+    // Label & Value
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('FAT', 572, pillY + 35);
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 24px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(card.fat, 615, pillY + 65);
+
+  } else {
+    // NON-FOOD META/TECH ARTICLE CARD (Skipped fake donut & fake pills)
+    const cx = 880;
+    const cy = 510;
+
+    ctx.fillStyle = 'rgba(38, 198, 218, 0.12)';
+    ctx.strokeStyle = card.primaryColor;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(700, 360, 360, 300, 24);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 36px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TECHNICAL', cx, cy - 20);
+    ctx.fillStyle = card.accentColor;
+    ctx.font = 'bold 32px sans-serif';
+    ctx.fillText('AUDIT', cx, cy + 30);
+  }
 
   // Footer Verification Bar
   ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
@@ -447,9 +486,9 @@ function renderCard(card) {
   fs.writeFileSync(targetPath, buffer);
 
   const sizeKb = (buffer.length / 1024).toFixed(1);
-  console.log(`Generated ${card.file} (${width}x${height}, ${sizeKb} KB)`);
+  console.log(`Generated ${card.file} (${width}x${height}, ${sizeKb} KB, isFood: ${card.isFood})`);
 }
 
-console.log('Generating 17 distinct card graphics with Noto Sans Bengali font and real Macro Donut charts...');
+console.log('Generating 17 card graphics (neutral dark pills, legend dots, and clean non-food tech cards)...');
 cards.forEach(renderCard);
 console.log('All 17 distinct card graphics successfully created in assets/ directory.');
