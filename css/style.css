@@ -2242,8 +2242,9 @@ footer {
     grid-template-columns: 2fr 1fr 1fr;
   }
 
-  .footer-bottom {
+    .footer-bottom {
     flex-direction: row;
+    align-items: flex-start;
   }
 }
 
@@ -2257,7 +2258,6 @@ footer {
     max-width: 1280px;
     margin: 0 auto;
   }
-
   .sidebar-section {
     order: 2; /* Sidebar on the right on desktops */
     position: sticky;
@@ -2268,7 +2268,6 @@ footer {
     display: flex;
     justify-content: center;
   }
-
   .food-section {
     order: 1; /* Food section on the left on desktops */
   }
@@ -2458,7 +2457,6 @@ footer {
   transition: all 0.3s ease;
   white-space: nowrap;
 }
-
 .mobile-tab-btn.active {
   background: var(--accent-primary);
   color: #fff;

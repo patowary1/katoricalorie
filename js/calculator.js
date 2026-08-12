@@ -698,7 +698,7 @@ function adjustItemQty(itemId, change) {
         } else if (currentQty === 1.0) {
           state.thali[itemId] = 1.4;
           showToast(`Portion increased to Large for ${item.name}`, 'success');
-        } else {
+                } else {
           showToast(`Maximum portion reached for ${item.name}`, 'info');
         }
       }
