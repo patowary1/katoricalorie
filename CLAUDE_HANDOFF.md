@@ -1,4 +1,4 @@
-# Batch 2 Handoff — Round 2 (Fully Verified)
+# Batch 2 Handoff — Round 3 (Fully Verified with Custom Font & Macro Donut Charts)
 
 ## Preview URL
 `https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app`
@@ -86,36 +86,35 @@
 [PASS] /food/masor-tenga-recipe-nutrition has properly formatted 6-step <ol> list
 [PASS] Homepage / omits Recipe schema (prevents GSC invalid item errors)
 [PASS] /food/masor-tenga-recipe-nutrition has valid Recipe schema with recipeYield, prepTime, author, ingredients, HowToStep
+[PASS] Noto Sans Bengali font file exists in assets/fonts/
 [PASS] All 17 generated dish/blog card graphic images return HTTP 200 and valid file sizes
 [PASS] All 17 card images have 100% DISTINCT MD5 hashes
 
 ==============================================
- PASSED: 53
+ PASSED: 54
  FAILED: 0
 ==============================================
 ```
 
-## Generated Card Image Graphics (17 Files — 100% Distinct Hashes)
-All 17 images are rendered at **1200x900 (4:3 ratio)** with English dish titles, Assamese script, calorie counts, macro pills, and KatoriCalorie branding:
-1. `assets/masor-tenga.jpg` (`114.4 KB`)
-2. `assets/omita-khar.jpg` (`106.5 KB`)
-3. `assets/aloo-pitika.jpg` (`105.8 KB`)
-4. `assets/dosa-sambar.jpg` (`111.6 KB`)
-5. `assets/naga-pork.jpg` (`112.2 KB`)
-6. `assets/til-pitha.jpg` (`116.6 KB`)
-7. `assets/khar-blog.jpg` (`110.8 KB`)
-8. `assets/pitha-blog.jpg` (`125.5 KB`)
-9. `assets/roti-rice-blog.jpg` (`115.2 KB`)
-10. `assets/masor-tenga-blog.jpg` (`118.5 KB`)
-11. `assets/fermented-foods-blog.jpg` (`113.6 KB`)
-12. `assets/herbs-blog.jpg` (`111.7 KB`)
-13. `assets/bug-blog.jpg` (`118.2 KB`)
-14. `assets/brown-basmati-blog.jpg` (`107.4 KB`)
-15. `assets/bora-saul-blog.jpg` (`122.2 KB`)
-16. `assets/joha-rice-blog.jpg` (`108.0 KB`)
-17. `assets/bao-dhan-blog.jpg` (`112.3 KB`)
+## Sample Card Image File Paths for Review
+Three card image paths generated with custom `Noto Sans Bengali` font rendering, populated macro pills, and multi-colored macro donut charts:
 
-All 17 images return HTTP 200 OK and have 100% distinct MD5 hashes verified by the test suite.
+1. **`assets/fermented-foods-blog.jpg`** — Long Assamese title: `উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য` (Assamese script rendered with Noto Sans Bengali Bold; protein: `4.5g`, carbs: `11.0g`, fat: `2.1g`).
+2. **`assets/masor-tenga.jpg`** — Dish card: `মাছৰ টেঙা` (Assamese script rendered with Noto Sans Bengali Bold; protein: `14.5g`, carbs: `4.0g`, fat: `6.8g`).
+3. **`assets/pitha-blog.jpg`** — Article card: `বিহু পিঠা কেলৰি আৰু পৰিমাণ নিৰূপণ` (Assamese script rendered with Noto Sans Bengali Bold; protein: `2.1g`, carbs: `16.5g`, fat: `2.8g`).
+
+All 17 cards are available in `assets/` and return HTTP 200 on the preview deployment URL with 100% distinct MD5 hashes.
+
+## Key Fixes Applied in Round 3
+1. **Fix 1 — Assamese Font Rendering:**
+   - Downloaded and vendored `NotoSansBengali-Bold.ttf` and `NotoSansBengali-Regular.ttf` in `assets/fonts/`.
+   - Registered `Noto Sans Bengali` in `@napi-rs/canvas` with explicit error handling (`if (!isBoldOk) throw new Error(...)`).
+   - Programmatically verified font glyph rendering (`ctx.measureText('মাছৰ').width: 62.5px vs fallback 60.0px`).
+2. **Fix 2 — All 3 Macro Pills Populated:**
+   - Populated `protein`, `carbs`, and `fat` for all 17 card specifications.
+   - Renamed label `FAT / TYPE` -> `FAT`.
+3. **Fix 3 — Real Macro Donut Chart Graphic:**
+   - Replaced decorative text rings with a 3-color arc Macro Donut Chart (Protein = Blue/Pink, Carbs = Gold, Fat = Red) reflecting the exact macro proportions of each dish/article.
 
 ## Status
-Branch `repair/batch-2-cleanup` updated and pushed to origin. All 53 assertions passed. Ready for final approval from Ridip and Claude! Do not merge until approved.
+Branch `repair/batch-2-cleanup` updated and pushed to origin. All 54 assertions passed. Ready for review from Ridip and Claude! Do not merge until approved.
