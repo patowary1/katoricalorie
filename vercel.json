@@ -7,7 +7,9 @@
     { "source": "/food/bao-dhan-nutrition", "destination": "/blog/bao-dhan-red-rice-superfood", "permanent": true },
     { "source": "/food/bora-saul-nutrition", "destination": "/blog/bora-saul-sticky-rice-glycemic-index", "permanent": true },
     { "source": "/food/brown-basmati-rice", "destination": "/blog/brown-basmati-rice-weight-loss", "permanent": true },
-    { "source": "/food/joha-rice-nutrition", "destination": "/blog/joha-rice-antioxidants-benefits", "permanent": true }
+    { "source": "/food/joha-rice-nutrition", "destination": "/blog/joha-rice-antioxidants-benefits", "permanent": true },
+    { "source": "/why-accuracy.html", "destination": "/why-accuracy", "permanent": true },
+    { "source": "/blog/calculator-accuracy-decimal-feet-bug.html", "destination": "/blog/calculator-accuracy-decimal-feet-bug", "permanent": true }
   ],
   "rewrites": [
     { "source": "/about", "destination": "/compliance/about" },
