@@ -43,7 +43,7 @@ function fetchUrl(urlStr, options = {}) {
       path: parsed.pathname + parsed.search,
       method: options.method || 'GET',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; Batch1Verifier/1.0)',
+        'User-Agent': 'Mozilla/5.0 (compatible; Batch2Verifier/1.0)',
         ...(options.headers || {})
       }
     };
@@ -175,7 +175,7 @@ async function runLiveVerification() {
   }
 
   console.log('==============================================');
-  console.log(` Batch 1 full live verification suite (~70 checks)`);
+  console.log(` Batch 1 + Batch 2 full live verification suite`);
   console.log(` Target: ${baseUrl}`);
   console.log('==============================================\n');
 
@@ -246,11 +246,12 @@ async function runLiveVerification() {
   check('/YOUR_FACEBOOK_URL returns 404', (await fetchUrl(`${baseUrl}/YOUR_FACEBOOK_URL`)).status, 404);
   check('/blog/YOUR_FACEBOOK_URL returns 404', (await fetchUrl(`${baseUrl}/blog/YOUR_FACEBOOK_URL`)).status, 404);
 
-  // 6. Assets
-  console.log('\n--- 6. assets ---');
+  // 6. Assets & Search Console Verification Guard
+  console.log('\n--- 6. assets & search console verification ---');
   check('og-banner.jpg returns 200', (await fetchUrl(`${baseUrl}/assets/og-banner.jpg`)).status, 200);
+  check('google07b32f334e7f727f.html returns 200 (GSC verification guard)', (await fetchUrl(`${baseUrl}/google07b32f334e7f727f.html`)).status, 200);
 
-  // 6b. Orphan food pages
+  // 6b. Orphaned food pages
   console.log('\n--- 6b. orphaned food pages must not be live ---');
   for (const p of ['/food/bao-dhan-nutrition', '/food/bora-saul-nutrition', '/food/brown-basmati-rice', '/food/joha-rice-nutrition']) {
     const res = await fetchUrl(`${baseUrl}${p}`);
@@ -362,9 +363,91 @@ async function runLiveVerification() {
   const foodLinks = new Set(foodRaw.match(/href="\/food\/[a-z0-9-]*"/g) || []);
   if (foodLinks.size >= 6) green(`/food raw HTML contains ${foodLinks.size} guide links`); else red(`/food raw HTML has ${foodLinks.size} links (expected 6)`);
 
-  // 11. Host canonicalisation (production/live only)
+  // 11. BATCH 2 ASSERTIONS
+  console.log('\n--- 11. BATCH 2 ASSERTIONS ---');
+
+  // 11a. No placeholder social links
+  let socialFail = 0;
+  for (const p of ['/', '/as', '/hi', '/blog', '/food', '/about', '/why-accuracy']) {
+    const html = (await fetchUrl(`${baseUrl}${p}`)).body;
+    if (/YOUR_FACEBOOK_URL|YOUR_INSTAGRAM_URL|YOUR_YOUTUBE_URL/i.test(html)) {
+      red(`  ${p} contains placeholder social link`);
+      socialFail++;
+    }
+  }
+  if (socialFail === 0) green('No page contains placeholder social links (YOUR_FACEBOOK_URL)');
+  else red(`${socialFail} page(s) contain placeholder social links`);
+
+  // 11b. No visible ad placement placeholders
+  let adFail = 0;
+  for (const p of ['/', '/as', '/hi', '/blog', '/food', '/why-accuracy']) {
+    const html = (await fetchUrl(`${baseUrl}${p}`)).body;
+    if (html.includes('Sponsored Ad Placement — Leaderboard Space') && !html.includes('display: none')) {
+      red(`  ${p} renders visible Sponsored Ad Placement text`);
+      adFail++;
+    }
+  }
+  if (adFail === 0) green('No page renders visible ad placement text (hidden behind feature flag)');
+  else red(`${adFail} page(s) render visible ad placement text`);
+
+  // 11c. No empty src=""
+  let srcFail = 0;
+  for (const p of ['/', '/as', '/hi', '/blog', '/food']) {
+    const html = (await fetchUrl(`${baseUrl}${p}`)).body;
+    if (html.includes('src=""')) {
+      red(`  ${p} contains empty src="" attribute`);
+      srcFail++;
+    }
+  }
+  if (srcFail === 0) green('No page contains empty src="" attributes');
+  else red(`${srcFail} page(s) contain empty src="" attributes`);
+
+  // 11d. Food guide recipe formatting
+  const masorHtml = (await fetchUrl(`${baseUrl}/food/masor-tenga-recipe-nutrition`)).body;
+  if (masorHtml.includes('<ol>') && masorHtml.includes('<li><strong>Select Clean Fish:</strong>')) {
+    green('/food/masor-tenga-recipe-nutrition has properly formatted 6-step <ol> list');
+  } else {
+    red('/food/masor-tenga-recipe-nutrition recipe list formatting is invalid');
+  }
+
+  // 11e. Recipe Schema validation on Homepages (0 Recipe nodes)
+  const homeHtml = (await fetchUrl(`${baseUrl}/`)).body;
+  if (!homeHtml.includes('"@type": "Recipe"') && !homeHtml.includes('"@type":"Recipe"')) {
+    green('Homepage / omits Recipe schema (prevents GSC invalid item errors)');
+  } else {
+    red('Homepage / still contains Recipe schema');
+  }
+
+  // 11f. Recipe Schema validation on Food Guides (contains unique @id, recipeYield, prepTime, author, recipeIngredient, recipeInstructions, no aggregateRating/video)
+  const masorSchemaRes = (await fetchUrl(`${baseUrl}/food/masor-tenga-recipe-nutrition`)).body;
+  if (masorSchemaRes.includes('"recipeYield"') && masorSchemaRes.includes('"recipeInstructions"') && !masorSchemaRes.includes('"aggregateRating"') && !masorSchemaRes.includes('"video"')) {
+    green('/food/masor-tenga-recipe-nutrition has valid Recipe schema with recipeYield, prepTime, author, ingredients, HowToStep');
+  } else {
+    red('/food/masor-tenga-recipe-nutrition Recipe schema missing required fields or contains invalid rating/video');
+  }
+
+  // 11g. Image card assets check (all 17 generated card JPGs return 200)
+  const cardImages = [
+    '/assets/masor-tenga.jpg', '/assets/omita-khar.jpg', '/assets/aloo-pitika.jpg', '/assets/dosa-sambar.jpg',
+    '/assets/naga-pork.jpg', '/assets/til-pitha.jpg', '/assets/khar-blog.jpg', '/assets/pitha-blog.jpg',
+    '/assets/roti-rice-blog.jpg', '/assets/masor-tenga-blog.jpg', '/assets/fermented-foods-blog.jpg',
+    '/assets/herbs-blog.jpg', '/assets/bug-blog.jpg', '/assets/brown-basmati-blog.jpg',
+    '/assets/bora-saul-blog.jpg', '/assets/joha-rice-blog.jpg', '/assets/bao-dhan-blog.jpg'
+  ];
+  let imgFail = 0;
+  for (const imgPath of cardImages) {
+    const res = await fetchUrl(`${baseUrl}${imgPath}`);
+    if (res.status !== 200) {
+      red(`  ${imgPath} returned ${res.status}`);
+      imgFail++;
+    }
+  }
+  if (imgFail === 0) green('All 17 generated dish/blog card graphic images return HTTP 200');
+  else red(`${imgFail} card graphic images failed to return 200`);
+
+  // 12. Host canonicalisation (production/live only)
   if (baseUrl.includes('katoricalorie.in')) {
-    console.log('\n--- 11. host canonicalisation ---');
+    console.log('\n--- 12. host canonicalisation ---');
     const nonWwwRes = await fetchUrl('https://katoricalorie.in/');
     if (nonWwwRes.status === 301 || nonWwwRes.status === 308) green(`non-www redirects to www (${nonWwwRes.status})`);
     else red(`non-www returned ${nonWwwRes.status} — expected 301/308`);

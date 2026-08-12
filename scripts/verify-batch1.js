@@ -76,9 +76,11 @@ function getAllHtmlFiles(dir, fileList = []) {
       continue;
     }
 
+const ALLOWED_UNREGISTERED = ['404.html', 'google07b32f334e7f727f.html'];
+
     if (fs.statSync(filePath).isDirectory()) {
       getAllHtmlFiles(filePath, fileList);
-    } else if (file.endsWith('.html') && file !== '404.html' && !file.startsWith('google')) {
+    } else if (file.endsWith('.html') && !ALLOWED_UNREGISTERED.includes(file)) {
       fileList.push(relPath);
     }
   }
