@@ -163,7 +163,7 @@
         triggerRipple(coords.addBtn.x, coords.addBtn.y);
         if (addBtn) addBtn.classList.add('click-active');
         if (addBtnBg) addBtnBg.setAttribute('fill', '#2ec4b6');
-        if (addBtnText) addBtnText.textContent = 'Added';
+        if (addBtnText) addBtnText.textContent = document.documentElement.lang === 'as' ? 'যোগ কৰা হ’ল' : 'Added';
         
         currentStep = 3;
         animationTimeout = setTimeout(runAnimationStep, 400);
@@ -221,7 +221,7 @@
         if (katori) katori.style.transform = 'scale(1.35)'; // Bowl physically scales up
         if (katoriRing) katoriRing.style.stroke = '#ef4444'; // Red ring borders
         if (hudStepBadge) {
-          hudStepBadge.textContent = '4. Over Budget! 🔴';
+          hudStepBadge.textContent = document.documentElement.lang === 'as' ? '4. বাজেটৰ বাহিৰত! 🔴' : '4. Over Budget! 🔴';
           hudStepBadge.classList.add('hud-warning');
         }
         if (hudCalCounter) {
@@ -296,7 +296,7 @@
       if (katoriRing) katoriRing.style.stroke = '#ef4444';
       updateRing(110, '#ef4444');
       if (hudStepBadge) {
-        hudStepBadge.textContent = 'Over Budget! 🔴';
+        hudStepBadge.textContent = document.documentElement.lang === 'as' ? 'বাজেটৰ বাহিৰত! 🔴' : 'Over Budget! 🔴';
         hudStepBadge.classList.add('hud-warning');
       }
       if (hudCalCounter) hudCalCounter.textContent = 'Plate: 2200 / 2000 kcal';

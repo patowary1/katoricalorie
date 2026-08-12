@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/cornerstone-articles", "destination": "/blog", "permanent": true },
+    { "source": "/food-guides", "destination": "/food", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/about", "destination": "/compliance/about" },
     { "source": "/disclaimer", "destination": "/compliance/disclaimer" },
@@ -8,7 +12,11 @@
     { "source": "/sources", "destination": "/compliance/sources" },
     { "source": "/privacy", "destination": "/compliance/privacy" },
     { "source": "/terms", "destination": "/compliance/terms" },
-    { "source": "/cornerstone-articles", "destination": "/blog" },
-    { "source": "/food-guides", "destination": "/food" }
+    { "source": "/as/about", "destination": "/as/compliance/about" },
+    { "source": "/as/disclaimer", "destination": "/as/compliance/disclaimer" },
+    { "source": "/as/sources", "destination": "/as/compliance/sources" },
+    { "source": "/hi/about", "destination": "/hi/compliance/about" },
+    { "source": "/hi/disclaimer", "destination": "/hi/compliance/disclaimer" },
+    { "source": "/hi/sources", "destination": "/hi/compliance/sources" }
   ]
 }

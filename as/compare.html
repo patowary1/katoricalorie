@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="as">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Meta Tags -->
-  <title>Traditional Food & Activity Comparison Tool | KatoriCalorie</title>
-  <meta name="description" content="Compare calories, proteins, carbohydrates, fats, and dietary fiber of traditional Northeast Indian and national staples side-by-side. Make informed portion decisions.">
-  <link rel="canonical" href="https://www.katoricalorie.in/compare.html">
+  <title>খাদ্য আৰু শাৰীৰিক ক্ৰিয়াৰ তুলনামূলক সঁজুলি | KatoriCalorie</title>
+  <meta name="description" content="পরম্পৰাগত উত্তৰ-পূব ভাৰতীয় আৰু ৰাষ্ট্ৰীয় মুখ্য খাদ্যসমূহৰ কেলৰি, প্ৰ’টিন, কাৰ্ব’হাইড্ৰেট, চৰ্বি আৰু আঁহ কাষে কাষে তুলনা কৰক।">
+  <link rel="canonical" href="https://www.katoricalorie.in/as/compare">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.katoricalorie.in/compare.html">
-  <meta property="og:title" content="Traditional Food & Activity Comparison Tool | KatoriCalorie">
-  <meta property="og:description" content="Compare the nutritional makeup of regional foods like Masor Tenga and Omita Khar side-by-side with national staples.">
+  <meta property="og:url" content="https://www.katoricalorie.in/as/compare">
+  <meta property="og:title" content="খাদ্য আৰু শাৰীৰিক ক্ৰিয়াৰ তুলনামূলক সঁজুলি | KatoriCalorie">
+  <meta property="og:description" content="পৰম্পৰাগত উত্তৰ-পূব ভাৰতীয় আৰু ৰাষ্ট্ৰীয় মুখ্য খাদ্যসমূহৰ কেলৰি, প্ৰ’টিন, কাৰ্ব’হাইড্ৰেট, চৰ্বি আৰু আঁহ কাষে কাষে তুলনা কৰক।">
   <meta property="og:image" content="https://www.katoricalorie.in/assets/og-banner.jpg">
 
   <!-- Preconnect and Fonts -->
@@ -26,10 +26,10 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": "https://www.katoricalorie.in/compare#webpage",
-    "url": "https://www.katoricalorie.in/compare",
-    "name": "Traditional Food & Activity Comparison Tool",
-    "description": "Compare calories, proteins, carbohydrates, fats, and dietary fiber of traditional Northeast Indian and national staples side-by-side.",
+    "@id": "https://www.katoricalorie.in/as/compare#webpage",
+    "url": "https://www.katoricalorie.in/as/compare.html",
+    "name": "খাদ্য আৰু শাৰীৰিক ক্ৰিয়াৰ তুলনামূলক সঁজুলি",
+    "description": "পৰম্পৰাগত উত্তৰ-পূব ভাৰতীয় আৰু ৰাষ্ট্ৰীয় মুখ্য খাদ্যসমূহৰ কেলৰি, প্ৰ’টিন, কাৰ্ব’হাইড্ৰেট, চৰ্বি আৰু আঁহ কাষে কাষে তুলনা কৰক।",
     "isPartOf": {
       "@type": "WebSite",
       "@id": "https://www.katoricalorie.in/#website"
@@ -56,40 +56,52 @@
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
       pointer-events: none;
     }
-        .toast.show {
+    .toast.show {
       transform: translate(-50%, 0);
       opacity: 1;
     }
   </style>
   <!-- Phosphor Icons CDN (Premium Icon System) -->
   <script src="https://unpkg.com/@phosphor-icons/web@2.0.3/src/index.js"></script>
+  <link rel="alternate" hreflang="en-IN" href="https://www.katoricalorie.in/compare" />
+  <link rel="alternate" hreflang="as" href="https://www.katoricalorie.in/as/compare" />
+  <link rel="alternate" hreflang="hi-IN" href="https://www.katoricalorie.in/hi/compare" />
+  <link rel="alternate" hreflang="x-default" href="https://www.katoricalorie.in/compare" />
 </head>
 <body>
 
   <!-- Skip-to-Content Link for Accessibility -->
-  <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+  <a href="#main-content" class="skip-to-content">মূল সমললৈ যাওক</a>
 
   <!-- Header & Navigation -->
   <header>
-    <nav class="nav-container" aria-label="Main Navigation">
+    <nav class="nav-container" aria-label="মূল নেভিগেশ্বন">
       <a href="/" class="logo">
         Katori<span>Calorie</span>
       </a>
       
       <!-- Hamburger Menu Icon for Mobile -->
-      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="মেনু খুলক/বন্ধ কৰক" aria-expanded="false">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
 
       <ul class="nav-menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/compare.html" class="active">Compare Foods</a></li>
-        <li><a href="/about">About Us</a></li>
-        <li><a href="/disclaimer">Medical Disclaimer</a></li>
-        <li><a href="/sources">Sources & Methodology</a></li>
-        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/as">হোম</a></li>
+        <li><a href="/as/compare" class="active">খাদ্যৰ তুলনা</a></li>
+        <li><a href="/as/about">আমাৰ বিষয়ে</a></li>
+        <li><a href="/as/disclaimer">চিকিৎসা সতৰ্কীকৰণ</a></li>
+        <li><a href="/as/sources">উৎস আৰু পদ্ধতি</a></li>
+        <li><a href="/contact">যোগাযোগ কৰক</a></li>
+        <li class="lang-selector-item" style="margin-left: 1rem; display: flex; align-items: center; gap: 0.25rem;">
+          <span style="color: var(--text-secondary); font-size: 0.9rem; display: flex; align-items: center;"><i class="ph ph-globe"></i></span>
+          <a href="/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="English">EN</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/as/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; font-weight: 600; color: var(--accent-orange);" aria-label="Assamese">অসমীয়া</a>
+          <span style="color: var(--text-secondary); font-size: 0.8rem;">|</span>
+          <a href="/hi/compare" style="padding: 0 4px; display: inline; font-size: 0.85rem; color: var(--text-secondary);" aria-label="Hindi">हिन्दी</a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -98,26 +110,26 @@
   <main id="main-content" class="wrapper">
     
     <!-- Breadcrumb Navigation -->
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb" style="margin-bottom: var(--space-md); font-size: var(--font-sm); color: var(--text-secondary);">
-      <a href="/" style="color: var(--accent-orange); text-decoration: none; font-weight: 500;">Home</a> &gt; <span>Compare Foods</span>
+    <nav class="breadcrumb-nav" aria-label="ব্ৰেডক্ৰাম্ব" style="margin-bottom: var(--space-md); font-size: var(--font-sm); color: var(--text-secondary);">
+      <a href="/as" style="color: var(--accent-orange); text-decoration: none; font-weight: 500;">হোম</a> &gt; <span>খাদ্যৰ তুলনা</span>
     </nav>
 
     <!-- Page Title Section -->
     <section class="info-section" style="margin-top: 0; margin-bottom: 2rem; border-left: 4px solid var(--accent-orange);">
       <h1 class="info-title" style="margin-bottom: 0.5rem; font-size: 2rem;">
-        Side-by-Side <span>Food Comparison</span> Tool
+        খাদ্যৰ কাষে কাষে <span>তুলনামূলক বিশ্লেষণ</span>
       </h1>
       <p class="info-text">
-        Compare the calories and macronutrients of traditional Northeast Indian dishes against national favorites. Select two items below to calculate the healthier option for your dietary goals.
+        পৰম্পৰাগত উত্তৰ-পূব ভাৰতীয় খাদ্যৰ কেলৰি আৰু পুষ্টিৰ মাত্ৰা ৰাষ্ট্ৰীয় জনপ্ৰিয় খাদ্যসমূহৰ সৈতে তুলনা কৰক। তলত দুবিধ খাদ্য বাছি লৈ আপোনাৰ স্বাস্থ্যৰ লক্ষ্যৰ বাবে কোনটো অধিক উপযোগী, সেয়া নিৰূপণ কৰক।
       </p>
     </section>
 
         <!-- Food Selection Dropdowns (Dual Columns) -->
-    <section class="compare-selector-grid" aria-label="Select foods to compare" style="margin-bottom: var(--space-xl);">
+    <section class="compare-selector-grid" aria-label="তুলনাৰ বাবে খাদ্য নিৰ্বাচন কৰক" style="margin-bottom: var(--space-xl);">
       
       <!-- Selector Card A -->
       <div class="glass-panel" style="padding: var(--space-md);">
-        <label for="food1-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">Select First Food / Activity</label>
+        <label for="food1-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">প্ৰথম খাদ্য / শাৰীৰিক ক্ৰিয়া বাছক</label>
         <select id="food1-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
           <!-- Loaded dynamically -->
         </select>
@@ -125,7 +137,7 @@
 
       <!-- Selector Card B -->
       <div class="glass-panel" style="padding: var(--space-md);">
-        <label for="food2-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">Select Second Food / Activity</label>
+        <label for="food2-select" class="form-label" style="font-weight: 600; color: var(--accent-orange); margin-bottom: 0.5rem; display: block;">দ্বিতীয় খাদ্য / শাৰীৰিক ক্ৰিয়া বাছক</label>
         <select id="food2-select" class="select-input" style="font-size: 1rem; padding: 0.9rem;">
           <!-- Loaded dynamically -->
         </select>
@@ -134,20 +146,20 @@
     </section>
 
     <!-- Main Comparison Output Panel -->
-    <section class="glass-panel" id="comparison-display-panel" aria-label="Comparison results" style="margin-bottom: var(--space-xl);">
+    <section class="glass-panel" id="comparison-display-panel" aria-label="তুলনাৰ ফলাফল" style="margin-bottom: var(--space-xl);">
       <h2 class="panel-title" style="border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); font-size: 1.5rem;">
-        Comparative <span>Nutritional Breakdown</span>
+        পুষ্টিকৰ উপাদানৰ <span>তুলনামূলক বিৱৰণ</span>
       </h2>
 
       <!-- Display Food Titles comparison header -->
       <div class="compare-header-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); text-align: center; margin-bottom: var(--space-lg);">
         <div>
-          <h3 id="food1-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">Food Item A</h3>
-          <span id="food1-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">Serving info</span>
+          <h3 id="food1-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">খাদ্য বস্তু ক</h3>
+          <span id="food1-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">পৰিৱেশনৰ জোখ</span>
         </div>
         <div style="border-left: 1px solid var(--border-color);">
-          <h3 id="food2-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">Food Item B</h3>
-          <span id="food2-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">Serving info</span>
+          <h3 id="food2-title" style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-primary);">খাদ্য বস্তু খ</h3>
+          <span id="food2-subtitle" style="font-size: var(--font-sm); color: var(--text-secondary);">পৰিৱেশনৰ জোখ</span>
         </div>
       </div>
 
@@ -158,7 +170,7 @@
         <div class="comparison-row">
           <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span class="comp-val left-val" id="comp-cal1">0 kcal</span>
-            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Calories</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">কেলৰি</span>
             <span class="comp-val right-val" id="comp-cal2">0 kcal</span>
           </div>
           <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
@@ -178,7 +190,7 @@
         <div class="comparison-row">
           <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span class="comp-val left-val" id="comp-pro1">0g</span>
-            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Protein</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">প্ৰ’টিন</span>
             <span class="comp-val right-val" id="comp-pro2">0g</span>
           </div>
           <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
@@ -198,7 +210,7 @@
         <div class="comparison-row">
           <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span class="comp-val left-val" id="comp-carb1">0g</span>
-            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Carbohydrates</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">কাৰ্ব’হাইড্ৰেট</span>
             <span class="comp-val right-val" id="comp-carb2">0g</span>
           </div>
           <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
@@ -218,7 +230,7 @@
         <div class="comparison-row">
           <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span class="comp-val left-val" id="comp-fat1">0g</span>
-            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Fat</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">চৰ্বি</span>
             <span class="comp-val right-val" id="comp-fat2">0g</span>
           </div>
           <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
@@ -238,7 +250,7 @@
         <div class="comparison-row">
           <div class="comparison-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span class="comp-val left-val" id="comp-fib1">0g</span>
-            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">Dietary Fiber</span>
+            <span class="comp-label" style="font-family: var(--font-heading); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--text-secondary);">আঁহ (Dietary Fiber)</span>
             <span class="comp-val right-val" id="comp-fib2">0g</span>
           </div>
           <div class="comparison-bar-pair" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); height: 12px;">
@@ -258,8 +270,8 @@
 
       <!-- Action buttons -->
       <div class="compare-actions" style="display: flex; flex-direction: column; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl); border-top: 1px solid var(--border-color); padding-top: var(--space-lg);">
-        <button class="btn-submit" id="btn-add-both">Add Both to Active Plate</button>
-        <button class="btn-reset" id="btn-share-comparison">Share Comparison Link</button>
+        <button class="btn-submit" id="btn-add-both">দুয়োবিধ খাদ্য সক্ৰিয় থালিত যোগ কৰক</button>
+        <button class="btn-reset" id="btn-share-comparison">তুলনামূলক লিংক শ্বেয়াৰ কৰক</button>
       </div>
 
     </section>
@@ -267,10 +279,10 @@
     <!-- Side-by-Side Detailed Insight text card -->
     <section class="glass-panel" id="comparison-insight-panel" style="margin-bottom: var(--space-3xl);">
       <h3 class="panel-title" style="font-size: 1.25rem;">
-        📊 Comparison <span>Verdict & Advice</span>
+        📊 তুলনাৰ <span>সিদ্ধান্ত আৰু পৰামৰ্শ</span>
       </h3>
       <div id="comparison-insight-text" class="info-text">
-        Select two food items to see the comparison analysis and recommendations.
+        তুলনামূলক বিশ্লেষণ আৰু পৰামৰ্শ চাবলৈ দুবিধ খাদ্য নিৰ্বাচন কৰক।
       </div>
     </section>
 
@@ -278,7 +290,7 @@
 
   <!-- Toast Notification confirmation for copied links -->
   <div class="toast" id="copy-toast" role="alert" aria-live="assertive">
-    📋 Comparison link copied to clipboard!
+    📋 তুলনামূলক লিংক ক্লিপবৰ্ডত কপি কৰা হৈছে!
   </div>
 
   <!-- Footer compliance panel -->
@@ -286,30 +298,30 @@
     <div class="footer-content">
       <div class="footer-brand">
         <h4>Katori<span>Calorie</span></h4>
-        <p>India's specialized Regional & National Food Nutrition platform. Dedicated to preserving authentic cultural recipes while supporting metabolic fitness goals through verified energy calculations.</p>
+        <p>ভাৰতৰ এক অনন্য আঞ্চলিক আৰু ৰাষ্ট্ৰীয় খাদ্য পুষ্টি মঞ্চ। বিজ্ঞানসন্মত শক্তি গণনাৰে আপোনাৰ মেটাবলিক ফিটনেছ লক্ষ্যত সহায় কৰাৰ লগতে আমাৰ ঐতিহ্যমণ্ডিত থলুৱা খাদ্যসমূহ সংৰক্ষণ কৰাই আমাৰ লক্ষ্য।</p>
       </div>
-      <nav class="footer-links" aria-label="Footer legal compliance links">
-        <h5>Core Compliance</h5>
+      <nav class="footer-links" aria-label="মূল নিয়ম আৰু সন্মতি সম্পৰ্কীয় লিংকসমূহ">
+        <h5>নিয়ম আৰু সন্মতি</h5>
         <ul>
-          <li><a href="/about">About Creator's Vision</a></li>
-          <li><a href="/disclaimer">Medical Disclaimer</a></li>
-          <li><a href="/sources">Sources & Methodology</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/terms">Terms & Conditions</a></li>
+          <li><a href="/as/about">আমাৰ উদ্দেশ্য</a></li>
+          <li><a href="/as/disclaimer">চিকিৎসা সতৰ্কীকৰণ</a></li>
+          <li><a href="/as/sources">উৎস আৰু পদ্ধতি</a></li>
+          <li><a href="/privacy">গোপনীয়তা নীতি</a></li>
+          <li><a href="/terms">চৰ্ত আৰু নিয়মাৱলী</a></li>
         </ul>
       </nav>
-      <nav class="footer-links" aria-label="Footer traffic directory links">
-        <h5>Traffic Engines</h5>
+      <nav class="footer-links" aria-label="মূল ডাইৰেক্টৰি সংযোগসমূহ">
+        <h5>প্ৰয়োজনীয় সংযোগসমূহ</h5>
         <ul>
-          <li><a href="/blog">Cornerstone Articles</a></li>
-          <li><a href="/food">Food Specific Guides</a></li>
-          <li><a href="/contact">Support & Contact Us</a></li>
+          <li><a href="/blog">প্ৰবন্ধ আৰু ব্লগ</a></li>
+          <li><a href="/food">খাদ্য নিৰ্দেশিকা</a></li>
+          <li><a href="/contact">সহায় আৰু যোগাযোগ</a></li>
         </ul>
       </nav>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 KatoriCalorie Platform. All Rights Reserved. Formulated under FSSAI, ICMR-NIN Hyderabad, and USDA nutrient databases.</p>
-      <p style="font-size: 0.75rem; color: var(--text-secondary);">Disclaimer: Calculated values are purely for educational and meal planning support.</p>
+      <p>&copy; ২০২৬ KatoriCalorie প্লেটফৰ্ম। সৰ্বস্বত্ব সংৰক্ষিত। এই তথ্যসমূহ FSSAI, ICMR-NIN হায়দৰাবাদ আৰু USDA ৰ পুষ্টি তথ্যকোষৰ সহায়ত প্ৰস্তুত কৰা হৈছে।</p>
+      <p style="font-size: 0.75rem; color: var(--text-secondary);">সতৰ্কীকৰণ: ইয়াত যোগান ধৰা কেলৰীৰ হিচাপসমূহ কেৱল সাধাৰণ শিক্ষা আৰু আহাৰ পৰিকল্পনাৰ সহায়ৰ বাবেহে ব্যৱহাৰ কৰিব।</p>
     </div>
   </footer>
 
