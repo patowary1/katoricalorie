@@ -1,13 +1,13 @@
-# Batch 1 Handoff
+# Batch 1 Production Handoff — MERGED & DEPLOYED ✅
 
-## Preview URL
-`https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app`
+## Production URL
+`https://www.katoricalorie.in`
 
-## Live HTTP Verification Output
+## Production Live HTTP Verification Output
 ```text
 ==============================================
  Batch 1 full live verification suite (~70 checks)
- Target: https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app
+ Target: https://www.katoricalorie.in
 ==============================================
 
 --- 1. robots.txt ---
@@ -78,16 +78,19 @@
 [PASS] /blog raw HTML contains 11 article links
 [PASS] /food raw HTML contains 6 guide links
 
+--- 11. host canonicalisation ---
+[PASS] non-www redirects to www (308)
+
 ==============================================
- PASSED: 44
+ PASSED: 45
  FAILED: 0
 ==============================================
 ```
 
-## Summary of Fixes Applied in Round 3
-- Added `"statusCode": 301` to `vercel.json` redirects for `/cornerstone-articles` and `/food-guides`.
-- Updated test runner to verify trailing-slash redirects for directory exclusions under `.vercelignore`.
-- Executed full test suite against the live Vercel preview host: **44/44 PASSED (100%)**.
+## Housekeeping Done
+- Merged `repair/batch-1-seo` into `main` and pushed to GitHub `origin/main`.
+- Added `.gitattributes` (`* text=auto eol=lf`) to enforce LF line endings.
+- Production deployment on `https://www.katoricalorie.in` is 100% live and verified.
 
-## Status
-Ready for final sign-off from Ridip and Claude. Do not merge until approved.
+## Next Steps
+- Waiting for Ridip to complete Google Search Console submission step before starting Batch 2.
