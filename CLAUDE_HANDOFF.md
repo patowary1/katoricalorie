@@ -1,13 +1,13 @@
-# Batch 2 Handoff — Final Approved Round
+# Batch 2 Handoff — Merged to Main & Deployed to Production
 
-## Preview URL
-`https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app`
+## Production URL
+`https://www.katoricalorie.in`
 
-## Full Live Verification Results (Target: Batch 2 Vercel Preview)
+## Full Live Production Verification Results (Target: https://www.katoricalorie.in)
 ```text
 ==============================================
  Batch 1 + Batch 2 full live verification suite
- Target: https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app
+ Target: https://www.katoricalorie.in
 ==============================================
 
 --- 1. robots.txt ---
@@ -90,18 +90,18 @@
 [PASS] All 17 generated dish/blog card graphic images return HTTP 200 and valid file sizes
 [PASS] All 17 card images have 100% DISTINCT MD5 hashes
 
+--- 12. host canonicalisation ---
+[PASS] non-www redirects to www (308)
+
 ==============================================
- PASSED: 54
+ PASSED: 55
  FAILED: 0
 ==============================================
 ```
 
-## Sample Card Image File Paths for Final Review
-1. **`assets/masor-tenga.jpg`** — Dish Card with real macro donut chart (14.5g Protein / 4.0g Carbs / 6.8g Fat), neutral dark pill backgrounds (`rgba(255,255,255,0.06)`), 12px color legend dots matching donut segments, and Assamese text (`মাছৰ টেঙা`).
-2. **`assets/bug-blog.jpg`** — Non-food Tech Article Card (`isFood: false`) with clean technical audit badge layout, omitting fake macro donut charts & fake pill values.
-3. **`assets/fermented-foods-blog.jpg`** — Food Wellness Article Card with real macro donut chart, neutral dark pill legend dots, and long Assamese title (`উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য`).
-
-All 17 card images return HTTP 200 OK and have 100% distinct MD5 hashes.
-
-## Final Status
-Branch `repair/batch-2-cleanup` is updated, verified, and ready for merge into `main`!
+## Summary of Completed Batch 2 Deployment
+- **Git Branch:** Merged `repair/batch-2-cleanup` into `main` and pushed to remote `origin/main`.
+- **Live Verification:** 55 out of 55 checks PASSED 100% on live production domain `https://www.katoricalorie.in`.
+- **Recipe Schema:** Fixed across all 6 food guides with unique `@id`s, ISO durations, real ingredients, and HowToSteps. Homepage Recipe schema removed.
+- **Card Graphics:** 17 distinct 1200x900 card graphics rendered with Noto Sans Bengali font, populated macro pills, neutral dark backgrounds, color legend dots, and real macro donut charts (non-food articles use clean technical layout).
+- **Content Hygiene:** Removed placeholder social links, hid ad placement boxes behind feature flag, fixed empty hero image sources, formatted recipe lists.
