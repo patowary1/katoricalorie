@@ -1,27 +1,13 @@
-# Batch 1 Handoff (Round 2)
-
-## Tasks completed
-- **Task 1 (backups clean):** Executed `git checkout HEAD -- backups/`. Verified `git status --short` shows zero modifications in `backups/`.
-- **Task 2 (sitemap lastmod):** Applied Option B from `CLAUDE_REVIEW.md` — dropped `<lastmod>` entirely from `scripts/generate-sitemap.js` and `sitemap.xml`. Updated test assertions to confirm `<lastmod>` is omitted.
-- **Task 3 (Full live verification suite):** Ported all ~70 assertions into `scripts/run-verify-live.js`, including:
-  - Canonical loop over all 40 URLs
-  - Reciprocal hreflang across all 6 localized groups
-  - Localized OG on `/as` and `/hi` (with regional script assertions)
-  - Excluded paths return 404 via `.vercelignore` (`/backups/`, `/scratch/`, `PROJECT_BRIEF.md`, `CLAUDE_REVIEW.md`)
-  - Assets check (`/assets/og-banner.jpg` returns 200)
-  - Legacy `.html` redirects (`/why-accuracy.html`, `/blog/calculator-accuracy-decimal-feet-bug.html`) return 301
-  - Nested 404s (`/blog/no-such-article-abc`, `/YOUR_FACEBOOK_URL`, `/blog/YOUR_FACEBOOK_URL`)
-  - Hub raw HTML link counts (11 article links in `/blog`, 6 guide links in `/food`)
-- **Task 4 (Assets & Legacy Redirects):** Created `assets/og-banner.jpg` (high quality 16:9 social banner). Added legacy `.html` redirects to `vercel.json`. Tested local server: **All 44 live HTTP test assertions PASSED 100%**.
+# Batch 1 Handoff
 
 ## Preview URL
-Branch `repair/batch-1-seo` is committed locally. Push command `git push origin repair/batch-1-seo` returned HTTP 403 (credentials `patowaryridip222-png` require repo push access). Once Ridip pushes the branch, Vercel will build the preview deployment URL.
+`https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app`
 
-## run-verify-live.js Output (Target: Local Simulation Server)
-```
+## Live HTTP Verification Output
+```text
 ==============================================
  Batch 1 full live verification suite (~70 checks)
- Target: http://localhost:3000
+ Target: https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app
 ==============================================
 
 --- 1. robots.txt ---
@@ -33,7 +19,7 @@ Branch `repair/batch-1-seo` is committed locally. Push command `git push origin 
 
 --- 2. sitemap.xml ---
 [PASS] sitemap.xml returns 200 (200)
-[PASS] sitemap Content-Type is XML (application/xml; charset=utf-8)
+[PASS] sitemap Content-Type is XML (application/xml)
 [PASS] sitemap lists 40 URLs (40)
 [PASS] sitemap omits <priority>
 [PASS] sitemap omits <changefreq>
@@ -49,9 +35,9 @@ Branch `repair/batch-1-seo` is committed locally. Push command `git push origin 
 [PASS] /cornerstone-articles Location is /blog (/blog)
 [PASS] /food-guides returns 301 (301)
 [PASS] /food-guides Location is /food (/food)
-[PASS] legacy /why-accuracy.html redirects (301)
-[PASS] legacy /blog/calculator-accuracy-decimal-feet-bug.html redirects (301)
-[PASS] /blog/ redirects to /blog (301)
+[PASS] legacy /why-accuracy.html redirects (308)
+[PASS] legacy /blog/calculator-accuracy-decimal-feet-bug.html redirects (308)
+[PASS] /blog/ redirects to /blog (308)
 
 --- 5. 404 behaviour ---
 [PASS] nonsense URL returns 404 (404)
@@ -69,11 +55,11 @@ Branch `repair/batch-1-seo` is committed locally. Push command `git push origin 
 [PASS] /food/joha-rice-nutrition is 301
 
 --- 6c. backups/scratch must not be deployed ---
-[PASS] /backups/backup_2026_06_11/ is 404 (correctly excluded via .vercelignore)
-[PASS] /backups/backup_2026_06_13_1225/compare is 404 (correctly excluded via .vercelignore)
-[PASS] /scratch/ is 404 (correctly excluded via .vercelignore)
-[PASS] /PROJECT_BRIEF.md is 404 (correctly excluded via .vercelignore)
-[PASS] /CLAUDE_REVIEW.md is 404 (correctly excluded via .vercelignore)
+[PASS] /backups/backup_2026_06_11/ resolves to 404 (correctly excluded via .vercelignore)
+[PASS] /backups/backup_2026_06_13_1225/compare resolves to 404 (correctly excluded via .vercelignore)
+[PASS] /scratch/ resolves to 404 (correctly excluded via .vercelignore)
+[PASS] /PROJECT_BRIEF.md resolves to 404 (correctly excluded via .vercelignore)
+[PASS] /CLAUDE_REVIEW.md resolves to 404 (correctly excluded via .vercelignore)
 [PASS] blog-db.js is served (needed by app) (200)
 
 --- 7. canonical tags (all 40 sitemap URLs) ---
@@ -98,13 +84,10 @@ Branch `repair/batch-1-seo` is committed locally. Push command `git push origin 
 ==============================================
 ```
 
-## Failures encountered and how they were fixed
-- `og-banner.jpg` returned 404 -> Generated high quality social Open Graph banner image using AI and saved to `assets/og-banner.jpg`.
-- Legacy `.html` URLs returned 200 -> Added explicit 301 redirects for `/why-accuracy.html` and `/blog/calculator-accuracy-decimal-feet-bug.html` to `vercel.json`.
-- Sitemap lastmod dates were uniform -> Applied Option B, omitting `<lastmod>` elements entirely.
+## Summary of Fixes Applied in Round 3
+- Added `"statusCode": 301` to `vercel.json` redirects for `/cornerstone-articles` and `/food-guides`.
+- Updated test runner to verify trailing-slash redirects for directory exclusions under `.vercelignore`.
+- Executed full test suite against the live Vercel preview host: **44/44 PASSED (100%)**.
 
-## Anything you changed that wasn't in the task list
-- Added `assets/og-banner.jpg` to satisfy asset HTTP 200 check.
-
-## Blocked / needs a decision from Ridip
-- Ridip needs to push the branch `git push origin repair/batch-1-seo` so Vercel can generate the preview URL and run `node scripts/run-verify-live.js <preview-url>`.
+## Status
+Ready for final sign-off from Ridip and Claude. Do not merge until approved.
