@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { blogPosts, foodGuides } = require('../js/blog-db.js');
 
 const projectRoot = path.join(__dirname, '..');
 
@@ -29,7 +30,7 @@ assert(fs.existsSync(vercelPath), 'vercel.json exists');
 if (fs.existsSync(vercelPath)) {
   const vercel = JSON.parse(fs.readFileSync(vercelPath, 'utf-8'));
   assert(vercel.trailingSlash === false, 'vercel.json has trailingSlash: false');
-  assert(Array.isArray(vercel.redirects) && vercel.redirects.length >= 2, 'vercel.json has 301 redirects');
+  assert(Array.isArray(vercel.redirects) && vercel.redirects.length >= 6, 'vercel.json has 301 redirects including deleted food pages');
   assert(!vercel.rewrites.some(r => r.source === '/(.*)'), 'vercel.json has no catch-all rewrite');
 }
 
@@ -52,9 +53,11 @@ assert(foodCardLinks.length === 6, `food/index.html raw HTML contains 6 static f
 // 5. Verify sitemap.xml
 const sitemapPath = path.join(projectRoot, 'sitemap.xml');
 assert(fs.existsSync(sitemapPath), 'sitemap.xml exists');
+let sitemapUrls = [];
 if (fs.existsSync(sitemapPath)) {
   const sitemapXml = fs.readFileSync(sitemapPath, 'utf-8');
   const locMatches = sitemapXml.match(/<loc>(.*?)<\/loc>/g) || [];
+  sitemapUrls = locMatches.map(m => m.replace(/<\/?loc>/g, ''));
   assert(locMatches.length === 40, `sitemap.xml lists exactly 40 canonical URLs (Found: ${locMatches.length})`);
   assert(!sitemapXml.includes('<priority>'), 'sitemap.xml omits <priority>');
   assert(!sitemapXml.includes('<changefreq>'), 'sitemap.xml omits <changefreq>');
@@ -62,10 +65,59 @@ if (fs.existsSync(sitemapPath)) {
   assert(!sitemapXml.includes('cornerstone-articles'), 'sitemap.xml contains no redirected URLs');
 }
 
-// 6. Verify hi/compare canonical
+// 6. Guard Test: Enumerate all HTML files outside backups/, scratch/, and 404.html
+function getAllHtmlFiles(dir, fileList = []) {
+  const files = fs.readdirSync(dir);
+  for (const file of files) {
+    const filePath = path.join(dir, file);
+    const relPath = path.relative(projectRoot, filePath).replace(/\\/g, '/');
+
+    if (relPath.startsWith('backups/') || relPath.startsWith('scratch/') || relPath.startsWith('.git/')) {
+      continue;
+    }
+
+    if (fs.statSync(filePath).isDirectory()) {
+      getAllHtmlFiles(filePath, fileList);
+    } else if (file.endsWith('.html') && file !== '404.html') {
+      fileList.push(relPath);
+    }
+  }
+  return fileList;
+}
+
+const allHtmlFiles = getAllHtmlFiles(projectRoot);
+assert(allHtmlFiles.length === 40, `All active HTML files in repo match sitemap count (Found: ${allHtmlFiles.length})`);
+
+function relPathToCanonicalUrl(relPath) {
+  if (relPath === 'index.html') return 'https://www.katoricalorie.in/';
+  if (relPath === 'as/index.html') return 'https://www.katoricalorie.in/as';
+  if (relPath === 'hi/index.html') return 'https://www.katoricalorie.in/hi';
+
+  const cleanPath = relPath.replace(/\.html$/, '').replace(/\/index$/, '').replace(/(^|\/)compliance\//, '$1');
+  return `https://www.katoricalorie.in/${cleanPath}`;
+}
+
+let unmappedFiles = 0;
+for (const relPath of allHtmlFiles) {
+  const expectedUrl = relPathToCanonicalUrl(relPath);
+  const isInSitemap = sitemapUrls.includes(expectedUrl);
+
+  if (!isInSitemap) {
+    console.error(`[FAIL] Unmapped HTML file found: ${relPath} (Expected URL: ${expectedUrl})`);
+    unmappedFiles++;
+    pass = false;
+  }
+}
+assert(unmappedFiles === 0, 'No orphaned or unmapped HTML files exist in project');
+
+// 7. Verify hi/compare canonical
 const hiComparePath = path.join(projectRoot, 'hi', 'compare.html');
 const hiCompareHtml = fs.readFileSync(hiComparePath, 'utf-8');
 assert(hiCompareHtml.includes('<link rel="canonical" href="https://www.katoricalorie.in/hi/compare">'), '/hi/compare canonical is clean (no .html)');
+
+// 8. Verify as/index.html Open Graph translation
+const asIndexHtml = fs.readFileSync(path.join(projectRoot, 'as', 'index.html'), 'utf-8');
+assert(asIndexHtml.includes('অসমীয়া আৰু ভাৰতীয় খাদ্যৰ পুষ্টি আৰু কেলৰি নিৰূপণ'), 'as/index.html OG title is in Assamese');
 
 if (pass) {
   console.log('\n=== ALL BATCH 1 VERIFICATION TESTS PASSED ===');

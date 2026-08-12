@@ -105,7 +105,9 @@ function preflightAudit(files) {
   console.log('=== PRE-FLIGHT AUDIT: Checking for .html in canonical/og:url/twitter:url ===');
   let count = 0;
   for (const relPath of files) {
+    if (relPath.startsWith('backups/') || relPath.startsWith('scratch/') || relPath.startsWith('.git/')) continue;
     const fullPath = path.join(projectRoot, relPath);
+    if (!fs.existsSync(fullPath)) continue;
     const content = fs.readFileSync(fullPath, 'utf-8');
     const matches = content.match(/<link rel="canonical"[^>]*\.html[^>]*>|<meta property="og:url"[^>]*\.html[^>]*>|<meta name="twitter:url"[^>]*\.html[^>]*>/gi);
     if (matches) {
@@ -126,6 +128,7 @@ function processFiles() {
   let updatedFileCount = 0;
 
   for (const relPath of relPaths) {
+    if (relPath.startsWith('backups/') || relPath.startsWith('scratch/') || relPath.startsWith('.git/')) continue;
     const fullPath = path.join(projectRoot, relPath);
     if (!fs.existsSync(fullPath)) continue;
 
