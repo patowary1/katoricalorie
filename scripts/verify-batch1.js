@@ -78,7 +78,7 @@ function getAllHtmlFiles(dir, fileList = []) {
 
     if (fs.statSync(filePath).isDirectory()) {
       getAllHtmlFiles(filePath, fileList);
-    } else if (file.endsWith('.html') && file !== '404.html') {
+    } else if (file.endsWith('.html') && file !== '404.html' && !file.startsWith('google')) {
       fileList.push(relPath);
     }
   }
