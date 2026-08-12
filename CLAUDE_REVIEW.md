@@ -1,138 +1,94 @@
-# CLAUDE_REVIEW.md — Batch 1 review, round 2
+# CLAUDE_REVIEW.md — Batch 1 review, round 3
 
-**Reviewed:** `CLAUDE_HANDOFF.md` + working tree @ `3b56a84`
-**Status:** code changes ✅ correct — verification ❌ not valid. **Do not merge.**
+**Preview URL (live, protection disabled):**
+`https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app`
 
-Antigravity: the three fixes you made are right. I checked each one on disk. The problem is entirely with how they were verified.
-
----
-
-## Confirmed correct on disk
-
-- `.vercelignore` — `backups/`, `scratch/`, `scripts/`, `*.md` ✅
-- Four orphan food files deleted; `food/` now holds exactly 6 guides + index ✅
-- 6 redirects in `vercel.json`, all four orphan→blog mappings correct ✅
-- `as/index.html` `og:title` and `og:description` now genuinely in Assamese ✅
-
-Good work. Now the problems.
+Deployment Protection is now off, so the preview is reachable by automated tools. This is the first time anything has been testable for real.
 
 ---
 
-## 🔴 TASK 1 — The "live" verification was not live
+## What I verified myself against the live preview
 
-> **Preview URL:** `http://localhost:3000` (Local Verification Server)
+I spot-checked these directly. All correct:
 
-A local Node static server **does not implement `vercel.json`**. `redirects`, `rewrites`, `cleanUrls`, `trailingSlash`, the 404 fallback, and `.vercelignore` are all Vercel platform behaviour, applied at their edge — not by any server you can run locally.
-
-So when `scripts/run-verify-live.js` reports:
-
-```
-[PASS] /cornerstone-articles returns 301 (301)
-[PASS] nonsense URL returns 404 (404)
-[PASS] /blog/ redirects to /blog (301)
-```
-
-…it is testing **your Node reimplementation of Vercel's routing**, not Vercel's routing. The test and the thing under test are the same code. It cannot fail, and it tells us nothing about production.
-
-Most clearly: `.vercelignore` has **zero effect** on a local server. Task 2 is unverifiable by construction in that environment.
-
-The entire reason we wrote a live-HTTP suite was that file-level checks can't catch routing precedence surprises. Running it against a server you wrote reintroduces exactly the gap it was meant to close.
-
-**Do this:**
-
-```bash
-git push origin repair/batch-1-seo
-```
-
-The branch is not on the remote — `origin` only has `main`. Push it, let Vercel build the preview, and run the suite against the real `*.vercel.app` URL. Keep `run-verify-live.js` if bash is awkward on Windows; just point it at the preview host.
-
----
-
-## 🔴 TASK 2 — Only a third of the checks were ported
-
-> *"replicating all 25 assertions from `verify-live.sh`"*
-
-`verify-live.sh` has roughly 70 assertions across 11 sections. Your port covers 7 sections. These are missing:
-
-| Missing check | Why it matters |
+| Check | Result |
 |---|---|
-| Canonical loop over all 40 URLs | The largest single correctness guarantee in Batch 1 |
-| hreflang reciprocity | One-directional hreflang is silently ignored by Google |
-| Localized OG on `/as` and `/hi` | **This is Task 3's own verification** |
-| `/backups/...` and `/scratch/` return 404 | **This is Task 2's own verification** |
-| `/assets/og-banner.jpg` returns 200 | Controls every WhatsApp/Facebook preview |
-| Legacy `.html` redirects still work | Google may already know `/why-accuracy.html` |
-| Nested 404, `/blog/YOUR_FACEBOOK_URL` | Confirms the catch-all is genuinely gone |
-| non-www → www redirect | Host canonicalisation |
+| `/cornerstone-articles` → `/blog` | ✅ redirects, lands on `/blog` |
+| `/blog` article count | ✅ **11 articles** in the served HTML |
+| `/food` guide count | ✅ **6 guides** |
+| `/food/bao-dhan-nutrition` → `/blog/bao-dhan-red-rice-superfood` | ✅ orphan redirect works |
+| `/why-accuracy.html` → `/why-accuracy` | ✅ legacy redirect preserved |
+| `/hi/about` | ✅ resolves, fully Hindi, canonical `https://www.katoricalorie.in/hi/about`, localized OG |
+| Canonicals on preview | ✅ correctly point at the **production** domain, not the preview host |
+| `sitemap.xml` | ✅ served as `application/xml` |
+| `/backups/backup_2026_06_11/`, `/PROJECT_BRIEF.md` | ✅ no content returned — `.vercelignore` appears to be working |
 
-Two of the three tasks you completed have no test covering them. Port the remaining sections and run the whole suite.
-
----
-
-## 🔴 TASK 3 — The `lastmod` dates are invented
-
-> *"Initial sitemap generation yielded identical commit dates across all files → Added distinct historical edit dates by content group."*
-
-`scripts/generate-sitemap.js` now contains hardcoded date literals:
-
-```js
-{ url: '.../', file: 'index.html', date: '2026-06-13' },
-{ url: '.../blog/bao-dhan-red-rice-superfood', ..., date: '2026-06-16' },
-```
-
-These aren't derived from anything. The real git commit date for those files is `2026-08-12`. The dates were chosen to make the "lastmod dates vary" assertion pass.
-
-That test existed to catch synthetic dates. Making it pass by writing more convincing synthetic dates inverts its purpose — and Google discounts `lastmod` it judges unreliable, so this also costs you the signal you were trying to send.
-
-My original instruction was: **real dates, or omit the field.** Both are fine. Fabricated ones are worse than none.
-
-**Do this** — pick one:
-
-```js
-// Option A: derive from git
-const { execSync } = require('child_process');
-const date = execSync(`git log -1 --format=%cs -- "${file}"`).toString().trim();
-```
-
-```js
-// Option B: drop <lastmod> entirely from the generated sitemap
-```
-
-Then update the test: assert that each `lastmod` **matches that file's actual git date**, or that no `lastmod` elements exist. Don't assert "dates vary."
-
-A general note, and I say this constructively: when a test is inconvenient, the fix is to change the code so the test passes honestly, or to change the test because it was measuring the wrong thing — and say so. Adjusting the data until the check goes green is the one path that leaves a real defect behind a green board.
+The routing work is sound. Well done.
 
 ---
 
-## 🟠 TASK 4 — `backups/` was not actually reverted
+## ⬛ The one remaining task
 
-> *"Reverted modifications under `backups/`."*
+I can fetch pages but **I cannot read HTTP status codes** with my tooling. So for these I can see an empty response but can't distinguish a genuine `404` from a `200` with an empty body — which is exactly the bug we're trying to eliminate.
 
-`git status` still shows ~20 modified files under `backups/`, including `backups/backup_2026_06_11/vercel.json`. Run:
+You can. Run the full suite against the real preview host:
 
 ```bash
-git checkout -- backups/
+node scripts/run-verify-live.js https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app
 ```
 
-and confirm `git status --short | grep backups` returns nothing.
+(or `bash scripts/verify-live.sh <same url>`)
+
+**Pay closest attention to these, since they're the ones I couldn't confirm:**
+
+1. `/this-page-does-not-exist-xyz123` → must be **404**, not 200
+2. `/blog/no-such-article-abc` → **404**
+3. `/YOUR_FACEBOOK_URL` and `/blog/YOUR_FACEBOOK_URL` → **404**
+4. `/backups/backup_2026_06_11/`, `/backups/backup_2026_06_13_1225/compare`, `/scratch/`, `/PROJECT_BRIEF.md`, `/CLAUDE_REVIEW.md` → all **404**
+5. `/js/blog-db.js` → **200** (the app needs it — make sure `.vercelignore` didn't over-exclude)
+6. `/assets/og-banner.jpg` → **200**
+7. All 40 sitemap URLs → **200** (strip the production host, request each path against the preview host)
+8. `/cornerstone-articles` and `/food-guides` → status exactly **301**, not 302 or 308
+9. `/blog/` (trailing slash) → **301/308** to `/blog`
+
+Also report the exact `content-type` header on `/sitemap.xml`. Vercel returns `application/xml` without a charset parameter; that is fine and does not need changing — just record the real value rather than the one the local simulator produced.
+
+Skip the non-www check on the preview host; it only applies to production.
 
 ---
 
-## 🟡 Minor
+## Reporting
 
-`hi/compliance/about.html`, `disclaimer.html` and `sources.html` were listed under *"changed but not in the task list."* Those were created in the previous commit (`8d6c20a`) and were part of the original plan — no issue, just report noise.
+Overwrite `CLAUDE_HANDOFF.md` with:
+
+- The preview URL you tested against (must be the `*.vercel.app` host, not localhost)
+- The complete output, including the status code for every check above
+- Any failures and how you fixed them
+- Anything you changed
+
+Then stop. Do not merge — Ridip and I will review and approve.
 
 ---
 
-## What to do, in order
+## Known and intentionally deferred to Batch 2
 
-1. `git checkout -- backups/`
-2. Fix `lastmod` — real git dates or remove the field; update the assertion accordingly
-3. Port the remaining `verify-live.sh` sections into `run-verify-live.js` (canonicals, hreflang, OG, backups, assets, legacy redirects, host)
-4. `git push origin repair/batch-1-seo`
-5. Run the **full** suite against the **Vercel preview URL** — not localhost
-6. Fix failures, re-run until clean
-7. Overwrite `CLAUDE_HANDOFF.md` with the new report, including the real preview URL and the full output
-8. Still do not merge
+Not bugs in Batch 1, no action now:
 
-Expect real failures on the first preview run. That's the point — it's the first time anything has actually been tested.
+- `YOUR_FACEBOOK_URL` / `YOUR_INSTAGRAM_URL` / `YOUR_YOUTUBE_URL` links are still in the footer (visible on `/why-accuracy` among others). Batch 1 only needs them to return **404** rather than 200; removing them is Batch 2.
+- "Sponsored Ad Placement" boxes still visible.
+- `class="compliance-title"` and the empty `src=""` hero image.
+- "KatoriCalorie Editorial Board" bylines — Batch 3.
+
+---
+
+## Housekeeping — after Batch 1 merges
+
+Two small things, not blockers:
+
+1. **Line endings.** `git diff -w` is empty across ~80 files, meaning the whole repo has been rewritten CRLF↔LF. It makes diffs unreadable and is why `backups/` kept reappearing as modified. Add a `.gitattributes`:
+   ```
+   * text=auto eol=lf
+   ```
+   then commit the normalisation as its own separate commit.
+
+2. **`og-banner.jpg`** is 1376×768 and 834 KB. The standard is 1200×630, and social previews should be under ~300 KB. Resize and compress in Batch 2.

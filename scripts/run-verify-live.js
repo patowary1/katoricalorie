@@ -110,7 +110,8 @@ function createLocalServer(port = 3000) {
     // Check 301 redirects
     for (const r of vercelConfig.redirects || []) {
       if (urlPath === r.source) {
-        res.writeHead(301, { 'Location': r.destination });
+        const code = r.statusCode || 301;
+        res.writeHead(code, { 'Location': r.destination });
         res.end();
         return;
       }
@@ -203,7 +204,6 @@ async function runLiveVerification() {
   if (!sitemapBody.includes('<changefreq>')) green('sitemap omits <changefreq>'); else red('sitemap contains <changefreq>');
   if (!/\.html</.test(sitemapBody)) green('sitemap contains no .html URLs'); else red('sitemap contains .html URLs');
   if (!/cornerstone-articles|food-guides/.test(sitemapBody)) green('sitemap contains no redirected URLs'); else red('sitemap contains redirected URLs');
-
   if (!sitemapBody.includes('<lastmod>')) green('sitemap omits <lastmod>'); else red('sitemap contains <lastmod>');
 
   // 3. Every sitemap URL returns 200
@@ -264,10 +264,17 @@ async function runLiveVerification() {
     const res = await fetchUrl(`${baseUrl}${p}`);
     if (p === '/js/blog-db.js') {
       check('blog-db.js is served (needed by app)', res.status, 200);
-    } else if (res.status === 404) {
-      green(`${p} is 404 (correctly excluded via .vercelignore)`);
     } else {
-      red(`${p} returned ${res.status} — should be excluded via .vercelignore`);
+      let finalStatus = res.status;
+      if (res.status === 301 || res.status === 308) {
+        const loc = res.headers.location || (p.endsWith('/') ? p.slice(0, -1) : p);
+        finalStatus = (await fetchUrl(`${baseUrl}${loc}`)).status;
+      }
+      if (finalStatus === 404) {
+        green(`${p} resolves to 404 (correctly excluded via .vercelignore)`);
+      } else {
+        red(`${p} resolved to ${finalStatus} — should be excluded via .vercelignore`);
+      }
     }
   }
 

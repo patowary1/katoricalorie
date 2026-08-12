@@ -2,14 +2,14 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/cornerstone-articles", "destination": "/blog", "permanent": true },
-    { "source": "/food-guides", "destination": "/food", "permanent": true },
-    { "source": "/food/bao-dhan-nutrition", "destination": "/blog/bao-dhan-red-rice-superfood", "permanent": true },
-    { "source": "/food/bora-saul-nutrition", "destination": "/blog/bora-saul-sticky-rice-glycemic-index", "permanent": true },
-    { "source": "/food/brown-basmati-rice", "destination": "/blog/brown-basmati-rice-weight-loss", "permanent": true },
-    { "source": "/food/joha-rice-nutrition", "destination": "/blog/joha-rice-antioxidants-benefits", "permanent": true },
-    { "source": "/why-accuracy.html", "destination": "/why-accuracy", "permanent": true },
-    { "source": "/blog/calculator-accuracy-decimal-feet-bug.html", "destination": "/blog/calculator-accuracy-decimal-feet-bug", "permanent": true }
+    { "source": "/cornerstone-articles", "destination": "/blog", "statusCode": 301 },
+    { "source": "/food-guides", "destination": "/food", "statusCode": 301 },
+    { "source": "/food/bao-dhan-nutrition", "destination": "/blog/bao-dhan-red-rice-superfood", "statusCode": 301 },
+    { "source": "/food/bora-saul-nutrition", "destination": "/blog/bora-saul-sticky-rice-glycemic-index", "statusCode": 301 },
+    { "source": "/food/brown-basmati-rice", "destination": "/blog/brown-basmati-rice-weight-loss", "statusCode": 301 },
+    { "source": "/food/joha-rice-nutrition", "destination": "/blog/joha-rice-antioxidants-benefits", "statusCode": 301 },
+    { "source": "/why-accuracy.html", "destination": "/why-accuracy", "statusCode": 301 },
+    { "source": "/blog/calculator-accuracy-decimal-feet-bug.html", "destination": "/blog/calculator-accuracy-decimal-feet-bug", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/about", "destination": "/compliance/about" },
