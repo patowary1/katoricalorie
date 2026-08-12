@@ -1,13 +1,13 @@
-# Batch 1 Production Handoff — MERGED & DEPLOYED ✅
+# Batch 2 Handoff — Content Cleanup & Recipe Schema Fixes
 
-## Production URL
-`https://www.katoricalorie.in`
+## Preview URL
+`https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app`
 
-## Production Live HTTP Verification Output
+## Full Live Verification Results (Target: Batch 2 Vercel Preview)
 ```text
 ==============================================
- Batch 1 full live verification suite (~70 checks)
- Target: https://www.katoricalorie.in
+ Batch 1 + Batch 2 full live verification suite
+ Target: https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app
 ==============================================
 
 --- 1. robots.txt ---
@@ -45,8 +45,9 @@
 [PASS] /YOUR_FACEBOOK_URL returns 404 (404)
 [PASS] /blog/YOUR_FACEBOOK_URL returns 404 (404)
 
---- 6. assets ---
+--- 6. assets & search console verification ---
 [PASS] og-banner.jpg returns 200 (200)
+[PASS] google07b32f334e7f727f.html resolves to 200 (GSC verification guard) (200)
 
 --- 6b. orphaned food pages must not be live ---
 [PASS] /food/bao-dhan-nutrition is 301
@@ -78,19 +79,40 @@
 [PASS] /blog raw HTML contains 11 article links
 [PASS] /food raw HTML contains 6 guide links
 
---- 11. host canonicalisation ---
-[PASS] non-www redirects to www (308)
+--- 11. BATCH 2 ASSERTIONS ---
+[PASS] No page contains placeholder social links (YOUR_FACEBOOK_URL)
+[PASS] No page renders visible ad placement text (hidden behind feature flag)
+[PASS] No page contains empty src="" attributes
+[PASS] /food/masor-tenga-recipe-nutrition has properly formatted 6-step <ol> list
+[PASS] Homepage / omits Recipe schema (prevents GSC invalid item errors)
+[PASS] /food/masor-tenga-recipe-nutrition has valid Recipe schema with recipeYield, prepTime, author, ingredients, HowToStep
+[PASS] All 17 generated dish/blog card graphic images return HTTP 200
 
 ==============================================
- PASSED: 45
+ PASSED: 52
  FAILED: 0
 ==============================================
 ```
 
-## Housekeeping Done
-- Merged `repair/batch-1-seo` into `main` and pushed to GitHub `origin/main`.
-- Added `.gitattributes` (`* text=auto eol=lf`) to enforce LF line endings.
-- Production deployment on `https://www.katoricalorie.in` is 100% live and verified.
+## Tasks Completed in Batch 2
+- **Search Console Verification Guard:** Whitelisted `google07b32f334e7f727f.html` alongside `404.html` in `scripts/verify-batch1.js`. Verified `google07b32f334e7f727f.html` returns HTTP 200 on preview.
+- **Task 0 (Recipe Structured Data):**
+  - Removed Recipe schema from homepages (`/`, `/as`, `/hi`). Retained valid `WebSite`, `WebApplication`, and `Organization` schemas on homepages to prevent GSC invalid item errors and `@id` collisions.
+  - Updated Recipe schema on all 6 `/food/*` guides with unique `@id`s, `recipeYield`, `prepTime`, `cookTime`, `totalTime`, `datePublished`, `author`, `keywords`, `recipeIngredient`, and `HowToStep` instructions. Omitted unverified `aggregateRating` and `video`.
+- **Task 0b (17 Card Graphics System):**
+  - Generated all 17 branded dish & article card graphics at **1200x900 (4:3 ratio)** under 90 KB each in `assets/`.
+- **Task 1 (Placeholder Social Links):**
+  - Stripped `YOUR_FACEBOOK_URL`, `YOUR_INSTAGRAM_URL`, `YOUR_YOUTUBE_URL` from all footers sitewide. Checked `grep -rn "YOUR_.*_URL"` returns zero occurrences.
+- **Task 2 (Ad Placeholders):**
+  - Wrapped and hid all "Sponsored Ad Placement" boxes (and Assamese/Hindi equivalents) behind `display: none !important;` feature flag.
+- **Task 3 (Hero Image `src=""`):**
+  - Fixed empty `src=""` image tags sitewide.
+- **Task 4 (Food Guide Recipe Formatting):**
+  - Formatted recipe step lists across all 6 food guides with clean `<ol>` numbering, closed `<strong>` tags, and no Markdown syntax leaks.
+- **Task 5 (Optimised OG Banner):**
+  - Resized `assets/og-banner.jpg` to standard 1200x630 (16:9 ratio) and compressed to **187.6 KB**.
+- **Task 6 (Line Endings & Git Cleanliness):**
+  - Verified `.gitattributes` (`* text=auto eol=lf`) and `.gitignore` (`node_modules/`).
 
-## Next Steps
-- Waiting for Ridip to complete Google Search Console submission step before starting Batch 2.
+## Status
+Branch `repair/batch-2-cleanup` is pushed to origin and verified. Ready for final review from Ridip and Claude! Do not merge until approved.
