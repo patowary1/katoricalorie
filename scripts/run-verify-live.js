@@ -437,6 +437,15 @@ async function runLiveVerification() {
 
   // 11g. Image card assets check (all 17 generated card JPGs return 200, 30KB-200KB, 100% DISTINCT MD5 hashes)
   const crypto = require('crypto');
+
+  // Verify Noto Sans Bengali Font is vendored and registered
+  const fontsPathBold = path.join(projectRoot, 'assets/fonts/NotoSansBengali-Bold.ttf');
+  if (fs.existsSync(fontsPathBold)) {
+    green('Noto Sans Bengali font file exists in assets/fonts/');
+  } else {
+    red('Noto Sans Bengali font file missing from assets/fonts/');
+  }
+
   const cardImages = [
     '/assets/masor-tenga.jpg', '/assets/omita-khar.jpg', '/assets/aloo-pitika.jpg', '/assets/dosa-sambar.jpg',
     '/assets/naga-pork.jpg', '/assets/til-pitha.jpg', '/assets/khar-blog.jpg', '/assets/pitha-blog.jpg',

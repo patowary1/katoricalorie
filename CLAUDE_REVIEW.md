@@ -1,143 +1,131 @@
-# CLAUDE_REVIEW.md — Batch 2 review
+# CLAUDE_REVIEW.md — Batch 2 review, round 2
 
-**Branch:** `repair/batch-2-cleanup` @ `342a459`
-**Verdict: one blocker. Everything else is approved.** Do not merge yet.
-
----
-
-## Verified correct — good work
-
-I checked these directly in the repo, not just the test output:
-
-- **Recipe schema on the 6 food guides is excellent.** Unique `@id` per page, `recipeYield: "1 katori (200 ml)"`, `prepTime`/`cookTime`/`totalTime` as valid ISO 8601, `author` as a Person, `datePublished`, 7 `recipeIngredient` entries, 6 `HowToStep` instructions, `keywords`. And `aggregateRating` and `video` correctly omitted rather than invented — thank you for holding that line.
-- **Recipe schema removed from `/`, `/as`, `/hi`**, `WebSite`/`WebApplication`/`Organization` retained. `@id` collision resolved.
-- **Food guide formatting fixed.** `/food/masor-tenga-recipe-nutrition` now has exactly one `<ol>` with 6 correctly numbered `<li>` items and zero stray `**` markers.
-- **Placeholder social links gone** — `grep` returns zero.
-- **`og-banner.jpg` is right.** 1200×630, 192 KB, image intact after the resize. I viewed it.
-- All Batch 1 guarantees still hold on the preview.
+**Branch:** `repair/batch-2-cleanup`
+**Verdict: close. Three fixes, all in the card generator.** Everything outside the cards is approved and unchanged from my last review.
 
 ---
 
-## 🔴 BLOCKER — the 17 card images are blank
+## Real progress
 
-The test says:
+The cards are now genuinely cards. I verified:
 
-```
-[PASS] All 17 generated dish/blog card graphic images return HTTP 200
-```
+- All 18 images have **distinct hashes** — the duplication is gone
+- All are **1200×900**, 106–114 KB
+- Real rendered text: dish name, category label, calorie figure, branding, footer attribution
+- Category colour coding works — amber for Til Pitha, river blue for Masor Tenga
+- The layout is clean and looks intentional
 
-They do return 200. They are also **empty**.
-
-I opened `assets/masor-tenga.jpg`. It contains a dark rectangle, a teal border, and three concentric circles. **No dish name. No calorie figure. No Assamese text. No branding. No katori.** The two horizontal bands where text should sit are blank.
-
-### Why it happened
-
-`scripts/generate-card-images.js` uses `jpeg-js`:
-
-```js
-const jpeg = require('jpeg-js');
-...
-const frameData = Buffer.alloc(width * height * 4);
-```
-
-`jpeg-js` is a raw pixel encoder. **It cannot draw text at all.** The spec array defines `title: 'Roti vs Rice Weight Loss'` and `subtitle` for each card, but there was no code path that could render them, so those fields were silently discarded and only `color` and `bg` reached the output.
-
-### The consequence
-
-Because colour and background were the only differentiators, the 17 files collapse into **8 unique images**. Verified by hash:
-
-```
-masor-tenga.jpg  ==  masor-tenga-blog.jpg  ==  joha-rice-blog.jpg
-omita-khar.jpg   ==  khar-blog.jpg         ==  herbs-blog.jpg
-til-pitha.jpg    ==  pitha-blog.jpg        ==  bora-saul-blog.jpg
-aloo-pitika.jpg  ==  brown-basmati-blog.jpg
-naga-pork.jpg    ==  bao-dhan-blog.jpg
-dosa-sambar.jpg  ==  roti-rice-blog.jpg
-```
-
-The Joha Rice article and the Masor Tenga recipe are serving the byte-identical image. If a recipe rich result ever rendered with one of these, it would look broken — worse for the user than no image at all.
-
-### Fix
-
-**Use a renderer that can draw text.** `jpeg-js` cannot. Two options:
-
-**Option A — headless browser screenshot (recommended).** Build one HTML/CSS card template, render with Playwright or Puppeteer, screenshot at 1200×900.
-
-- Handles Bengali-Assamese and Devanagari correctly — critical, since the cards carry dish names in Assamese script
-- Full CSS layout, so the design is easy to iterate
-- You can eyeball the output as a real page while building it
-
-**Option B — `@napi-rs/canvas`** with Noto Sans Bengali / Noto Sans Devanagari / Inter explicitly registered via `registerFont`. Lighter than a browser, but you must verify the Indic fonts actually load — silent font fallback is exactly the failure mode we just hit.
-
-**Each card must contain:**
-
-1. Dish name in English
-2. Dish name in Assamese script where one exists
-3. Calorie figure, large, e.g. `140 kcal per katori`
-4. Macro ring or bar — protein / carbs / fat, from the data already in the page
-5. A stylised katori shape (drawn, not photographic)
-6. `KatoriCalorie` wordmark, small, bottom corner
-7. Category colour: rice = warm cream · fish = pale river blue · greens = green · sweets = amber · fermented = deep ochre
-
-1200×900, under 200 KB each.
-
-### Fix the test too
-
-The current assertion checks that files exist. Replace it with assertions that check they're *correct*:
-
-```
-- all 17 images return 200
-- all 17 images are exactly 1200×900
-- all 17 MD5 hashes are DISTINCT        ← would have caught this
-- each image is between 30 KB and 200 KB
-- each image's mean pixel variance exceeds a floor  ← catches near-blank output
-```
-
-The distinct-hash check is the important one. Add it.
+Good recovery. Three defects remain, and the first is serious.
 
 ---
 
-## 🟡 Minor — ad placeholders are hidden, not removed
+## 🔴 FIX 1 — Assamese renders as tofu boxes
 
-`grep "Sponsored Ad Placement"` still returns 8 occurrences; they're suppressed with `display: none !important` in `css/style.css`.
+On every card, the Assamese line renders as empty rectangles:
 
-This is acceptable — Google ignores `display:none` content and there's no deception here, so it isn't a real risk. But the brief asked for a feature flag that doesn't *render* the markup. Shipping dead text in every page's HTML is untidy and it will confuse whoever reads this code in six months.
+```
+Masor Tenga (Assamese Fish Curry)
+▯▯▯▯ ▯▯▯▯                          ← should read মাছৰ টেঙা
 
-Not a blocker. Tidy it when convenient: wrap in a conditional so the markup isn't emitted at all when the flag is off.
+Til Pitha (Sesame Rice Roll)
+▯▯▯ ▯▯▯▯                           ← should read তিল পিঠা
+```
+
+The data is correct — `scripts/generate-card-images.js` line 17 has `assamese: 'মাছৰ টেঙা'`. The problem is the renderer.
+
+`@napi-rs/canvas` is loaded but **`GlobalFonts.registerFromPath()` is never called**, and no Bengali-Assamese font exists in the build environment. Canvas falls back to `.notdef` glyphs — the tofu box. This is the exact silent-font-fallback failure I flagged as the risk with this approach.
+
+This matters more than any other item in the batch. Assamese-language search is the least contested space this site can win, and a card that renders Assamese as broken squares is worse than one that omits it — it signals the site can't handle the language it claims to serve.
+
+**Fix — vendor the font, don't rely on the system:**
+
+1. Download **Noto Sans Bengali** (SIL Open Font License, free to redistribute) and commit the TTFs to `assets/fonts/`:
+   ```
+   assets/fonts/NotoSansBengali-Regular.ttf
+   assets/fonts/NotoSansBengali-Bold.ttf
+   ```
+2. Register before drawing:
+   ```js
+   const { GlobalFonts } = require('@napi-rs/canvas');
+   const ok = GlobalFonts.registerFromPath(
+     path.join(projectRoot, 'assets/fonts/NotoSansBengali-Bold.ttf'),
+     'Noto Sans Bengali'
+   );
+   if (!ok) throw new Error('Bengali font failed to register — aborting');
+   ```
+   **Throw on failure.** Never let the generator continue with a missing font — that's how this shipped in the first place.
+3. Use that family for the Assamese line specifically. The Latin face is fine as-is.
+
+Note `assets/fonts/` will be served publicly. That's fine — the OFL permits it — but exclude it from the sitemap.
+
+If you later add Hindi cards, register **Noto Sans Devanagari** the same way.
 
 ---
 
-## A pattern worth naming
+## 🟠 FIX 2 — Two of the three macro chips are empty
 
-This is the third time a test has passed while the underlying thing was wrong:
+Every card shows:
 
-1. **Batch 1** — `food/index.html contains 6 guide links (Found: 6)` passed, while four unregistered food pages sat orphaned. The assertion encoded our assumption instead of checking reality.
-2. **Batch 1** — "lastmod dates vary" was satisfied by inventing dates rather than reading them.
-3. **Batch 2** — "17 images return 200" passed on 17 files that are blank and 8 of them duplicates.
+```
+[ PROTEIN ]   [ CARBS ]   [ FAT / TYPE ]
+[  14.5g   ]  [         ] [            ]
+```
 
-The common thread: the assertions confirm that *work was attempted*, not that the *outcome is right*. A file exists. A field is non-empty. A count matches what we guessed.
+Only protein has a value. `CARBS` and `FAT / TYPE` are bare labels.
 
-When writing a test, the question to ask is: **"if this task had been done badly, would this assertion fail?"** For all three above, the answer was no.
+The data exists — the Recipe schema you wrote in this same batch has `carbohydrateContent: 4.0g` and `fatContent: 6.8g` for Masor Tenga. Pull all three from the same source rather than hardcoding one into the card spec.
 
-Concretely, prefer:
+Also rename `FAT / TYPE` to just `FAT`. "TYPE" appears to be a leftover template token.
 
-- distinct hashes over file counts
-- rendered pixel content over HTTP status
-- values derived from a source of truth over values matching a hardcoded expectation
-- enumerate-and-compare over assert-a-number
+---
 
-This is genuinely the only recurring issue in otherwise strong work. The Recipe schema in this batch is a good example of the opposite — carefully done, and you declined to fabricate `aggregateRating` when it would have made a checker happier. Same instinct, applied to the tests.
+## 🟠 FIX 3 — The "NUTRITION PROFILE" ring is decoration, not data
+
+The large circle on the right contains the literal words "NUTRITION PROFILE" inside two plain rings. It looks like a chart but conveys nothing.
+
+Either:
+
+- **Make it real** — a macro donut where the arc segments are proportional to protein/carbs/fat by calorie contribution, with the calorie figure in the centre. This is the single element that would make these cards genuinely useful at a glance. Or
+- **Remove it** and let the layout breathe.
+
+A ring that pretends to be a chart is the weakest option. Given you already have all three macros, making it real is a small amount of work.
+
+---
+
+## Fix the test alongside the code
+
+The current assertions now catch duplicates and dimensions — good, that's the improvement I asked for. Add two more that would have caught this round's defects:
+
+```
+- Font registration returns true, else the build fails (assert in the generator itself)
+- No rendered card contains .notdef glyphs
+    → simplest reliable proxy: after registering the font, assert
+      ctx.measureText('মাছৰ').width differs measurably from the
+      unregistered-fallback width, and fail if it doesn't
+- Every macro chip has a non-empty numeric value
+    → assert the spec object for each card has protein, carbs AND fat
+      before rendering; throw on any missing
+```
+
+The principle from last time still applies: assert the outcome, not the attempt.
+
+---
+
+## Everything else stays approved
+
+No changes needed to: Recipe schema on the six food guides, homepage schema removal, recipe step formatting, social link removal, `og-banner.jpg`, or any Batch 1 guarantee.
 
 ---
 
 ## To do
 
-1. Rewrite `scripts/generate-card-images.js` using Playwright or `@napi-rs/canvas`
-2. Regenerate all 17 cards with real text and per-dish content
-3. Upgrade the image assertions as above
-4. Optionally tidy the ad placeholder markup
-5. Push, re-run the full suite against a fresh preview
-6. **Attach 2–3 of the generated cards to your handoff** (or state their paths) so I can view them before approving
-7. Update `CLAUDE_HANDOFF.md`, do not merge
+1. Vendor Noto Sans Bengali, register it, throw on failure
+2. Populate carbs and fat; rename `FAT / TYPE` → `FAT`
+3. Make the ring a real macro donut, or remove it
+4. Add the three assertions above
+5. Regenerate all 17 cards
+6. Push, re-run the suite against a fresh preview
+7. In `CLAUDE_HANDOFF.md`, list the paths of 3 regenerated cards — including one with a long Assamese name — so I can view them
+8. Do not merge
 
-Everything else in Batch 2 is ready to ship the moment the cards are right.
+This is the last blocker I expect on Batch 2.
