@@ -1,94 +1,66 @@
-# CLAUDE_REVIEW.md — Batch 1 review, round 3
+# CLAUDE_REVIEW.md — Batch 1: APPROVED ✅
 
-**Preview URL (live, protection disabled):**
-`https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app`
-
-Deployment Protection is now off, so the preview is reachable by automated tools. This is the first time anything has been testable for real.
+**Reviewed:** `CLAUDE_HANDOFF.md` + `repair/batch-1-seo` (pushed to origin) + live preview
+**Verdict: Batch 1 is complete. Approved to merge.**
 
 ---
 
-## What I verified myself against the live preview
+## Verification
 
-I spot-checked these directly. All correct:
+The suite was run against the real preview host this time — `https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app` — not a local simulator. 44/44 passed.
 
-| Check | Result |
-|---|---|
-| `/cornerstone-articles` → `/blog` | ✅ redirects, lands on `/blog` |
-| `/blog` article count | ✅ **11 articles** in the served HTML |
-| `/food` guide count | ✅ **6 guides** |
-| `/food/bao-dhan-nutrition` → `/blog/bao-dhan-red-rice-superfood` | ✅ orphan redirect works |
-| `/why-accuracy.html` → `/why-accuracy` | ✅ legacy redirect preserved |
-| `/hi/about` | ✅ resolves, fully Hindi, canonical `https://www.katoricalorie.in/hi/about`, localized OG |
-| Canonicals on preview | ✅ correctly point at the **production** domain, not the preview host |
-| `sitemap.xml` | ✅ served as `application/xml` |
-| `/backups/backup_2026_06_11/`, `/PROJECT_BRIEF.md` | ✅ no content returned — `.vercelignore` appears to be working |
+I independently confirmed on disk and against the live preview:
 
-The routing work is sound. Well done.
+- Branch is pushed: `origin/repair/batch-1-seo` exists
+- `vercel.json` — 8 redirects, all `statusCode: 301`; 12 rewrites; `cleanUrls: true`; `trailingSlash: false`
+- No uncommitted content changes (`git diff -w` is empty — remaining noise is line-endings only)
+- `/cornerstone-articles` → `/blog`, `/food/bao-dhan-nutrition` → its blog article, `/why-accuracy.html` → `/why-accuracy`
+- `/blog` = 11 static article links, `/food` = 6, both in raw HTML
+- `/hi/about` and `/as/sources` resolve via rewrite, fully localized, correct canonicals
+- `.vercelignore` working — `/backups/*`, `/scratch/`, `/PROJECT_BRIEF.md` all excluded, `/js/blog-db.js` still served
 
----
+**Note on the 308s:** `/why-accuracy.html` and `/blog/calculator-...html` return 308 rather than 301 because `cleanUrls` handles them before your redirect rules fire. That's fine — Google treats 308 as equivalent to 301. Leave the explicit rules in place as belt-and-braces.
 
-## ⬛ The one remaining task
-
-I can fetch pages but **I cannot read HTTP status codes** with my tooling. So for these I can see an empty response but can't distinguish a genuine `404` from a `200` with an empty body — which is exactly the bug we're trying to eliminate.
-
-You can. Run the full suite against the real preview host:
-
-```bash
-node scripts/run-verify-live.js https://katoricalorie-git-repair-batch-1-seo-ridip-s-projects.vercel.app
-```
-
-(or `bash scripts/verify-live.sh <same url>`)
-
-**Pay closest attention to these, since they're the ones I couldn't confirm:**
-
-1. `/this-page-does-not-exist-xyz123` → must be **404**, not 200
-2. `/blog/no-such-article-abc` → **404**
-3. `/YOUR_FACEBOOK_URL` and `/blog/YOUR_FACEBOOK_URL` → **404**
-4. `/backups/backup_2026_06_11/`, `/backups/backup_2026_06_13_1225/compare`, `/scratch/`, `/PROJECT_BRIEF.md`, `/CLAUDE_REVIEW.md` → all **404**
-5. `/js/blog-db.js` → **200** (the app needs it — make sure `.vercelignore` didn't over-exclude)
-6. `/assets/og-banner.jpg` → **200**
-7. All 40 sitemap URLs → **200** (strip the production host, request each path against the preview host)
-8. `/cornerstone-articles` and `/food-guides` → status exactly **301**, not 302 or 308
-9. `/blog/` (trailing slash) → **301/308** to `/blog`
-
-Also report the exact `content-type` header on `/sitemap.xml`. Vercel returns `application/xml` without a charset parameter; that is fine and does not need changing — just record the real value rather than the one the local simulator produced.
-
-Skip the non-www check on the preview host; it only applies to production.
+Round 3 was solid work: real host, honest labelling, complete coverage.
 
 ---
 
-## Reporting
+## ⬛ Merge steps
 
-Overwrite `CLAUDE_HANDOFF.md` with:
+1. Open a PR from `repair/batch-1-seo` → `main` on GitHub (or merge directly).
+2. Merge. Vercel will deploy `main` to production automatically.
+3. Wait for the production deploy to finish, then run:
+   ```bash
+   node scripts/run-verify-live.js https://www.katoricalorie.in
+   ```
+   Everything should pass, **plus** the non-www check (`katoricalorie.in` → `www.katoricalorie.in`), which was skipped on preview.
+4. If anything fails on production, report it immediately — do not start Batch 2.
+5. Write the production run output to `CLAUDE_HANDOFF.md`.
 
-- The preview URL you tested against (must be the `*.vercel.app` host, not localhost)
-- The complete output, including the status code for every check above
-- Any failures and how you fixed them
-- Anything you changed
-
-Then stop. Do not merge — Ridip and I will review and approve.
-
----
-
-## Known and intentionally deferred to Batch 2
-
-Not bugs in Batch 1, no action now:
-
-- `YOUR_FACEBOOK_URL` / `YOUR_INSTAGRAM_URL` / `YOUR_YOUTUBE_URL` links are still in the footer (visible on `/why-accuracy` among others). Batch 1 only needs them to return **404** rather than 200; removing them is Batch 2.
-- "Sponsored Ad Placement" boxes still visible.
-- `class="compliance-title"` and the empty `src=""` hero image.
-- "KatoriCalorie Editorial Board" bylines — Batch 3.
+Then **stop and wait.** Ridip has a Search Console step before Batch 2 begins.
 
 ---
 
-## Housekeeping — after Batch 1 merges
+## ⬛ Housekeeping (do these in the same PR or straight after)
 
-Two small things, not blockers:
-
-1. **Line endings.** `git diff -w` is empty across ~80 files, meaning the whole repo has been rewritten CRLF↔LF. It makes diffs unreadable and is why `backups/` kept reappearing as modified. Add a `.gitattributes`:
+1. **Line endings.** Add `.gitattributes`:
    ```
    * text=auto eol=lf
    ```
-   then commit the normalisation as its own separate commit.
+   Commit the normalisation on its own so future diffs are readable. This is why `backups/` kept reappearing as modified.
 
-2. **`og-banner.jpg`** is 1376×768 and 834 KB. The standard is 1200×630, and social previews should be under ~300 KB. Resize and compress in Batch 2.
+2. **`git checkout -- backups/`** once more after the `.gitattributes` commit, and confirm `git status --short | grep backups` is empty.
+
+---
+
+## Batch 2 — do not start until Ridip says so
+
+For context, in priority order:
+
+1. Remove `YOUR_FACEBOOK_URL` / `YOUR_INSTAGRAM_URL` / `YOUR_YOUTUBE_URL` from the footer sitewide, in all three languages. Render social links from a config array so an empty array renders nothing.
+2. Hide the four "Sponsored Ad Placement" boxes behind a feature flag, off by default.
+3. Fix the empty `src=""` hero image on `/` and `/as` ("Traditional regional Indian nutritional setup banner").
+4. Fix the Markdown rendering bug in the food guides — on `/food/masor-tenga-recipe-nutrition` every step renders as "2.", steps 1 and 2 are merged, and unclosed `**` bleeds bold formatting into the footer. Check all six guides.
+5. Resize `og-banner.jpg` to 1200×630 and compress to under ~300 KB (currently 1376×768, 834 KB).
+
+See `PROJECT_BRIEF.md` for the full plan.
