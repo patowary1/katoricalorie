@@ -1,210 +1,143 @@
-# CLAUDE_REVIEW.md — Batch 1 CLOSED ✅ / Batch 2 brief
+# CLAUDE_REVIEW.md — Batch 2 review
 
-Batch 1 is merged, live on production, and verified (45/45). Google Search Console is set up and the sitemap is submitted. Nothing further needed on Batch 1.
-
-Start Batch 2 on a new branch: `repair/batch-2-cleanup`
+**Branch:** `repair/batch-2-cleanup` @ `342a459`
+**Verdict: one blocker. Everything else is approved.** Do not merge yet.
 
 ---
 
-## ⚠️ READ FIRST — do not delete this file
+## Verified correct — good work
+
+I checked these directly in the repo, not just the test output:
+
+- **Recipe schema on the 6 food guides is excellent.** Unique `@id` per page, `recipeYield: "1 katori (200 ml)"`, `prepTime`/`cookTime`/`totalTime` as valid ISO 8601, `author` as a Person, `datePublished`, 7 `recipeIngredient` entries, 6 `HowToStep` instructions, `keywords`. And `aggregateRating` and `video` correctly omitted rather than invented — thank you for holding that line.
+- **Recipe schema removed from `/`, `/as`, `/hi`**, `WebSite`/`WebApplication`/`Organization` retained. `@id` collision resolved.
+- **Food guide formatting fixed.** `/food/masor-tenga-recipe-nutrition` now has exactly one `<ol>` with 6 correctly numbered `<li>` items and zero stray `**` markers.
+- **Placeholder social links gone** — `grep` returns zero.
+- **`og-banner.jpg` is right.** 1200×630, 192 KB, image intact after the resize. I viewed it.
+- All Batch 1 guarantees still hold on the preview.
+
+---
+
+## 🔴 BLOCKER — the 17 card images are blank
+
+The test says:
 
 ```
-google07b32f334e7f727f.html
+[PASS] All 17 generated dish/blog card graphic images return HTTP 200
 ```
 
-This is Google Search Console's ownership verification file. It is what verified the property. **If it is deleted, Search Console loses verification and all indexing data stops.**
+They do return 200. They are also **empty**.
 
-The unregistered-HTML guard you added to `scripts/verify-batch1.js` in Batch 1 will flag this file, because it isn't in `blog-db.js` or the sitemap. **Whitelist it now**, along with `404.html`:
+I opened `assets/masor-tenga.jpg`. It contains a dark rectangle, a teal border, and three concentric circles. **No dish name. No calorie figure. No Assamese text. No branding. No katori.** The two horizontal bands where text should sit are blank.
+
+### Why it happened
+
+`scripts/generate-card-images.js` uses `jpeg-js`:
 
 ```js
-const ALLOWED_UNREGISTERED = ['404.html', 'google07b32f334e7f727f.html'];
+const jpeg = require('jpeg-js');
+...
+const frameData = Buffer.alloc(width * height * 4);
 ```
 
-Do not add it to the sitemap — it should stay out of the index.
+`jpeg-js` is a raw pixel encoder. **It cannot draw text at all.** The spec array defines `title: 'Roti vs Rice Weight Loss'` and `subtitle` for each card, but there was no code path that could render them, so those fields were silently discarded and only `color` and `bg` reached the output.
+
+### The consequence
+
+Because colour and background were the only differentiators, the 17 files collapse into **8 unique images**. Verified by hash:
+
+```
+masor-tenga.jpg  ==  masor-tenga-blog.jpg  ==  joha-rice-blog.jpg
+omita-khar.jpg   ==  khar-blog.jpg         ==  herbs-blog.jpg
+til-pitha.jpg    ==  pitha-blog.jpg        ==  bora-saul-blog.jpg
+aloo-pitika.jpg  ==  brown-basmati-blog.jpg
+naga-pork.jpg    ==  bao-dhan-blog.jpg
+dosa-sambar.jpg  ==  roti-rice-blog.jpg
+```
+
+The Joha Rice article and the Masor Tenga recipe are serving the byte-identical image. If a recipe rich result ever rendered with one of these, it would look broken — worse for the user than no image at all.
+
+### Fix
+
+**Use a renderer that can draw text.** `jpeg-js` cannot. Two options:
+
+**Option A — headless browser screenshot (recommended).** Build one HTML/CSS card template, render with Playwright or Puppeteer, screenshot at 1200×900.
+
+- Handles Bengali-Assamese and Devanagari correctly — critical, since the cards carry dish names in Assamese script
+- Full CSS layout, so the design is easy to iterate
+- You can eyeball the output as a real page while building it
+
+**Option B — `@napi-rs/canvas`** with Noto Sans Bengali / Noto Sans Devanagari / Inter explicitly registered via `registerFont`. Lighter than a browser, but you must verify the Indic fonts actually load — silent font fallback is exactly the failure mode we just hit.
+
+**Each card must contain:**
+
+1. Dish name in English
+2. Dish name in Assamese script where one exists
+3. Calorie figure, large, e.g. `140 kcal per katori`
+4. Macro ring or bar — protein / carbs / fat, from the data already in the page
+5. A stylised katori shape (drawn, not photographic)
+6. `KatoriCalorie` wordmark, small, bottom corner
+7. Category colour: rice = warm cream · fish = pale river blue · greens = green · sweets = amber · fermented = deep ochre
+
+1200×900, under 200 KB each.
+
+### Fix the test too
+
+The current assertion checks that files exist. Replace it with assertions that check they're *correct*:
+
+```
+- all 17 images return 200
+- all 17 images are exactly 1200×900
+- all 17 MD5 hashes are DISTINCT        ← would have caught this
+- each image is between 30 KB and 200 KB
+- each image's mean pixel variance exceeds a floor  ← catches near-blank output
+```
+
+The distinct-hash check is the important one. Add it.
 
 ---
 
-## ⬛ BATCH 2 — Remove broken and placeholder content
+## 🟡 Minor — ad placeholders are hidden, not removed
 
-All of this is user-visible. It's what makes the site look unfinished to both visitors and Google's quality systems.
+`grep "Sponsored Ad Placement"` still returns 8 occurrences; they're suppressed with `display: none !important` in `css/style.css`.
 
----
+This is acceptable — Google ignores `display:none` content and there's no deception here, so it isn't a real risk. But the brief asked for a feature flag that doesn't *render* the markup. Shipping dead text in every page's HTML is untidy and it will confuse whoever reads this code in six months.
 
-### TASK 0 — Fix the Recipe structured data (NEW — highest priority)
-
-Google Search Console URL Inspection on `https://www.katoricalorie.in/` reports **2 invalid Recipe items**, each with 1 critical issue and 8 non-critical. Confirmed directly in Search Console:
-
-**Critical (blocks rich results):**
-
-```
-Missing field "recipeYield"
-```
-
-**Non-critical (recommended):** `cookTime`, `prepTime`, `author`, `recipeIngredient`, `recipeInstructions`, `keywords`, `aggregateRating`, `video`
-
-There are **18 Recipe blocks across the site**, not just the two on the homepage.
-
-**First, remove Recipe schema from the three homepages entirely** — `index.html`, `as/index.html`, `hi/index.html`.
-
-Two reasons:
-
-1. **The homepage is not a recipe page.** Its main content is a calorie calculator. Google requires structured data to describe the page's primary content; Recipe markup on a calculator page is a mismatch, and it's why Search Console reports invalid items on `/`, `/as` and `/hi` alike.
-2. **Duplicate `@id` collision.** All three language homepages declare the *same* identifiers:
-   ```
-   /     "@id": "https://www.katoricalorie.in/#recipe-masor-tenga"
-   /as   "@id": "https://www.katoricalorie.in/#recipe-masor-tenga"   ← identical
-   /hi   "@id": "https://www.katoricalorie.in/#recipe-masor-tenga"   ← identical
-   ```
-   Three URLs asserting they are the same entity. Confirmed live: Search Console shows the same 2 invalid Recipe items on both `/` and `/hi`.
-
-Keep `WebSite`, `WebApplication` and `Organization` on the homepages — those are correct there.
-
-**Then fix the Recipe schema on the six `/food/*` pages**, which is where the actual recipes live. Give each a unique `@id` matching its own URL, e.g. `https://www.katoricalorie.in/food/masor-tenga-recipe-nutrition#recipe`.
-
-**Add to every Recipe node:**
-
-| Field | Value |
-|---|---|
-| `recipeYield` | **Required.** e.g. `"1 katori (200 ml)"` or `"4 servings"` — must match the serving the nutrition figures describe |
-| `prepTime` / `cookTime` / `totalTime` | ISO 8601 durations, e.g. `"PT10M"`, `"PT20M"`, `"PT30M"` |
-| `author` | `{"@type":"Person","name":"Ridip Patowary"}` |
-| `recipeIngredient` | Array of ingredient strings with quantities |
-| `recipeInstructions` | Array of `HowToStep` objects. The food guide pages already have `HowToStep` markup — reuse that content rather than rewriting it |
-| `datePublished` | Real date |
-| `keywords` | e.g. `"masor tenga calories, assamese fish curry, low calorie indian curry"` |
-
-**Two things NOT to do:**
-
-- ❌ **Do not add `aggregateRating`.** There are no real user ratings on this site. Inventing rating values violates Google's structured data spam policy and risks a manual action. Leave it missing — "non-critical" means exactly that.
-- ❌ **Do not add `video`.** There are no videos. Same reasoning.
-
-Validate every page at `https://validator.schema.org` and Google's Rich Results Test before reporting.
+Not a blocker. Tidy it when convenient: wrap in a conditional so the markup isn't emitted at all when the flag is off.
 
 ---
 
-### TASK 0b — The 17 missing schema images
+## A pattern worth naming
 
-Structured data across the site references **17 image files**. Only one exists:
+This is the third time a test has passed while the underlying thing was wrong:
 
-```
-Referenced:  masor-tenga.jpg, omita-khar.jpg, aloo-pitika.jpg, dosa-sambar.jpg,
-             naga-pork.jpg, til-pitha.jpg, khar-blog.jpg, pitha-blog.jpg,
-             roti-rice-blog.jpg, masor-tenga-blog.jpg, fermented-foods-blog.jpg,
-             herbs-blog.jpg, bug-blog.jpg, brown-basmati-blog.jpg,
-             bora-saul-blog.jpg, joha-rice-blog.jpg, bao-dhan-blog.jpg
-Present:     og-banner.jpg only
-```
+1. **Batch 1** — `food/index.html contains 6 guide links (Found: 6)` passed, while four unregistered food pages sat orphaned. The assertion encoded our assumption instead of checking reality.
+2. **Batch 1** — "lastmod dates vary" was satisfied by inventing dates rather than reading them.
+3. **Batch 2** — "17 images return 200" passed on 17 files that are blank and 8 of them duplicates.
 
-All 16 others return 404. Google didn't flag this as critical in the Rich Results check, but **a Recipe rich result will not display without a fetchable image**, so this still blocks the outcome we want.
+The common thread: the assertions confirm that *work was attempted*, not that the *outcome is right*. A file exists. A field is non-empty. A count matches what we guessed.
 
-Ridip has no photographs yet. So build a **generated card system**:
+When writing a test, the question to ask is: **"if this task had been done badly, would this assertion fail?"** For all three above, the answer was no.
 
-- One reusable template rendered to **JPG at 1200×900** (4:3, Google's preferred Recipe ratio)
-- Contents: dish name (English + Assamese script), calorie figure, a macro donut (protein/carbs/fat), a stylised brass katori illustration, KatoriCalorie branding
-- Colour-code by category: rice = warm cream, fish = pale blue-grey, greens = green, sweets = amber
-- Generate all 17 from the data already in `js/blog-db.js` and the nutrition tables
-- Each under 200 KB
+Concretely, prefer:
 
-These are original graphics, not stock and not fake photography — honest and defensible. **Do not use AI-generated photorealistic images of the dishes.**
+- distinct hashes over file counts
+- rendered pixel content over HTTP status
+- values derived from a source of truth over values matching a hardcoded expectation
+- enumerate-and-compare over assert-a-number
 
-Build the image reference so a real photograph can replace a card by changing one path in a data file, with no other edits.
+This is genuinely the only recurring issue in otherwise strong work. The Recipe schema in this batch is a good example of the opposite — carefully done, and you declined to fabricate `aggregateRating` when it would have made a checker happier. Same instinct, applied to the tests.
 
 ---
 
-### TASK 1 — Delete the placeholder social links
+## To do
 
-Every page in all three languages has these in the footer:
+1. Rewrite `scripts/generate-card-images.js` using Playwright or `@napi-rs/canvas`
+2. Regenerate all 17 cards with real text and per-dish content
+3. Upgrade the image assertions as above
+4. Optionally tidy the ad placeholder markup
+5. Push, re-run the full suite against a fresh preview
+6. **Attach 2–3 of the generated cards to your handoff** (or state their paths) so I can view them before approving
+7. Update `CLAUDE_HANDOFF.md`, do not merge
 
-```
-YOUR_FACEBOOK_URL   YOUR_INSTAGRAM_URL   YOUR_YOUTUBE_URL
-```
-
-They aren't absolute URLs, so browsers resolve them relatively — `/YOUR_FACEBOOK_URL`, `/blog/YOUR_FACEBOOK_URL`, `/as/YOUR_FACEBOOK_URL`, and so on. They now correctly 404 (Batch 1), but they are still rendered as visible broken links on every page.
-
-Ridip has no live social profiles yet, so:
-
-- Remove all three links from the footer everywhere (EN, `/as`, `/hi`, all subdirectories)
-- Refactor the footer to render social links from a config array, so an empty array renders nothing at all
-- When Ridip creates real profiles, adding them becomes a one-line change
-
-Verify with: `grep -rn "YOUR_.*_URL" --include='*.html' . | grep -v backups` → must return nothing.
-
-### TASK 2 — Hide the ad placeholders
-
-Four boxes render live text to real visitors:
-
-- "Sponsored Ad Placement — Leaderboard Space"
-- "Sponsored Ad Placement — In-Feed Banner"
-- "Sponsored Ad Placement — Column Banner"
-- "Sponsored Ad Placement — Blog Portal Banner"
-
-Put them behind a single feature flag, **off by default**, so the markup stays for later but nothing renders now. Also translate/handle the `/as` and `/hi` equivalents (`প্ৰায়োজিত...`, `प्रायोजित विज्ञापन स्थान`).
-
-### TASK 3 — Fix the broken hero image
-
-On `/` and `/as` (check `/hi` too):
-
-```html
-<img alt="Traditional regional Indian nutritional setup banner" src="">
-```
-
-Empty `src`. Either point it at a real image or remove the element entirely. Do not leave an empty `src` — browsers re-request the page URL as an image.
-
-### TASK 4 — Fix the Markdown rendering bug in the food guides
-
-On `/food/masor-tenga-recipe-nutrition` the "Step-by-Step Healthy Preparation Guide" list is broken:
-
-- Every step renders as "2." instead of 1–6
-- Steps 1 and 2 are merged into a single item
-- An unclosed `**` bleeds bold formatting through the rest of the page and into the footer
-
-Find the parser/template fault and **check all six food guides** for the same problem. This is the most damaging item in Batch 2 — these are the pages we're trying to rank, and they currently look broken to a reader.
-
-### TASK 5 — Optimise the OG banner
-
-`assets/og-banner.jpg` is currently 1376×768 and 834 KB.
-
-- Resize to **1200×630** (the standard OG ratio — at 1376×768 social platforms crop it)
-- Compress to **under 300 KB**
-- Verify it still returns 200 and renders correctly
-
-### TASK 6 — Line endings
-
-Add `.gitattributes`:
-
-```
-* text=auto eol=lf
-```
-
-Commit the normalisation as its **own separate commit** so the Batch 2 diff stays readable. Then `git checkout -- backups/` and confirm `git status --short | grep backups` is empty.
-
----
-
-## Verification
-
-Extend `scripts/run-verify-live.js` with Batch 2 assertions:
-
-- No page contains the string `YOUR_FACEBOOK_URL`, `YOUR_INSTAGRAM_URL` or `YOUR_YOUTUBE_URL`
-- No page contains `Sponsored Ad Placement` (or its Assamese/Hindi equivalents)
-- No page contains `src=""`
-- `/food/masor-tenga-recipe-nutrition` contains a correctly numbered `<ol>` with 6 distinct `<li>` items
-- `og-banner.jpg` returns 200, is 1200×630, and is under 300 KB
-- `/google07b32f334e7f727f.html` still returns **200** — regression guard on Search Console verification
-
-Then run the full suite (Batch 1 + Batch 2 assertions) against a **Vercel preview URL**, not localhost.
-
-## Reporting
-
-Overwrite `CLAUDE_HANDOFF.md` using the same format as before: preview URL, full output, failures and fixes, anything changed outside the task list. Do not merge until approved.
-
----
-
-## Deferred to Batch 3 (do not start)
-
-- Keyword-first title tags and meta descriptions
-- Recipe / Article / BreadcrumbList / WebApplication JSON-LD
-- Replacing the "KatoriCalorie Editorial Board" byline with Ridip Patowary + an author page
-- Visible published/updated dates
-- Visible breadcrumbs
-
-See `PROJECT_BRIEF.md`.
+Everything else in Batch 2 is ready to ship the moment the cards are right.

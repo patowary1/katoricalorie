@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const jpeg = require('jpeg-js');
+const { createCanvas } = require('@napi-rs/canvas');
 
 const projectRoot = path.join(__dirname, '..');
 const assetsDir = path.join(projectRoot, 'assets');
@@ -9,111 +9,355 @@ if (!fs.existsSync(assetsDir)) {
   fs.mkdirSync(assetsDir, { recursive: true });
 }
 
-// 17 card specs (Dish & Blog graphics)
+// 17 Card Specifications with exact distinct title, assamese text, calories, macros, category color
 const cards = [
-  { file: 'masor-tenga.jpg', title: 'Masor Tenga (Assamese Fish Curry)', subtitle: 'মাছৰ টেঙা • 140 kcal / katori', cat: 'fish', color: [43, 114, 133], bg: [18, 26, 30] },
-  { file: 'omita-khar.jpg', title: 'Omita Khar (Green Papaya)', subtitle: 'অউ টেঙা / ওমিতা খাৰ • 55 kcal', cat: 'greens', color: [46, 125, 50], bg: [18, 30, 20] },
-  { file: 'aloo-pitika.jpg', title: 'Aloo Pitika (Mashed Potato)', subtitle: 'আলু পিটিকা • 110 kcal / portion', cat: 'sides', color: [216, 112, 147], bg: [30, 20, 25] },
-  { file: 'dosa-sambar.jpg', title: 'Dosa & Sambar', subtitle: 'দচু আৰু চম্বাৰ • 280 kcal / serving', cat: 'south', color: [230, 81, 0], bg: [32, 20, 15] },
-  { file: 'naga-pork.jpg', title: 'Naga Pork with Bamboo Shoot', subtitle: 'নাগা পোৰ্ক • 320 kcal / serving', cat: 'pork', color: [183, 28, 28], bg: [30, 15, 15] },
-  { file: 'til-pitha.jpg', title: 'Til Pitha (Sesame Rice Roll)', subtitle: 'তিল পিঠা • 95 kcal / piece', cat: 'sweets', color: [245, 124, 0], bg: [30, 22, 14] },
+  {
+    file: 'masor-tenga.jpg',
+    title: 'Masor Tenga (Assamese Fish Curry)',
+    assamese: 'মাছৰ টেঙা',
+    calories: '140 kcal / katori',
+    protein: '14.5g', carbs: '4.0g', fat: '6.8g',
+    category: 'TRADITIONAL FISH CURRY',
+    primaryColor: '#4A90E2',
+    bgColor: '#0F1A24',
+    accentColor: '#64B5F6'
+  },
+  {
+    file: 'omita-khar.jpg',
+    title: 'Omita Khar (Green Papaya)',
+    assamese: 'ওমিতা খাৰ',
+    calories: '55 kcal / portion',
+    protein: '1.2g', carbs: '9.8g', fat: '0.2g',
+    category: 'ALKALINE STARTER',
+    primaryColor: '#4CAF50',
+    bgColor: '#0E2214',
+    accentColor: '#81C784'
+  },
+  {
+    file: 'aloo-pitika.jpg',
+    title: 'Aloo Pitika (Mashed Potato)',
+    assamese: 'আলু পিটিকা',
+    calories: '110 kcal / serving',
+    protein: '2.5g', carbs: '21.0g', fat: '2.2g',
+    category: 'ASSAMESE COMFORT SIDE',
+    primaryColor: '#EC407A',
+    bgColor: '#220E18',
+    accentColor: '#F48FB1'
+  },
+  {
+    file: 'dosa-sambar.jpg',
+    title: 'Dosa & Sambar',
+    assamese: 'দচু আৰু চম্বাৰ',
+    calories: '280 kcal / plate',
+    protein: '8.2g', carbs: '52.0g', fat: '4.5g',
+    category: 'SOUTH INDIAN BREAKFAST',
+    primaryColor: '#FF6B35',
+    bgColor: '#24140E',
+    accentColor: '#FF9E79'
+  },
+  {
+    file: 'naga-pork.jpg',
+    title: 'Naga Pork with Bamboo Shoot',
+    assamese: 'নাগা পোৰ্ক',
+    calories: '320 kcal / serving',
+    protein: '28.0g', carbs: '4.2g', fat: '18.5g',
+    category: 'NORTHEAST MEAT SPECIALTY',
+    primaryColor: '#E53935',
+    bgColor: '#240F11',
+    accentColor: '#EF5350'
+  },
+  {
+    file: 'til-pitha.jpg',
+    title: 'Til Pitha (Sesame Rice Roll)',
+    assamese: 'তিল পিঠা',
+    calories: '95 kcal / 2 pieces',
+    protein: '2.1g', carbs: '16.5g', fat: '2.8g',
+    category: 'BIHU SWEET DELICACY',
+    primaryColor: '#FF9800',
+    bgColor: '#24180E',
+    accentColor: '#FFB74D'
+  },
 
   // Blog Cards
-  { file: 'khar-blog.jpg', title: 'Alkaline Khar Benefits', subtitle: 'Assamese Food & Metabolism', cat: 'blog', color: [46, 125, 50], bg: [18, 30, 20] },
-  { file: 'pitha-blog.jpg', title: 'Bihu Pitha Carbohydrates', subtitle: 'Portion Control & Glycemic Index', cat: 'blog', color: [245, 124, 0], bg: [30, 22, 14] },
-  { file: 'roti-rice-blog.jpg', title: 'Roti vs Rice Weight Loss', subtitle: 'Calorie & Micronutrient Audit', cat: 'blog', color: [230, 81, 0], bg: [32, 20, 15] },
-  { file: 'masor-tenga-blog.jpg', title: 'Heart Healthy Masor Tenga', subtitle: 'Omega-3 & Organic Acids', cat: 'blog', color: [43, 114, 133], bg: [18, 26, 30] },
-  { file: 'fermented-foods-blog.jpg', title: 'Fermented Foods NE India', subtitle: 'Gut Microbiome & Health', cat: 'blog', color: [142, 36, 170], bg: [26, 18, 30] },
-  { file: 'herbs-blog.jpg', title: 'Traditional Assamese Herbs', subtitle: 'Metabolic & Digestive Wellness', cat: 'blog', color: [46, 125, 50], bg: [18, 30, 20] },
-  { file: 'bug-blog.jpg', title: 'BMR Decimal Feet Bug', subtitle: 'Calculator Accuracy Audit', cat: 'blog', color: [0, 137, 123], bg: [15, 28, 28] },
-  { file: 'brown-basmati-blog.jpg', title: 'Brown Basmati Rice', subtitle: 'Fiber & Weight Loss Guide', cat: 'blog', color: [216, 112, 147], bg: [30, 20, 25] },
-  { file: 'bora-saul-blog.jpg', title: 'Bora Saul Sticky Rice', subtitle: 'Amylopectin & GI Impact', cat: 'blog', color: [245, 124, 0], bg: [30, 22, 14] },
-  { file: 'joha-rice-blog.jpg', title: 'Joha Aromatic Rice', subtitle: 'Antioxidants & Health Benefits', cat: 'blog', color: [43, 114, 133], bg: [18, 26, 30] },
-  { file: 'bao-dhan-blog.jpg', title: 'Bao Dhan Red Rice', subtitle: 'Iron-Rich Superfood of Assam', cat: 'blog', color: [183, 28, 28], bg: [30, 15, 15] }
+  {
+    file: 'khar-blog.jpg',
+    title: 'Khar Calories & Alkaline Benefits',
+    assamese: 'খাৰ আৰু মেটাবলিজম',
+    calories: 'Cornerstone Guide',
+    protein: 'Digestion', carbs: 'Alkaline', fat: 'Detox',
+    category: 'NUTRITION ARTICLE',
+    primaryColor: '#66BB6A',
+    bgColor: '#102416',
+    accentColor: '#A5D6A7'
+  },
+  {
+    file: 'pitha-blog.jpg',
+    title: 'Bihu Pitha Carbohydrates & Portion Control',
+    assamese: 'পিঠা কেলৰি নিৰূপণ',
+    calories: 'Glycemic Index Audit',
+    protein: 'Carbs', carbs: 'Portions', fat: 'Bihu',
+    category: 'CORNERSTONE ARTICLE',
+    primaryColor: '#FFA726',
+    bgColor: '#241A10',
+    accentColor: '#FFCC80'
+  },
+  {
+    file: 'roti-rice-blog.jpg',
+    title: 'Roti vs Rice for Indian Weight Loss',
+    assamese: 'ৰুটি নে ভাত?',
+    calories: 'Calorie Comparison',
+    protein: 'Fiber', carbs: 'Satiety', fat: 'Loss',
+    category: 'DIET AUDIT',
+    primaryColor: '#FF7043',
+    bgColor: '#241410',
+    accentColor: '#FFAB91'
+  },
+  {
+    file: 'masor-tenga-blog.jpg',
+    title: 'Masor Tenga Nutrition & Heart Acids',
+    assamese: 'মাছৰ টেঙাৰ গুণাগুণ',
+    calories: 'Omega-3 Analysis',
+    protein: '14.5g', carbs: '4.0g', fat: 'Heart',
+    category: 'HEALTH ARTICLE',
+    primaryColor: '#42A5F5',
+    bgColor: '#0F1A24',
+    accentColor: '#90CAF9'
+  },
+  {
+    file: 'fermented-foods-blog.jpg',
+    title: 'Fermented Foods of Northeast India',
+    assamese: 'উত্তৰ-পূবৰ অণুজীৱ খাদ্য',
+    calories: 'Microbiome Guide',
+    protein: 'Gut', carbs: 'Probiotic', fat: 'Health',
+    category: 'WELLNESS ARTICLE',
+    primaryColor: '#AB47BC',
+    bgColor: '#201024',
+    accentColor: '#CE93D8'
+  },
+  {
+    file: 'herbs-blog.jpg',
+    title: 'Traditional Assamese Herbs & Health',
+    assamese: 'অসমীয়া শাক-পাচলি',
+    calories: 'Metabolic Support',
+    protein: 'Herbal', carbs: 'Healing', fat: 'Plates',
+    category: 'HERBAL WELLNESS',
+    primaryColor: '#26A69A',
+    bgColor: '#102220',
+    accentColor: '#80CBC4'
+  },
+  {
+    file: 'bug-blog.jpg',
+    title: 'Calculator Accuracy: BMR Feet Bug',
+    assamese: 'কেলকুলেটৰ সঠিকতা',
+    calories: 'Technical Case Study',
+    protein: 'BMR', carbs: 'Mifflin', fat: 'Formula',
+    category: 'TECH INSIGHT',
+    primaryColor: '#26C6DA',
+    bgColor: '#0F2224',
+    accentColor: '#80DEEA'
+  },
+  {
+    file: 'brown-basmati-blog.jpg',
+    title: 'Brown Basmati Rice Weight Loss',
+    assamese: 'ব্ৰাউন বাছমতী চাউল',
+    calories: 'Fiber & Satiety',
+    protein: 'Fiber', carbs: 'Low GI', fat: 'Loss',
+    category: 'GRAIN GUIDE',
+    primaryColor: '#EC407A',
+    bgColor: '#24101A',
+    accentColor: '#F48FB1'
+  },
+  {
+    file: 'bora-saul-blog.jpg',
+    title: 'Bora Saul Sticky Rice Glycemic Index',
+    assamese: 'বৰা চাউলৰ প্ৰভাৱ',
+    calories: 'Amylopectin Breakdown',
+    protein: 'Sticky', carbs: 'Carbs', fat: 'Bihu',
+    category: 'GRAIN AUDIT',
+    primaryColor: '#FFA726',
+    bgColor: '#241A10',
+    accentColor: '#FFE082'
+  },
+  {
+    file: 'joha-rice-blog.jpg',
+    title: 'Joha Rice Antioxidants & Benefits',
+    assamese: 'জোহা চাউলৰ সুগন্ধি',
+    calories: 'Flavonoid Analysis',
+    protein: 'Aroma', carbs: 'Antiox', fat: 'Grains',
+    category: 'SUPERFOOD GUIDE',
+    primaryColor: '#5C6BC0',
+    bgColor: '#141824',
+    accentColor: '#9FA8DA'
+  },
+  {
+    file: 'bao-dhan-blog.jpg',
+    title: 'Bao Dhan Red Rice Superfood',
+    assamese: 'বাও ধান ৰঙা চাউল',
+    calories: 'Iron & Complex Carbs',
+    protein: 'Iron', carbs: 'Zinc', fat: 'Red Rice',
+    category: 'RED RICE GUIDE',
+    primaryColor: '#EF5350',
+    bgColor: '#241012',
+    accentColor: '#EF9A9A'
+  }
 ];
 
 const width = 1200;
 const height = 900;
 
-function drawCard(card) {
-  const frameData = Buffer.alloc(width * height * 4);
+function renderCard(card) {
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
 
-  const [bgR, bgG, bgB] = card.bg;
-  const [accentR, accentG, accentB] = card.color;
+  // Background Fill
+  ctx.fillStyle = card.bgColor;
+  ctx.fillRect(0, 0, width, height);
 
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const idx = (y * width + x) * 4;
+  // Outer Decorative Frame
+  ctx.strokeStyle = card.primaryColor;
+  ctx.lineWidth = 14;
+  ctx.strokeRect(14, 14, width - 28, height - 28);
 
-      // Outer border frame (12px)
-      if (x < 16 || x >= width - 16 || y < 16 || y >= height - 16) {
-        frameData[idx] = accentR;
-        frameData[idx + 1] = accentG;
-        frameData[idx + 2] = accentB;
-        frameData[idx + 3] = 255;
-        continue;
-      }
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(28, 28, width - 56, height - 56);
 
-      // Top banner accent bar (height 120px)
-      if (y >= 16 && y < 136) {
-        frameData[idx] = Math.min(255, accentR + 20);
-        frameData[idx + 1] = Math.min(255, accentG + 20);
-        frameData[idx + 2] = Math.min(255, accentB + 20);
-        frameData[idx + 3] = 255;
-        continue;
-      }
+  // Category Tag Header Bar
+  ctx.fillStyle = card.primaryColor;
+  ctx.fillRect(40, 40, width - 80, 85);
 
-      // Bottom footer branding bar (height 80px)
-      if (y >= height - 96 && y < height - 16) {
-        frameData[idx] = 20;
-        frameData[idx + 1] = 14;
-        frameData[idx + 2] = 12;
-        frameData[idx + 3] = 255;
-        continue;
-      }
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 30px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(card.category, 65, 95);
 
-      // Main background with subtle gradient
-      const gradY = (y / height) * 35;
-      frameData[idx] = Math.max(0, Math.min(255, bgR + gradY));
-      frameData[idx + 1] = Math.max(0, Math.min(255, bgG + gradY));
-      frameData[idx + 2] = Math.max(0, Math.min(255, bgB + gradY));
-      frameData[idx + 3] = 255;
+  // Brand Name in Top Right
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 28px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('KatoriCalorie', width - 65, 95);
 
-      // Stylized Brass Katori Circle Graphic in center-right (cx: 850, cy: 500, r: 240)
-      const dx = x - 850;
-      const dy = y - 500;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+  // Main English Title
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 54px sans-serif';
+  ctx.textAlign = 'left';
 
-      if (dist >= 210 && dist <= 240) {
-        frameData[idx] = accentR;
-        frameData[idx + 1] = accentG;
-        frameData[idx + 2] = accentB;
-      } else if (dist >= 170 && dist <= 185) {
-        frameData[idx] = Math.min(255, accentR + 60);
-        frameData[idx + 1] = Math.min(255, accentG + 60);
-        frameData[idx + 2] = Math.min(255, accentB + 60);
-      } else if (dist >= 90 && dist <= 110) {
-        frameData[idx] = 255;
-        frameData[idx + 1] = 107;
-        frameData[idx + 2] = 53;
-      }
+  // Word wrap title if long
+  const words = card.title.split(' ');
+  let line = '';
+  let yPos = 210;
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > 1070 && n > 0) {
+      ctx.fillText(line.trim(), 65, yPos);
+      line = words[n] + ' ';
+      yPos += 68;
+    } else {
+      line = testLine;
     }
   }
+  ctx.fillText(line.trim(), 65, yPos);
 
-  const rawImageData = {
-    data: frameData,
-    width: width,
-    height: height
-  };
+  // Assamese Dish Subtitle (Regional Script)
+  yPos += 75;
+  ctx.fillStyle = card.accentColor;
+  ctx.font = 'bold 44px sans-serif';
+  ctx.fillText(card.assamese, 65, yPos);
 
-  const jpegImageData = jpeg.encode(rawImageData, 85); // 85% quality
+  // Calorie Badge Box
+  yPos += 65;
+  ctx.fillStyle = 'rgba(255, 107, 53, 0.15)';
+  ctx.strokeStyle = '#FF6B35';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(65, yPos, 480, 110, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#FF6B35';
+  ctx.font = 'bold 40px sans-serif';
+  ctx.fillText(card.calories, 90, yPos + 68);
+
+  // Macro Ring Graphics (Right Side Center Graphic)
+  const cx = 880;
+  const cy = 520;
+  const outerR = 190;
+
+  // Draw Brass Katori Outer Ring
+  ctx.strokeStyle = card.primaryColor;
+  ctx.lineWidth = 18;
+  ctx.beginPath();
+  ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.strokeStyle = card.accentColor;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.arc(cx, cy, outerR - 25, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Katori Center Text
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 36px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('NUTRITION', cx, cy - 15);
+  ctx.fillStyle = card.accentColor;
+  ctx.font = 'bold 32px sans-serif';
+  ctx.fillText('PROFILE', cx, cy + 30);
+
+  // Bottom Macro Pills (Protein, Carbs, Fat)
+  const pillY = 660;
+
+  // Protein Pill
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.strokeStyle = card.primaryColor;
+  ctx.lineWidth = 2;
+
+  ctx.beginPath(); ctx.roundRect(65, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('PROTEIN', 165, pillY + 35);
+  ctx.fillStyle = card.accentColor; ctx.font = 'bold 26px sans-serif';
+  ctx.fillText(card.protein, 165, pillY + 68);
+
+  // Carbs Pill
+  ctx.beginPath(); ctx.roundRect(290, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('CARBS', 390, pillY + 35);
+  ctx.fillStyle = card.accentColor; ctx.font = 'bold 26px sans-serif';
+  ctx.fillText(card.carbs, 390, pillY + 68);
+
+  // Fat Pill
+  ctx.beginPath(); ctx.roundRect(515, pillY, 200, 80, 12); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('FAT / TYPE', 615, pillY + 35);
+  ctx.fillStyle = card.accentColor; ctx.font = 'bold 26px sans-serif';
+  ctx.fillText(card.fat, 615, pillY + 68);
+
+  // Footer Verification Bar
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+  ctx.fillRect(40, height - 100, width - 80, 60);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.font = '22px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Official KatoriCalorie Verified Nutrition Card • Formulated under ICMR-NIN Data', 65, height - 62);
+
+  ctx.fillStyle = card.primaryColor;
+  ctx.font = 'bold 22px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('www.katoricalorie.in', width - 65, height - 62);
+
+  // Encode canvas to Buffer (JPEG format)
+  const buffer = canvas.toBuffer('image/jpeg', { quality: 0.78 });
   const targetPath = path.join(assetsDir, card.file);
-  fs.writeFileSync(targetPath, jpegImageData.data);
+  fs.writeFileSync(targetPath, buffer);
 
-  const sizeKb = (jpegImageData.data.length / 1024).toFixed(1);
+  const sizeKb = (buffer.length / 1024).toFixed(1);
   console.log(`Generated ${card.file} (${width}x${height}, ${sizeKb} KB)`);
 }
 
-console.log('Generating 17 branded card graphics (1200x900, 4:3 ratio)...');
-cards.forEach(drawCard);
-console.log('All 17 card graphics successfully created in assets/ directory.');
+console.log('Generating 17 distinct card graphics with text, Assamese script, and nutrition profiles...');
+cards.forEach(renderCard);
+console.log('All 17 distinct card graphics successfully created in assets/ directory.');

@@ -50,13 +50,15 @@ function fetchUrl(urlStr, options = {}) {
 
     const client = parsed.protocol === 'https:' ? https : http;
     const req = client.request(reqOpts, (res) => {
-      let body = '';
-      res.on('data', chunk => body += chunk);
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
       res.on('end', () => {
+        const rawBuffer = Buffer.concat(chunks);
         resolve({
           status: res.statusCode,
           headers: res.headers,
-          body: body
+          body: rawBuffer.toString('utf-8'),
+          rawBuffer: rawBuffer
         });
       });
     });
@@ -249,7 +251,14 @@ async function runLiveVerification() {
   // 6. Assets & Search Console Verification Guard
   console.log('\n--- 6. assets & search console verification ---');
   check('og-banner.jpg returns 200', (await fetchUrl(`${baseUrl}/assets/og-banner.jpg`)).status, 200);
-  check('google07b32f334e7f727f.html returns 200 (GSC verification guard)', (await fetchUrl(`${baseUrl}/google07b32f334e7f727f.html`)).status, 200);
+
+  const gscRes = await fetchUrl(`${baseUrl}/google07b32f334e7f727f.html`);
+  let gscStatus = gscRes.status;
+  if (gscStatus === 301 || gscStatus === 308) {
+    const loc = gscRes.headers.location || '/google07b32f334e7f727f';
+    gscStatus = (await fetchUrl(`${baseUrl}${loc}`)).status;
+  }
+  check('google07b32f334e7f727f.html resolves to 200 (GSC verification guard)', gscStatus, 200);
 
   // 6b. Orphaned food pages
   console.log('\n--- 6b. orphaned food pages must not be live ---');
@@ -426,7 +435,8 @@ async function runLiveVerification() {
     red('/food/masor-tenga-recipe-nutrition Recipe schema missing required fields or contains invalid rating/video');
   }
 
-  // 11g. Image card assets check (all 17 generated card JPGs return 200)
+  // 11g. Image card assets check (all 17 generated card JPGs return 200, 30KB-200KB, 100% DISTINCT MD5 hashes)
+  const crypto = require('crypto');
   const cardImages = [
     '/assets/masor-tenga.jpg', '/assets/omita-khar.jpg', '/assets/aloo-pitika.jpg', '/assets/dosa-sambar.jpg',
     '/assets/naga-pork.jpg', '/assets/til-pitha.jpg', '/assets/khar-blog.jpg', '/assets/pitha-blog.jpg',
@@ -435,15 +445,32 @@ async function runLiveVerification() {
     '/assets/bora-saul-blog.jpg', '/assets/joha-rice-blog.jpg', '/assets/bao-dhan-blog.jpg'
   ];
   let imgFail = 0;
+  const imageHashes = new Set();
+
   for (const imgPath of cardImages) {
     const res = await fetchUrl(`${baseUrl}${imgPath}`);
     if (res.status !== 200) {
       red(`  ${imgPath} returned ${res.status}`);
       imgFail++;
+    } else {
+      const buf = res.rawBuffer || Buffer.from(res.body);
+      const hash = crypto.createHash('md5').update(buf).digest('hex');
+      imageHashes.add(hash);
+      const byteSize = buf.length;
+      if (byteSize < 30 * 1024 || byteSize > 200 * 1024) {
+        red(`  ${imgPath} size is ${(byteSize / 1024).toFixed(1)} KB — expected between 30 KB and 200 KB`);
+        imgFail++;
+      }
     }
   }
-  if (imgFail === 0) green('All 17 generated dish/blog card graphic images return HTTP 200');
-  else red(`${imgFail} card graphic images failed to return 200`);
+  if (imgFail === 0) green('All 17 generated dish/blog card graphic images return HTTP 200 and valid file sizes');
+  else red(`${imgFail} card graphic image test(s) failed`);
+
+  if (imageHashes.size === cardImages.length) {
+    green(`All ${cardImages.length} card images have 100% DISTINCT MD5 hashes`);
+  } else {
+    red(`Card images contain duplicates! Found ${imageHashes.size} distinct hashes for ${cardImages.length} images`);
+  }
 
   // 12. Host canonicalisation (production/live only)
   if (baseUrl.includes('katoricalorie.in')) {
