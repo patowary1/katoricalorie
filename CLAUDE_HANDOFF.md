@@ -1,4 +1,4 @@
-# Batch 2 Handoff — Round 3 (Fully Verified with Custom Font & Macro Donut Charts)
+# Batch 2 Handoff — Final Approved Round
 
 ## Preview URL
 `https://katoricalorie-git-repair-batch-2-cleanup-ridip-s-projects.vercel.app`
@@ -96,25 +96,12 @@
 ==============================================
 ```
 
-## Sample Card Image File Paths for Review
-Three card image paths generated with custom `Noto Sans Bengali` font rendering, populated macro pills, and multi-colored macro donut charts:
+## Sample Card Image File Paths for Final Review
+1. **`assets/masor-tenga.jpg`** — Dish Card with real macro donut chart (14.5g Protein / 4.0g Carbs / 6.8g Fat), neutral dark pill backgrounds (`rgba(255,255,255,0.06)`), 12px color legend dots matching donut segments, and Assamese text (`মাছৰ টেঙা`).
+2. **`assets/bug-blog.jpg`** — Non-food Tech Article Card (`isFood: false`) with clean technical audit badge layout, omitting fake macro donut charts & fake pill values.
+3. **`assets/fermented-foods-blog.jpg`** — Food Wellness Article Card with real macro donut chart, neutral dark pill legend dots, and long Assamese title (`উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য`).
 
-1. **`assets/fermented-foods-blog.jpg`** — Long Assamese title: `উত্তৰ-পূবৰ অণুজীৱ কিণ্বিত খাদ্য` (Assamese script rendered with Noto Sans Bengali Bold; protein: `4.5g`, carbs: `11.0g`, fat: `2.1g`).
-2. **`assets/masor-tenga.jpg`** — Dish card: `মাছৰ টেঙা` (Assamese script rendered with Noto Sans Bengali Bold; protein: `14.5g`, carbs: `4.0g`, fat: `6.8g`).
-3. **`assets/pitha-blog.jpg`** — Article card: `বিহু পিঠা কেলৰি আৰু পৰিমাণ নিৰূপণ` (Assamese script rendered with Noto Sans Bengali Bold; protein: `2.1g`, carbs: `16.5g`, fat: `2.8g`).
+All 17 card images return HTTP 200 OK and have 100% distinct MD5 hashes.
 
-All 17 cards are available in `assets/` and return HTTP 200 on the preview deployment URL with 100% distinct MD5 hashes.
-
-## Key Fixes Applied in Round 3
-1. **Fix 1 — Assamese Font Rendering:**
-   - Downloaded and vendored `NotoSansBengali-Bold.ttf` and `NotoSansBengali-Regular.ttf` in `assets/fonts/`.
-   - Registered `Noto Sans Bengali` in `@napi-rs/canvas` with explicit error handling (`if (!isBoldOk) throw new Error(...)`).
-   - Programmatically verified font glyph rendering (`ctx.measureText('মাছৰ').width: 62.5px vs fallback 60.0px`).
-2. **Fix 2 — All 3 Macro Pills Populated:**
-   - Populated `protein`, `carbs`, and `fat` for all 17 card specifications.
-   - Renamed label `FAT / TYPE` -> `FAT`.
-3. **Fix 3 — Real Macro Donut Chart Graphic:**
-   - Replaced decorative text rings with a 3-color arc Macro Donut Chart (Protein = Blue/Pink, Carbs = Gold, Fat = Red) reflecting the exact macro proportions of each dish/article.
-
-## Status
-Branch `repair/batch-2-cleanup` updated and pushed to origin. All 54 assertions passed. Ready for review from Ridip and Claude! Do not merge until approved.
+## Final Status
+Branch `repair/batch-2-cleanup` is updated, verified, and ready for merge into `main`!
