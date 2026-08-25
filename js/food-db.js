@@ -443,7 +443,7 @@ const foodDatabase = [
   },
   {
     id: "dosa-sambar",
-    name: "Masala Dosa with Sambar",
+    name: "Plain Dosa with Sambar",
     calories: 240,
     protein: 6.5,
     carbs: 44,
@@ -769,6 +769,18 @@ const foodDatabase = [
   }
 ];
 
+// Backward compatibility alias map for legacy persisted client state (localStorage / bookmarks)
+const foodAliases = {
+  'brown-basmati': 'brown-basmati-rice',
+  'hard-boiled-egg': 'boiled-egg'
+};
+
+function getFoodById(id) {
+  if (!id) return undefined;
+  const canonicalId = foodAliases[id] || id;
+  return foodDatabase.find(f => f.id === canonicalId);
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { foodDatabase };
+  module.exports = { foodDatabase, foodAliases, getFoodById };
 }

@@ -128,16 +128,23 @@ items.forEach(item => {
     };
   } else if (item.id === 'aloo-pitika') {
     item.calories = 90;
+    item.protein = 2.0;
+    item.carbs = 18.5;
+    item.fat = 2.1;
+    item.fiber = 1.8;
     item.unit = '1 serving (100g)';
     qty = 100;
     unit = 'g';
     label = '1 serving (100g)';
     evidence = {
-      status: 'verified_calories_macros_pending_review',
+      status: 'pending_review',
+      caloriesStatus: 'approved_estimate',
+      macrosStatus: 'unverified_estimate',
       sourceType: 'standard-simple-prep',
-      sourceNote: 'Approved standard prep calorie basis = 90 kcal / 100g (boiled potato + raw mustard oil drizzle + onion/chili). Macro breakdown flagged pending definitive assay.'
+      sourceNote: 'Standard simple prep approved at 90 kcal / 100g. Macronutrient breakdown (2.0g P, 18.5g C, 2.1g F) is an unverified estimate pending formal food composition assay.'
     };
   } else if (item.id === 'dosa-sambar' || item.id === 'plain-dosa-sambar') {
+    item.name = 'Plain Dosa with Sambar';
     item.calories = 240;
     item.protein = 6.5;
     item.carbs = 44.0;
@@ -148,13 +155,17 @@ items.forEach(item => {
     unit = 'plate';
     label = '1 plate (1 Dosa + Sambar)';
     evidence = {
-      status: 'verified',
+      status: 'approved_composite_estimate',
+      caloriesStatus: 'approved_estimate',
+      macrosStatus: 'composite_estimate',
       sourceType: 'standard-combination-portion',
-      sourceNote: 'Standard plain fermented rice-lentil crepe (~125 kcal) + 1 cup vegetable-lentil sambar (~110 kcal) = ~235-240 kcal.'
+      sourceNote: 'Composite estimate: 1 plain dosa (~125 kcal, 3.0g P, 22.0g C, 2.5g F) + 1 cup vegetable-toor dal sambar (~110 kcal, 3.5g P, 22.0g C, 1.3g F) = 240 kcal (6.5g P, 44.0g C, 3.8g F). Individual recipe variations can shift macros depending on griddle oil.'
     };
   } else if (item.id === 'omita-khar') {
     evidence = {
       status: 'pending_review',
+      caloriesStatus: 'pending_review',
+      macrosStatus: 'pending_review',
       sourceType: 'unresolved-discrepancy',
       sourceNote: 'Discrepancy between 65 kcal in app food-db vs 55 kcal in recipe guide/cards for 150g serving. Unresolved pending standardized recipe calculation. Values kept as pending_review without guessing.'
     };

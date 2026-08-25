@@ -66,9 +66,23 @@ otherItems.forEach(item => {
 // Remove trailing comma
 jsContent = jsContent.replace(/,\n$/, '\n');
 jsContent += `];\n\n`;
-jsContent += `if (typeof module !== 'undefined' && module.exports) {\n`;
-jsContent += `  module.exports = { foodDatabase };\n`;
-jsContent += `}\n`;
+
+jsContent += `// Backward compatibility alias map for legacy persisted client state (localStorage / bookmarks)
+const foodAliases = {
+  'brown-basmati': 'brown-basmati-rice',
+  'hard-boiled-egg': 'boiled-egg'
+};
+
+function getFoodById(id) {
+  if (!id) return undefined;
+  const canonicalId = foodAliases[id] || id;
+  return foodDatabase.find(f => f.id === canonicalId);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { foodDatabase, foodAliases, getFoodById };
+}
+`;
 
 fs.writeFileSync(foodDbJsPath, jsContent, 'utf-8');
-console.log(`Successfully generated clean js/food-db.js with ${items.length} unique items.`);
+console.log(`Successfully generated clean js/food-db.js with ${items.length} unique items and alias compatibility.`);

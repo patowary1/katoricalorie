@@ -43,6 +43,8 @@
     "desc": "A signature Assamese dish made from green papaya cooked with 'kolkhar'—an alkaline extract filtered from the ashes of sun-dried banana peels. It is traditionally eaten at the start of a meal to soothe the digestive system.",
     "evidence": {
       "status": "pending_review",
+      "caloriesStatus": "pending_review",
+      "macrosStatus": "pending_review",
       "sourceType": "unresolved-discrepancy",
       "sourceNote": "Discrepancy between 65 kcal in app food-db vs 55 kcal in recipe guide/cards for 150g serving. Unresolved pending standardized recipe calculation. Values kept as pending_review without guessing."
     }
@@ -66,9 +68,11 @@
     },
     "desc": "Comforting mashed potatoes mixed with raw onions, green chilies, and a drizzle of raw mustard oil. Simple, warming, and packed with carbohydrate energy.",
     "evidence": {
-      "status": "verified_calories_macros_pending_review",
+      "status": "pending_review",
+      "caloriesStatus": "approved_estimate",
+      "macrosStatus": "unverified_estimate",
       "sourceType": "standard-simple-prep",
-      "sourceNote": "Approved standard prep calorie basis = 90 kcal / 100g (boiled potato + raw mustard oil drizzle + onion/chili). Macro breakdown flagged pending definitive assay."
+      "sourceNote": "Standard simple prep approved at 90 kcal / 100g. Macronutrient breakdown (2.0g P, 18.5g C, 2.1g F) is an unverified estimate pending formal food composition assay."
     }
   },
   "mati-dal": {
@@ -817,7 +821,7 @@
   },
   "dosa-sambar": {
     "id": "dosa-sambar",
-    "name": "Masala Dosa with Sambar",
+    "name": "Plain Dosa with Sambar",
     "nameRegional": "",
     "category": "staples",
     "serving": {
@@ -834,9 +838,11 @@
     },
     "desc": "A crispy fermented rice crepe folded over a spiced potato filling, paired with vegetable-lentil soup. A popular South Indian breakfast that balances energy and proteins.",
     "evidence": {
-      "status": "verified",
+      "status": "approved_composite_estimate",
+      "caloriesStatus": "approved_estimate",
+      "macrosStatus": "composite_estimate",
       "sourceType": "standard-combination-portion",
-      "sourceNote": "Standard plain fermented rice-lentil crepe (~125 kcal) + 1 cup vegetable-lentil sambar (~110 kcal) = ~235-240 kcal."
+      "sourceNote": "Composite estimate: 1 plain dosa (~125 kcal, 3.0g P, 22.0g C, 2.5g F) + 1 cup vegetable-toor dal sambar (~110 kcal, 3.5g P, 22.0g C, 1.3g F) = 240 kcal (6.5g P, 44.0g C, 3.8g F). Individual recipe variations can shift macros depending on griddle oil."
     }
   },
   "idli": {

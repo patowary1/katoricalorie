@@ -338,11 +338,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const param1 = urlParams.get('food1');
     const param2 = urlParams.get('food2');
 
-    let exists1 = foodDatabase.some(f => f.id === param1);
-    let exists2 = foodDatabase.some(f => f.id === param2);
+    const food1 = (typeof getFoodById === 'function' ? getFoodById(param1) : foodDatabase.find(f => f.id === param1));
+    const food2 = (typeof getFoodById === 'function' ? getFoodById(param2) : foodDatabase.find(f => f.id === param2));
 
-    if (exists1) select1.value = param1;
-    if (exists2) select2.value = param2;
+    if (food1) select1.value = food1.id;
+    if (food2) select2.value = food2.id;
   }
 
   // Event Listeners
