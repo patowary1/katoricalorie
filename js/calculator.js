@@ -661,9 +661,9 @@ function setupCalculatorListeners() {
       saveState();
       updateUI();
       
-      // Analytics: intentional TDEE calculation & target application (action-only, zero sensitive metrics)
+      // Analytics: intentional target application (action-only, zero sensitive metrics)
       if (typeof trackKatoriEvent === 'function') {
-        trackKatoriEvent('tdee_calculated');
+        trackKatoriEvent('daily_target_applied');
       }
       
       showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');

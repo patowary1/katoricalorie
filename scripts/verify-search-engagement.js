@@ -130,8 +130,8 @@ assert(!threw, 'trackKatoriEvent fails silently when window.umami is undefined')
 const bmrFnMatch = calcJs.match(/function calculateBMR\(\)[\s\S]*?return state\.bmr;\s*\}/);
 assert(bmrFnMatch && !bmrFnMatch[0].includes('trackKatoriEvent'), 'calculateBMR() does NOT fire trackKatoriEvent (slider movements do not emit telemetry)');
 
-// Test that btnApplyTarget click DOES trigger trackKatoriEvent('tdee_calculated')
-assert(calcJs.includes("trackKatoriEvent('tdee_calculated')"), "btnApplyTarget click triggers trackKatoriEvent('tdee_calculated') on intentional application");
+// Test that btnApplyTarget click DOES trigger trackKatoriEvent('daily_target_applied')
+assert(calcJs.includes("trackKatoriEvent('daily_target_applied')"), "btnApplyTarget click triggers trackKatoriEvent('daily_target_applied') on intentional application");
 
 // Test privacy sanitizer stripping sensitive fields
 const dirtyPayload = {
