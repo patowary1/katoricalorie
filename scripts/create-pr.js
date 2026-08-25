@@ -15,42 +15,38 @@ if (!token) {
 }
 
 const payload = JSON.stringify({
-  title: 'Phase 3B-1: Nutrition data integrity and trust foundation',
-  head: 'repair/phase-3b1-data-integrity',
+  title: 'Phase 3B-2A: Search intent, internal discovery and engagement tracking',
+  head: 'growth/phase-3b2a-search-engagement',
   base: 'main',
-  body: `## Summary of Phase 3B-1 Implementation
+  body: `## Phase 3B-2A Implementation Summary
 
-### 1. Canonical Nutrition Dataset
-- Established single source of truth in \`data/nutrition-db.json\` with 60 canonical food records.
-- Synchronized \`js/food-db.js\`, Recipe JSON-LD schemas, and 17 generated card graphics.
-- Added \`scripts/verify-nutrition-data.js\` with 27 passing checks and 2 explicit pending review flags.
+### 1. English Homepage Intent (SEO Experiment 1)
+- **Title:** \`Indian & Assamese Food Calories by Katori | KatoriCalorie\`
+- **H1:** \`Indian & Assamese Food Calories by Katori\`
+- **Description & Subtitle:** \`Search calories for Indian and Assamese foods by katori, plate or piece. Build your thali, compare portions and estimate your daily calorie needs.\`
 
-### 2. Nutrition Decisions Implemented
-- **Masor Tenga:** 140 kcal / 200ml (Preserved)
-- **Joha Rice:** 150 kcal / 150g cooked katori (Preserved)
-- **Bao Dhan:** 155 kcal / 150g cooked katori (Preserved)
-- **Bora Saul:** 180 kcal / 150g cooked katori (Preserved)
-- **Til Pitha:** Normalized to 110 kcal / 30g piece (derived from 366 kcal / 100g scientific composition)
-- **Aloo Pitika:** Normalized to approved 90 kcal / 100g simple prep; macros flagged as unverified estimate pending assay.
-- **Dosa + Sambar:** Normalized to 240 kcal / plate composite estimate.
-- **Omita Khar:** Flagged as pending_review without guessing (55 vs 65 kcal).
+### 2. Regional Priority Pages (SEO Experiment 2)
+- **Bao Dhan:** \`Bao Dhan Red Rice Calories & Nutrition | KatoriCalorie\` (H1: \`Bao Dhan Red Rice: Calories & Nutrition\`)
+- **Joha Rice:** \`Joha Rice Calories, Nutrition & Benefits | KatoriCalorie\` (H1: \`Joha Rice: Calories, Nutrition & Benefits\`)
+- **Til Pitha:** \`Til Pitha Calories per Piece & Portion Guide | KatoriCalorie\` (H1: \`Til Pitha Calories & Portion Guide\`)
+- **Bora Saul:** \`Bora Saul Calories & Nutrition | KatoriCalorie\` (H1: \`Bora Saul: Calories & Nutrition\`)
 
-### 3. Trust & Claim Softening
-- Softened 100% precision claims across EN, AS, HI \`why-accuracy.html\`.
-- Softened anti-diabetic claims on Joha Rice to antioxidant and ongoing metabolic research framing.
-- Softened Khar physiological / detox assertions to traditional culinary starter framing.
-- Softened exact GI and disease prevention wording across Bao Dhan, Bora Saul, and Masor Tenga articles.
+### 3. Food-to-Content Mapping (Internal Discovery)
+- Created \`data/food-content-map.json\` mapping 10 core foods to canonical guides.
+- Rendered crawlable, keyboard-accessible \`<a href="..." class="food-detail-link">\` on food cards with sufficient touch separation.
 
-### 4. Deduplication & Compatibility
-- Deduplicated \`brown-basmati-rice\` and \`boiled-egg\`.
-- Added \`foodAliases\` mapping and \`getFoodById\` resolver in \`js/food-db.js\`, \`js/calculator.js\`, and \`js/compare.js\` to preserve legacy persisted client state.
-- Preserved Moong Dal (\`mug-dal\`) and Masoor Dal (\`masoor-dal\`) exactly once.
+### 4. Static Internal Discovery & Related Sections
+- Added compact \`Popular Calorie & Nutrition Guides\` section to English homepage.
+- Added contextual related links across Bao Dhan, Joha Rice, Til Pitha, and Bora Saul articles.
 
-### 5. Verification
-- Deterministic Nutrition Suite: **27 PASSED | 2 PENDING REVIEW | 0 FAILED**
-- Live Production Regression Suite: **55/55 PASSED (100%)**
-- Branch: \`repair/phase-3b1-data-integrity\`
-- Status: **Awaiting CTO / User Approval before Merge**`
+### 5. Privacy-Conscious Umami Product Telemetry
+- Created \`js/analytics.js\` wrapper \`trackKatoriEvent(name, data)\`.
+- Zero PII, zero health metrics, zero raw query text. Fails silently if analytics is blocked.
+- Events tracked: \`food_search_used\`, \`food_added\`, \`thali_started\`, \`portion_changed\`, \`tdee_calculated\`, \`detail_opened\`, \`language_switched\`, \`meal_bookmarked\`.
+
+### 6. Verification
+- Deterministic Search & Engagement Suite: **48 PASSED | 0 FAILED**
+- Deterministic Nutrition Suite: **27 PASSED | 2 PENDING REVIEW | 0 FAILED**`
 });
 
 const req = https.request({
