@@ -1,0 +1,1442 @@
+{
+  "masor-tenga": {
+    "id": "masor-tenga",
+    "name": "Masor Tenga",
+    "nameRegional": "মাছৰ টেঙা",
+    "category": "assamese",
+    "serving": {
+      "label": "1 serving (200ml)",
+      "quantity": 200,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 140,
+      "protein_g": 14.5,
+      "carbs_g": 4,
+      "fat_g": 6.8,
+      "fiber_g": 1.2
+    },
+    "desc": "A light and sour traditional Assamese fish curry prepared with cross-cut drying of garcinia pedunculata (thekera tenga), tomatoes, outenga, or fresh lemon. Features fresh local pond, lake, or river fish cooked with minimal mustard oil, offering high omega-3s with very few calories.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "omita-khar": {
+    "id": "omita-khar",
+    "name": "Omita Khar",
+    "nameRegional": "অমিতা খাৰ",
+    "category": "assamese",
+    "serving": {
+      "label": "1 serving (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 65,
+      "protein_g": 1.2,
+      "carbs_g": 9.8,
+      "fat_g": 0.2,
+      "fiber_g": 2.4
+    },
+    "desc": "A signature Assamese dish made from green papaya cooked with 'kolkhar'—an alkaline extract filtered from the ashes of sun-dried banana peels. It is traditionally eaten at the start of a meal to soothe the digestive system.",
+    "evidence": {
+      "status": "pending_review",
+      "sourceType": "unresolved-discrepancy",
+      "sourceNote": "Discrepancy between 65 kcal in app food-db vs 55 kcal in recipe guide/cards for 150g serving. Unresolved pending standardized recipe calculation. Values kept as pending_review without guessing."
+    }
+  },
+  "aloo-pitika": {
+    "id": "aloo-pitika",
+    "name": "Aloo Pitika",
+    "nameRegional": "আলু পিটিকা",
+    "category": "assamese",
+    "serving": {
+      "label": "1 serving (100g)",
+      "quantity": 100,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 90,
+      "protein_g": 2,
+      "carbs_g": 18.5,
+      "fat_g": 2.1,
+      "fiber_g": 1.8
+    },
+    "desc": "Comforting mashed potatoes mixed with raw onions, green chilies, and a drizzle of raw mustard oil. Simple, warming, and packed with carbohydrate energy.",
+    "evidence": {
+      "status": "verified_calories_macros_pending_review",
+      "sourceType": "standard-simple-prep",
+      "sourceNote": "Approved standard prep calorie basis = 90 kcal / 100g (boiled potato + raw mustard oil drizzle + onion/chili). Macro breakdown flagged pending definitive assay."
+    }
+  },
+  "mati-dal": {
+    "id": "mati-dal",
+    "name": "Mati Dal",
+    "nameRegional": "মাটিমাহৰ দাইল",
+    "category": "assamese",
+    "serving": {
+      "label": "1 serving (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 125,
+      "protein_g": 8.2,
+      "carbs_g": 19.5,
+      "fat_g": 1.5,
+      "fiber_g": 4.5
+    },
+    "desc": "Slow-cooked split black lentils simmered with ginger, garlic, and wild coriander. Creamy and hearty without any heavy cream or butter.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "dhekia-sak": {
+    "id": "dhekia-sak",
+    "name": "Dhekia Sak Bhaji",
+    "nameRegional": "ঢেকীয়া শাক ভাজি",
+    "category": "assamese",
+    "serving": {
+      "label": "1 serving (120g)",
+      "quantity": 120,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 75,
+      "protein_g": 3.4,
+      "carbs_g": 6.2,
+      "fat_g": 4.2,
+      "fiber_g": 3.8
+    },
+    "desc": "Tender fiddlehead ferns wild-foraged from regional riverbanks, stir-fried with tiny potato strips and garlic. High in iron, dietary fiber, and essential minerals.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "haah-kumura": {
+    "id": "haah-kumura",
+    "name": "Haah Kumura",
+    "nameRegional": "হাঁহৰ মাংস",
+    "category": "assamese",
+    "serving": {
+      "label": "1 plate (200g)",
+      "quantity": 200,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 340,
+      "protein_g": 22.4,
+      "carbs_g": 8.5,
+      "fat_g": 24.2,
+      "fiber_g": 2.1
+    },
+    "desc": "A rustic, slow-cooked traditional Assamese duck curry prepared with fresh winter ash gourd (Chal Kumura), fresh ginger, garlic, and whole spices. Hearty, rich in iron, and deeply comforting.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "gahori-bhaji": {
+    "id": "gahori-bhaji",
+    "name": "Local Gahori Bhaji",
+    "nameRegional": "গাহৰি মাংস ভাজি",
+    "category": "assamese",
+    "serving": {
+      "label": "1 plate (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 290,
+      "protein_g": 20.2,
+      "carbs_g": 2.1,
+      "fat_g": 22.5,
+      "fiber_g": 0.5
+    },
+    "desc": "Local pork cuts dry-fried with green chilies, ginger paste, and regional herbs. It delivers high-quality protein and rich flavors with a traditional crispy finish.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "masor-poora": {
+    "id": "masor-poora",
+    "name": "Goroi Masor Poora",
+    "nameRegional": "পুৰা গৰৈ মাছ",
+    "category": "assamese",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 110,
+      "protein_g": 16.5,
+      "carbs_g": 1.2,
+      "fat_g": 4.5,
+      "fiber_g": 0.2
+    },
+    "desc": "Fresh local pond or lake mudfish (Goroi fish) marinated with fresh green chilies, raw mustard oil, and coriander, wrapped in a banana leaf and slow-grilled over hot embers for an authentic smoky flavor.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "til-pitha": {
+    "id": "til-pitha",
+    "name": "Til Pitha",
+    "nameRegional": "তিল পিঠা",
+    "category": "assamese",
+    "serving": {
+      "label": "1 piece (~30g)",
+      "quantity": 30,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 110,
+      "protein_g": 2.94,
+      "carbs_g": 15.03,
+      "fat_g": 4.21,
+      "fiber_g": 1.05
+    },
+    "desc": "A delicate, cylindrical roasted rice cake wrapper stuffed with a sweet, roasted black sesame seed and jaggery filling. A classic Bihu festival treat.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "assam-agricultural-university-ijtk",
+      "sourceNote": "Assam Agricultural University / IJTK published composition: 365.88 kcal, 9.81g P, 50.11g C, 14.02g F per 100g. Derived 30g piece = ~110 kcal."
+    }
+  },
+  "ghila-pitha": {
+    "id": "ghila-pitha",
+    "name": "Ghila Pitha",
+    "nameRegional": "ঘিলা পিঠা",
+    "category": "assamese",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 150,
+      "protein_g": 1.5,
+      "carbs_g": 28.5,
+      "fat_g": 4.5,
+      "fiber_g": 0.8
+    },
+    "desc": "A fried sweet rice cake flavored with liquid jaggery, crisp on the outside and soft inside. High in carbohydrates and ideal for moderate energy snacking.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "komal-saul": {
+    "id": "komal-saul",
+    "name": "Komal Saul",
+    "nameRegional": "কোমল চাউল",
+    "category": "assamese",
+    "serving": {
+      "label": "1 cup (soaked, 100g)",
+      "quantity": 100,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 130,
+      "protein_g": 2.5,
+      "carbs_g": 28,
+      "fat_g": 0.3,
+      "fiber_g": 1.2
+    },
+    "desc": "A unique, native variety of precooked soft rice that needs only simple soaking in cold water. Served with cream (doi) and jaggery for a traditional breakfast.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "bora-saul": {
+    "id": "bora-saul",
+    "name": "Bora Saul",
+    "nameRegional": "বৰা চাউল",
+    "category": "assamese",
+    "serving": {
+      "label": "1 katori cooked (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 180,
+      "protein_g": 3.2,
+      "carbs_g": 38,
+      "fat_g": 0.8,
+      "fiber_g": 0.8
+    },
+    "desc": "Traditional Assamese glutinous sticky rice. Rich in amylopectin starch, it yields a sticky texture and is highly valued for Bihu pithas and traditional breakfast treats.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "regional-grain-standard",
+      "sourceNote": "Cooked waxy glutinous rice with high amylopectin starch content (180 kcal / 150g cooked katori)."
+    }
+  },
+  "joha-rice": {
+    "id": "joha-rice",
+    "name": "Joha Rice",
+    "nameRegional": "জোহা চাউল",
+    "category": "assamese",
+    "serving": {
+      "label": "1 katori cooked (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 150,
+      "protein_g": 3.8,
+      "carbs_g": 31.5,
+      "fat_g": 1,
+      "fiber_g": 1.2
+    },
+    "desc": "Premium indigenous aromatic rice variety from Assam, known for its sweet scent, high antioxidants, and excellent export-quality taste.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "regional-grain-standard",
+      "sourceNote": "Cooked aromatic indigenous Assam short/medium-grain rice (150 kcal / 150g cooked katori)."
+    }
+  },
+  "bao-dhan": {
+    "id": "bao-dhan",
+    "name": "Bao Dhan",
+    "nameRegional": "বাও ধান",
+    "category": "assamese",
+    "serving": {
+      "label": "1 katori cooked (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 155,
+      "protein_g": 4.2,
+      "carbs_g": 32,
+      "fat_g": 1.1,
+      "fiber_g": 2.8
+    },
+    "desc": "Deepwater red rice from the Brahmaputra floodplain. Packed with anthocyanin antioxidants, iron, and trace zinc. Recognized globally as a nutrient-dense superfood.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "regional-grain-standard",
+      "sourceNote": "Cooked Assam deep-water red rice rich in mineral ash and anthocyanins (155 kcal / 150g cooked katori)."
+    }
+  },
+  "pork-bamboo-shoot": {
+    "id": "pork-bamboo-shoot",
+    "name": "Pork with Bamboo Shoot",
+    "nameRegional": "বাঁহৰ গাজৰে সৈতে গাহৰি মাংস",
+    "category": "northeast",
+    "serving": {
+      "label": "1 plate (200g)",
+      "quantity": 200,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 320,
+      "protein_g": 24.5,
+      "carbs_g": 3.5,
+      "fat_g": 22.8,
+      "fiber_g": 1.5
+    },
+    "desc": "A beloved Naga dish of tender pork slow-cooked in its own natural juices with fermented bamboo shoots and fiery king chilies. Oil-free, smoky, and intensely savory.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "baah-gaj-tenga": {
+    "id": "baah-gaj-tenga",
+    "name": "Baah Gaj Tenga",
+    "nameRegional": "বাঁহ গাজ টেঙা",
+    "category": "northeast",
+    "serving": {
+      "label": "1 serving (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 80,
+      "protein_g": 1.8,
+      "carbs_g": 8.5,
+      "fat_g": 4.5,
+      "fiber_g": 2.5
+    },
+    "desc": "A refreshing, tangy vegetarian broth prepared with fermented bamboo shoots, tomatoes, and regional wild herbs. It is light, sour, and helps cleanse the digestive tract.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "smoked-chicken-herbs": {
+    "id": "smoked-chicken-herbs",
+    "name": "Smoked Chicken with Herbs",
+    "nameRegional": "স্মোকড চিকেন",
+    "category": "northeast",
+    "serving": {
+      "label": "1 serving (180g)",
+      "quantity": 180,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 180,
+      "protein_g": 24.8,
+      "carbs_g": 2,
+      "fat_g": 8.2,
+      "fiber_g": 1.2
+    },
+    "desc": "Chicken pieces smoked over firewood, then simmered with local forest greens, ginger, and garlic. Lean protein with a deep, rustic woodfire aroma.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "eromba": {
+    "id": "eromba",
+    "name": "Eromba",
+    "nameRegional": "Manipuri Eromba",
+    "category": "northeast",
+    "serving": {
+      "label": "1 serving (100g)",
+      "quantity": 100,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 60,
+      "protein_g": 4.2,
+      "carbs_g": 9.5,
+      "fat_g": 0.8,
+      "fiber_g": 2.8
+    },
+    "desc": "A traditional Manipuri dish prepared by boiling vegetables, potatoes, and mushrooms, mashed together with fermented fish paste and fiery chilies. An aromatic, oil-free delicacy.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "naga-galho": {
+    "id": "naga-galho",
+    "name": "Naga Galho",
+    "nameRegional": "গালহো",
+    "category": "northeast",
+    "serving": {
+      "label": "1 bowl (250g)",
+      "quantity": 250,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 210,
+      "protein_g": 8.5,
+      "carbs_g": 34,
+      "fat_g": 4.5,
+      "fiber_g": 3.2
+    },
+    "desc": "A hearty Naga soupy rice dish slow-cooked with fresh local seasonal greens, ginger, garlic, and optional smoked pork, creating a wholesome, comforting, and warming meal.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "naga-boiled-veg": {
+    "id": "naga-boiled-veg",
+    "name": "Naga Boiled Vegetables",
+    "nameRegional": "হিংকেজু",
+    "category": "northeast",
+    "serving": {
+      "label": "1 serving (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 45,
+      "protein_g": 2.8,
+      "carbs_g": 7.5,
+      "fat_g": 0.2,
+      "fiber_g": 3.6
+    },
+    "desc": "A traditional oil-free preparation of native leafy greens boiled with a pinch of salt and local Sichuan peppercorns, supporting digestive health with zero added fats.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "manipuri-singju": {
+    "id": "manipuri-singju",
+    "name": "Manipuri Singju",
+    "nameRegional": "শিংজু",
+    "category": "northeast",
+    "serving": {
+      "label": "1 serving (120g)",
+      "quantity": 120,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 85,
+      "protein_g": 3.2,
+      "carbs_g": 14.5,
+      "fat_g": 1.2,
+      "fiber_g": 4.8
+    },
+    "desc": "A spicy, oil-free Manipuri salad made with finely shredded cabbage, seasonal herbs, lotus stems, and banana inflorescence, dressed in toasted chickpea powder and fermented fish paste.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "manipuri-kangshoi": {
+    "id": "manipuri-kangshoi",
+    "name": "Manipuri Kangshoi",
+    "nameRegional": "কাঙশৌ",
+    "category": "northeast",
+    "serving": {
+      "label": "1 bowl (200ml)",
+      "quantity": 200,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 55,
+      "protein_g": 2.5,
+      "carbs_g": 9.8,
+      "fat_g": 0.1,
+      "fiber_g": 2.9
+    },
+    "desc": "A simple, comforting boiled vegetable soup prepared with seasonal greens, sliced onions, ginger, and dried fish (ngari), cooked completely without oil.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "khasi-jadoh": {
+    "id": "khasi-jadoh",
+    "name": "Khasi Jadoh",
+    "nameRegional": "জাদহ",
+    "category": "northeast",
+    "serving": {
+      "label": "1 plate (200g)",
+      "quantity": 200,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 310,
+      "protein_g": 12.8,
+      "carbs_g": 49.5,
+      "fat_g": 6.2,
+      "fiber_g": 1.8
+    },
+    "desc": "A classic Khasi festival rice dish cooked with short-grain red rice, ginger, black pepper, and minced pork or chicken, featuring a deep, earthy spiced flavor.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "khasi-dohneiiong": {
+    "id": "khasi-dohneiiong",
+    "name": "Khasi Dohneiiong",
+    "nameRegional": "দহনেইয়ং",
+    "category": "northeast",
+    "serving": {
+      "label": "1 bowl (180g)",
+      "quantity": 180,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 320,
+      "protein_g": 18.5,
+      "carbs_g": 3.2,
+      "fat_g": 25.4,
+      "fiber_g": 2
+    },
+    "desc": "A highly aromatic Khasi pork curry slow-cooked with toasted black sesame paste, ginger, garlic, and local spices, creating a rich and savory dark gravy.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "roti": {
+    "id": "roti",
+    "name": "Plain Roti / Chapatis",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 75,
+      "protein_g": 2.6,
+      "carbs_g": 15,
+      "fat_g": 0.4,
+      "fiber_g": 2.2
+    },
+    "desc": "Whole wheat flatbread rolled thin and puffed over an open flame. A staple source of complex carbohydrates and dietary fiber for steady metabolic energy.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "steamed-rice": {
+    "id": "steamed-rice",
+    "name": "Steamed Basmati Rice",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 cup (150g cooked)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 130,
+      "protein_g": 2.7,
+      "carbs_g": 28,
+      "fat_g": 0.2,
+      "fiber_g": 0.6
+    },
+    "desc": "Light and fluffy long-grain white rice, steam-cooked. Easy to digest and a perfect base for regional fish curries and lentil soups.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "brown-basmati-rice": {
+    "id": "brown-basmati-rice",
+    "name": "Brown Basmati Rice",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 cup (150g cooked)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 140,
+      "protein_g": 3.2,
+      "carbs_g": 30,
+      "fat_g": 0.8,
+      "fiber_g": 1.8
+    },
+    "desc": "Whole grain basmati rice retaining its outer bran layer. High in fiber, trace minerals, and offers a nuttier flavor with a lower glycemic index.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "dal-tadka": {
+    "id": "dal-tadka",
+    "name": "Dal Tadka",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 cup (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 120,
+      "protein_g": 6.8,
+      "carbs_g": 17.5,
+      "fat_g": 3.2,
+      "fiber_g": 4.2
+    },
+    "desc": "Yellow pigeon pea lentils boiled with turmeric, then tempered with a touch of ghee, cumin seeds, garlic, and dried red chilies. Great source of plant protein.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "boiled-egg": {
+    "id": "boiled-egg",
+    "name": "Boiled Egg",
+    "nameRegional": "সিজোৱা কণী",
+    "category": "staples",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 75,
+      "protein_g": 6.3,
+      "carbs_g": 0.6,
+      "fat_g": 5,
+      "fiber_g": 0
+    },
+    "desc": "A whole egg boiled until firm. An excellent and convenient source of high-quality complete protein and essential healthy fats.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "mug-dal": {
+    "id": "mug-dal",
+    "name": "Mug Dal (Moong Dal)",
+    "nameRegional": "মুগ দাইল",
+    "category": "staples",
+    "serving": {
+      "label": "1 serving (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 120,
+      "protein_g": 8,
+      "carbs_g": 18,
+      "fat_g": 1.2,
+      "fiber_g": 4
+    },
+    "desc": "Yellow split mung bean soup slow-cooked with ginger and mild spices. A light, nutritious, and easily digestible source of plant protein.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "masoor-dal": {
+    "id": "masoor-dal",
+    "name": "Masor Dal (Masoor Dal)",
+    "nameRegional": "মচুৰ দাইল",
+    "category": "staples",
+    "serving": {
+      "label": "1 serving (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 110,
+      "protein_g": 7.8,
+      "carbs_g": 17,
+      "fat_g": 1,
+      "fiber_g": 3.8
+    },
+    "desc": "Split red lentil soup simmered with tomatoes, turmeric, and local tempering. Highly nutritious, low in fat, and rich in essential minerals.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "masor-dal": {
+    "id": "masor-dal",
+    "name": "Masor Dal (Masoor Dal)",
+    "nameRegional": "মচুৰ দাইল",
+    "category": "staples",
+    "serving": {
+      "label": "1 serving (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 110,
+      "protein_g": 7.8,
+      "carbs_g": 17,
+      "fat_g": 1,
+      "fiber_g": 3.8
+    },
+    "desc": "Split red lentil soup simmered with tomatoes, turmeric, and local tempering. Highly nutritious, low in fat, and rich in essential minerals.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "chicken-biryani": {
+    "id": "chicken-biryani",
+    "name": "Chicken Biryani",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (300g)",
+      "quantity": 300,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 420,
+      "protein_g": 18.5,
+      "carbs_g": 58,
+      "fat_g": 12.5,
+      "fiber_g": 2.8
+    },
+    "desc": "Fragrant long-grain basmati rice layered with spiced marinated chicken, cooked on slow dum heat. Rich in aromatic herbs like mint and saffron.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "butter-chicken": {
+    "id": "butter-chicken",
+    "name": "Butter Chicken",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 bowl (200g)",
+      "quantity": 200,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 360,
+      "protein_g": 22,
+      "carbs_g": 9.5,
+      "fat_g": 26.5,
+      "fiber_g": 1.1
+    },
+    "desc": "Tender tandoori-grilled chicken pieces simmered in a mildly spiced, velvety tomato gravy enriched with butter and cream. Satisfying and protein-dense.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "dosa-sambar": {
+    "id": "dosa-sambar",
+    "name": "Masala Dosa with Sambar",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (1 Dosa + Sambar)",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 240,
+      "protein_g": 6.5,
+      "carbs_g": 44,
+      "fat_g": 3.8,
+      "fiber_g": 4.2
+    },
+    "desc": "A crispy fermented rice crepe folded over a spiced potato filling, paired with vegetable-lentil soup. A popular South Indian breakfast that balances energy and proteins.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "standard-combination-portion",
+      "sourceNote": "Standard plain fermented rice-lentil crepe (~125 kcal) + 1 cup vegetable-lentil sambar (~110 kcal) = ~235-240 kcal."
+    }
+  },
+  "idli": {
+    "id": "idli",
+    "name": "Idli",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 60,
+      "protein_g": 1.6,
+      "carbs_g": 12,
+      "fat_g": 0.1,
+      "fiber_g": 0.8
+    },
+    "desc": "Fluffy, steamed savory cakes made from a fermented batter of black lentils and rice. Light, highly digestible, and rich in prebiotic gut benefits.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "fish-fry": {
+    "id": "fish-fry",
+    "name": "Fish Fry (Indian Style)",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 190,
+      "protein_g": 18.2,
+      "carbs_g": 3.5,
+      "fat_g": 11.5,
+      "fiber_g": 0.2
+    },
+    "desc": "River or marine fish steaks marinated in daily ground spices, then pan-fried in raw mustard oil until golden and crispy.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "veg-pulao": {
+    "id": "veg-pulao",
+    "name": "Veg Pulao",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (200g)",
+      "quantity": 200,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 210,
+      "protein_g": 3.8,
+      "carbs_g": 38,
+      "fat_g": 4.2,
+      "fiber_g": 2.5
+    },
+    "desc": "A light, aromatic rice dish prepared by cooking basmati rice with mixed vegetables, cardamom, cloves, and a touch of clarified butter.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "dhokla": {
+    "id": "dhokla",
+    "name": "Dhokla",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (2 pieces)",
+      "quantity": 2,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 120,
+      "protein_g": 4.8,
+      "carbs_g": 18,
+      "fat_g": 3,
+      "fiber_g": 1.4
+    },
+    "desc": "A soft, spongy steamed snack prepared from fermented gram flour batter, tempered with mustard seeds, curry leaves, and green chilies.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "litti-chokha": {
+    "id": "litti-chokha",
+    "name": "Litti Chokha",
+    "nameRegional": "",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (2 Littis + Chokha)",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 280,
+      "protein_g": 8.5,
+      "carbs_g": 48,
+      "fat_g": 6.5,
+      "fiber_g": 5.8
+    },
+    "desc": "Roasted whole wheat dough balls stuffed with spiced roasted gram flour (sattu), served alongside a traditional smoky mash of eggplant, potatoes, and tomatoes.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "shorshe-ilish": {
+    "id": "shorshe-ilish",
+    "name": "Shorshe Ilish",
+    "nameRegional": "সর্ষে ইলিশ",
+    "category": "staples",
+    "serving": {
+      "label": "1 piece with gravy (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 285,
+      "protein_g": 21.4,
+      "carbs_g": 3.8,
+      "fat_g": 20.2,
+      "fiber_g": 1.2
+    },
+    "desc": "Bengali style Hilsa fish steak cooked in a pungent mustard paste gravy with green chilies and a drizzle of raw mustard oil. Rich in healthy omega-3 fatty acids.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "luchi-alur-dom": {
+    "id": "luchi-alur-dom",
+    "name": "Luchi with Alur Dom",
+    "nameRegional": "লুচি আর আলুর দম",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (3 Luchis + Curry)",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 380,
+      "protein_g": 6.5,
+      "carbs_g": 52,
+      "fat_g": 16.5,
+      "fiber_g": 3.5
+    },
+    "desc": "Deep-fried, puffed white flour flatbreads (Luchi) served with a rich, slow-simmered, spicy potato gravy (Alur Dom). A classic Bengali breakfast delicacy.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "rava-upma": {
+    "id": "rava-upma",
+    "name": "Rava Upma",
+    "nameRegional": "ரவா உப்புமா",
+    "category": "staples",
+    "serving": {
+      "label": "1 plate (150g)",
+      "quantity": 150,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 185,
+      "protein_g": 4.2,
+      "carbs_g": 34,
+      "fat_g": 3.2,
+      "fiber_g": 2.4
+    },
+    "desc": "A comforting South Indian breakfast made of dry-roasted semolina cooked with hot water, mustard seeds, curry leaves, green chilies, and mixed seasonal vegetables.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "brisk-walking": {
+    "id": "brisk-walking",
+    "name": "Brisk Walking",
+    "nameRegional": "খোজ কঢ়া",
+    "category": "burn",
+    "serving": {
+      "label": "30 mins",
+      "quantity": 1,
+      "unit": "serving"
+    },
+    "nutrition": {
+      "calories": -120,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "A moderate-intensity walk that gets your heart pumping. Helps regulate blood glucose levels and enhances daily active calorie burn safely.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "cardio-running": {
+    "id": "cardio-running",
+    "name": "Cardio Running",
+    "nameRegional": "দৌৰা",
+    "category": "burn",
+    "serving": {
+      "label": "30 mins",
+      "quantity": 1,
+      "unit": "serving"
+    },
+    "nutrition": {
+      "calories": -300,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "High-intensity aerobic running. Excellent for boosting cardiovascular health, metabolic efficiency, and burning off target calories.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "gym-resistance": {
+    "id": "gym-resistance",
+    "name": "Gym & Resistance Drill",
+    "nameRegional": "জিম",
+    "category": "burn",
+    "serving": {
+      "label": "30 mins",
+      "quantity": 1,
+      "unit": "serving"
+    },
+    "nutrition": {
+      "calories": -180,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "Strength training or circuit bodyweight drills. Stimulates muscle growth and elevates baseline metabolism (BMR) even when resting.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "cycling-exercise": {
+    "id": "cycling-exercise",
+    "name": "Cycling Exercise",
+    "nameRegional": "চাইকেল চলোৱা",
+    "category": "burn",
+    "serving": {
+      "label": "30 mins",
+      "quantity": 1,
+      "unit": "serving"
+    },
+    "nutrition": {
+      "calories": -210,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "Steady-state cycling. A great lower-body muscular exercise that burns calories with minimal strain on your joints.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "active-house-duties": {
+    "id": "active-house-duties",
+    "name": "Active House Duties",
+    "nameRegional": "ঘৰুৱা কাম",
+    "category": "burn",
+    "serving": {
+      "label": "30 mins",
+      "quantity": 1,
+      "unit": "serving"
+    },
+    "nutrition": {
+      "calories": -90,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "General household physical tasks like sweeping, mopping, or gardening. Contributes to your daily non-exercise physical activity (NEAT).",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "samosa": {
+    "id": "samosa",
+    "name": "Samosa",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 260,
+      "protein_g": 3.5,
+      "carbs_g": 32,
+      "fat_g": 13,
+      "fiber_g": 1.8
+    },
+    "desc": "A golden-fried, triangular pastry shell filled with spiced mashed potatoes, green peas, and fresh cilantro. Crisp and calorie-dense.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "pani-puri": {
+    "id": "pani-puri",
+    "name": "Pani Puri / Puchka",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 plate (5 pieces)",
+      "quantity": 5,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 150,
+      "protein_g": 2.2,
+      "carbs_g": 24,
+      "fat_g": 4.8,
+      "fiber_g": 1.6
+    },
+    "desc": "Hollow, crispy semolina shells filled with spiced potato-chickpea mash, dipped in chilled tangy mint and sweet tamarind water. A sweet, sour, and spicy treat.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "pav-bhaji": {
+    "id": "pav-bhaji",
+    "name": "Pav Bhaji",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 plate",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 400,
+      "protein_g": 8.2,
+      "carbs_g": 58,
+      "fat_g": 14.5,
+      "fiber_g": 4.2
+    },
+    "desc": "A popular Mumbai street food featuring a spicy vegetable mash cooked with spices and butter, served with soft toasted buns.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "chole-bhature": {
+    "id": "chole-bhature",
+    "name": "Chole Bhature",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 plate",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 450,
+      "protein_g": 9.8,
+      "carbs_g": 54,
+      "fat_g": 22,
+      "fiber_g": 6.2
+    },
+    "desc": "Spicy, tangy chickpea curry served alongside a puffed, deep-fried leavened bread. Rich in spices, flavor, and calories.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "chicken-momos": {
+    "id": "chicken-momos",
+    "name": "Chicken Momos (Steamed)",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 plate (6 pieces)",
+      "quantity": 6,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 220,
+      "protein_g": 12.5,
+      "carbs_g": 28,
+      "fat_g": 6.2,
+      "fiber_g": 1.2
+    },
+    "desc": "Thin flour wrappers stuffed with spiced minced chicken, steamed to perfection and served with a zesty, hot chili dipping sauce.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "jalebi": {
+    "id": "jalebi",
+    "name": "Jalebi",
+    "nameRegional": "",
+    "category": "snacks",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 150,
+      "protein_g": 0.8,
+      "carbs_g": 28,
+      "fat_g": 3.8,
+      "fiber_g": 0.2
+    },
+    "desc": "Crispy spiral-shaped batter rings deep-fried and soaked in a warm cardamom-infused sugar syrup. A classic celebratory sweet treat.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "mumbai-vada-pav": {
+    "id": "mumbai-vada-pav",
+    "name": "Mumbai Vada Pav",
+    "nameRegional": "वडा पाव",
+    "category": "snacks",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 290,
+      "protein_g": 5.8,
+      "carbs_g": 42,
+      "fat_g": 10.8,
+      "fiber_g": 2.2
+    },
+    "desc": "The quintessential Mumbai street snack featuring a spiced, deep-fried mashed potato dumpling inside a soft pav bun, layered with sweet and spicy garlic dry chutneys.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "mumbai-misal-pav": {
+    "id": "mumbai-misal-pav",
+    "name": "Mumbai Misal Pav",
+    "nameRegional": "मिसळ पाव",
+    "category": "snacks",
+    "serving": {
+      "label": "1 plate",
+      "quantity": 1,
+      "unit": "plate"
+    },
+    "nutrition": {
+      "calories": 370,
+      "protein_g": 11.2,
+      "carbs_g": 48,
+      "fat_g": 14.2,
+      "fiber_g": 5.8
+    },
+    "desc": "A fiery, sprouted moth bean curry (usal) topped with crispy farsan mix, raw onions, and coriander, served with buttered soft pav buns and lemon wedges.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "medu-vada": {
+    "id": "medu-vada",
+    "name": "Medu Vada",
+    "nameRegional": "மெது வடை",
+    "category": "snacks",
+    "serving": {
+      "label": "1 piece",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    "nutrition": {
+      "calories": 140,
+      "protein_g": 3.8,
+      "carbs_g": 16.5,
+      "fat_g": 6.8,
+      "fiber_g": 2
+    },
+    "desc": "A crispy, deep-fried savory doughnut made from a seasoned black lentil batter with crushed black pepper, fresh ginger, and curry leaves. High in plant protein.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "milk-tea-sugar": {
+    "id": "milk-tea-sugar",
+    "name": "Milk Tea (with Sugar)",
+    "nameRegional": "গাখীৰ চাহ",
+    "category": "beverages",
+    "serving": {
+      "label": "1 cup (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 90,
+      "protein_g": 2.1,
+      "carbs_g": 14,
+      "fat_g": 2.5,
+      "fiber_g": 0
+    },
+    "desc": "Assam black tea brewed with fresh milk and sweetened with cane sugar. Rich, comforting, and a daily ritual for millions.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "black-tea": {
+    "id": "black-tea",
+    "name": "Black Tea / Lal Saah",
+    "nameRegional": "ৰঙা চাহ",
+    "category": "beverages",
+    "serving": {
+      "label": "1 cup (150ml)",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    "nutrition": {
+      "calories": 10,
+      "protein_g": 0.2,
+      "carbs_g": 1.8,
+      "fat_g": 0,
+      "fiber_g": 0
+    },
+    "desc": "A robust cup of pure brewed Assam black tea leaves. Clean, aromatic, and comforting without any added milk or sugar.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  },
+  "sweet-lassi": {
+    "id": "sweet-lassi",
+    "name": "Sweet Lassi",
+    "nameRegional": "",
+    "category": "beverages",
+    "serving": {
+      "label": "1 glass (250ml)",
+      "quantity": 1,
+      "unit": "g"
+    },
+    "nutrition": {
+      "calories": 200,
+      "protein_g": 5.5,
+      "carbs_g": 32,
+      "fat_g": 5.8,
+      "fiber_g": 0
+    },
+    "desc": "A thick, creamy yogurt beverage blended with sugar and a hint of cardamom or rose water, served chilled for instant refreshment.",
+    "evidence": {
+      "status": "verified",
+      "sourceType": "katoricalorie-curated-standard",
+      "sourceNote": ""
+    }
+  }
+}
