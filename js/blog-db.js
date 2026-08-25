@@ -3,7 +3,7 @@ const blogPosts = [
     id: "khar-calories-alkaline-benefits",
     title: "Khar Calories & Alkaline Benefits",
     titleRegional: "অমিতা খাৰ আৰু ইয়াৰ উপকাৰিতা",
-    desc: "An in-depth look at the alkaline chemistry of Assamese Khar, its digestive benefits, and how this zero-oil traditional starter preps your metabolism.",
+    desc: "An in-depth look at the alkaline chemistry of Assamese Khar, its culinary traditions, and how this zero-oil starter is enjoyed in regional meals.",
     url: "/blog/khar-calories-alkaline-benefits"
   },
   {
@@ -66,7 +66,7 @@ const blogPosts = [
     id: "joha-rice-antioxidants-benefits",
     title: "Joha Rice Antioxidants & Metabolic Benefits",
     titleRegional: "জোহা চাউলৰ ঔষধি গুণ",
-    desc: "The science behind Assam's premium aromatic rice. Discover its polyphenolic profiles, antioxidant activity, and potential anti-diabetic compounds.",
+    desc: "The science behind Assam's premium aromatic rice. Discover its polyphenolic profiles, antioxidant activity, and ongoing metabolic research.",
     url: "/blog/joha-rice-antioxidants-benefits"
   },
   {

@@ -14,6 +14,9 @@ let state = {
 // LocalStorage Persistence Keys
 const STORAGE_KEY = 'katori_calorie_state';
 
+// // Helper to resolve food item considering legacy aliases
+const findFood = (id) => (typeof getFoodById === 'function' ? getFoodById(id) : (typeof foodDatabase !== 'undefined' ? foodDatabase.find(f => f.id === id) : undefined));
+
 // Load State from storage if available
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -21,6 +24,16 @@ function loadState() {
     try {
       const parsed = JSON.parse(saved);
       state = { ...state, ...parsed };
+      // Normalize legacy thali alias IDs if present
+      if (state.thali && typeof foodAliases !== 'undefined') {
+        for (const [key, val] of Object.entries(state.thali)) {
+          if (foodAliases[key]) {
+            const canonicalKey = foodAliases[key];
+            state.thali[canonicalKey] = (state.thali[canonicalKey] || 0) + val;
+            delete state.thali[key];
+          }
+        }
+      }
     } catch (e) {
       console.error("Error parsing stored KatoriCalorie state:", e);
     }
@@ -45,15 +58,15 @@ function calculateBMR() {
   return state.bmr;
 }
 
-// Calculate Thali Metrics
-function calculateThali() {
+// Calculate Dynamic Thali Calorie Totals
+function calculateThaliTotals() {
   let caloriesConsumed = 0;
   let caloriesBurned = 0;
   let itemsCount = 0;
 
   for (const [itemId, qty] of Object.entries(state.thali)) {
     if (qty <= 0) continue;
-    const item = foodDatabase.find(f => f.id === itemId);
+    const item = findFood(itemId);
     if (!item) continue;
 
     itemsCount += qty;
@@ -397,7 +410,7 @@ function updateUI() {
   if (mobileThaliBadge) {
     const activeFoodItems = Object.entries(state.thali).filter(([id, qty]) => {
       if (qty <= 0) return false;
-      const item = foodDatabase.find(f => f.id === id);
+      const item = findFood(id);
       return item && item.category !== 'burn';
     });
     mobileThaliBadge.textContent = activeFoodItems.length;
@@ -413,7 +426,7 @@ function updateUI() {
     
     for (const [itemId, qty] of Object.entries(state.thali)) {
       if (qty <= 0) continue;
-      const item = foodDatabase.find(f => f.id === itemId);
+      const item = findFood(itemId);
       if (!item) continue;
       
       renderedCount++;
@@ -476,7 +489,7 @@ function updateUI() {
     const itemId = card.dataset.id;
     const qty = state.thali[itemId] || 0;
     const qtyEl = card.querySelector('.control-qty');
-    const item = foodDatabase.find(f => f.id === itemId);
+    const item = findFood(itemId);
     const isBurn = item && item.category === 'burn';
     
     if (qty > 0) {
@@ -658,7 +671,7 @@ function setupCalculatorListeners() {
 
 // Card add/subtract adjustments
 function adjustItemQty(itemId, change) {
-  const item = foodDatabase.find(f => f.id === itemId);
+  const item = findFood(itemId);
   if (!item) return;
   const isBurn = item.category === 'burn';
   const currentQty = state.thali[itemId] || 0;
@@ -738,7 +751,7 @@ function adjustItemQty(itemId, change) {
 
 // Delete item from Thali directly
 function deleteThaliItem(itemId) {
-  const item = foodDatabase.find(f => f.id === itemId);
+  const item = findFood(itemId);
   if (state.thali[itemId]) {
     delete state.thali[itemId];
     if (item) {
@@ -764,14 +777,14 @@ function updateVisualThali(netCalories, targetLimit) {
   // Filter food items (excluding burn/activity items)
   const activeItems = Object.entries(state.thali).filter(([id, qty]) => {
     if (qty <= 0) return false;
-    const item = foodDatabase.find(f => f.id === id);
+    const item = findFood(id);
     return item && item.category !== 'burn';
   });
   
   const total = activeItems.length;
 
   activeItems.forEach(([id, qty], index) => {
-    const item = foodDatabase.find(f => f.id === id);
+    const item = findFood(id);
     if (!item) return;
 
     // Arrange in a circle inside the Thali Plate
@@ -814,7 +827,7 @@ function updateVisualThali(netCalories, targetLimit) {
   if (builderTotalEl) {
     let foodCals = 0;
     activeItems.forEach(([id, qty]) => {
-      const item = foodDatabase.find(f => f.id === id);
+      const item = findFood(id);
       if (item) {
         foodCals += item.calories * qty;
       }
@@ -993,13 +1006,13 @@ function screenshotThali() {
 
   // Filter food items (excluding burn/activity items)
   const foodItems = activeItems.filter(([id, qty]) => {
-    const item = foodDatabase.find(f => f.id === id);
+    const item = findFood(id);
     return item && item.category !== 'burn';
   });
 
   // Katoris (Colored circles with portion multiplier labels)
   foodItems.forEach(([id, qty], index) => {
-    const item = foodDatabase.find(f => f.id === id);
+    const item = findFood(id);
     if (!item) return;
 
     const angle = (index / foodItems.length) * 2 * Math.PI - Math.PI / 2;
@@ -1050,7 +1063,7 @@ function screenshotThali() {
 
   // Exercises (Burn list) text
   const burnItems = activeItems.filter(([id, qty]) => {
-    const item = foodDatabase.find(f => f.id === id);
+    const item = findFood(id);
     return item && item.category === 'burn';
   });
 
@@ -1059,7 +1072,7 @@ function screenshotThali() {
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     const burnText = "Exercise Burn: " + burnItems.map(([id, qty]) => {
-      const item = foodDatabase.find(f => f.id === id);
+      const item = findFood(id);
       return `${item.name} (-${Math.abs(item.calories) * qty} kcal)`;
     }).join(', ');
     ctx.fillText(burnText, 300, 515);

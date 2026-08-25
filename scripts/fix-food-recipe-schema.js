@@ -111,11 +111,11 @@ const foodRecipes = [
       'Serve alongside rice and dal.'
     ],
     nutrition: {
-      calories: '110 calories',
-      fatContent: '2.2g',
-      proteinContent: '2.5g',
-      carbohydrateContent: '21.0g',
-      fiberContent: '2.8g'
+      calories: '90 calories',
+      fatContent: '2.1g',
+      proteinContent: '2.0g',
+      carbohydrateContent: '18.5g',
+      fiberContent: '1.8g'
     }
   },
   {
@@ -148,11 +148,11 @@ const foodRecipes = [
       'Serve hot crispy dosa alongside 1 katori of vegetable sambar.'
     ],
     nutrition: {
-      calories: '280 calories',
-      fatContent: '4.5g',
-      proteinContent: '8.2g',
-      carbohydrateContent: '52.0g',
-      fiberContent: '6.1g'
+      calories: '240 calories',
+      fatContent: '3.8g',
+      proteinContent: '6.5g',
+      carbohydrateContent: '44.0g',
+      fiberContent: '4.2g'
     }
   },
   {
@@ -199,7 +199,7 @@ const foodRecipes = [
     name: 'Assamese Til Pitha (Sesame Jaggery Rice Roll)',
     image: 'https://www.katoricalorie.in/assets/til-pitha.jpg',
     description: 'Traditional Assamese Bihu delicacy made with glutinous rice flour rolled around roasted black sesame and jaggery filling.',
-    yield: '2 pieces (60 g)',
+    yield: '1 piece (~30 g)',
     prepTime: 'PT15M',
     cookTime: 'PT10M',
     totalTime: 'PT25M',
@@ -218,15 +218,15 @@ const foodRecipes = [
       'Heat a flat iron tawa on low flame.',
       'Spread 2 tbsp moist Bora Saul flour in an oval shape on the warm tawa.',
       'Place 1 tbsp sesame-jaggery mixture in the center.',
-      'Gently roll into a cylindrical shape as the rice flour sets.',
-      'Cook for 1 minute until crisp on the outside, serve warm.'
+      'Roll gently from both sides to form a firm cylindrical shape.',
+      'Cook for 1-2 minutes until crust sets and serve warm.'
     ],
     nutrition: {
-      calories: '95 calories',
-      fatContent: '2.8g',
-      proteinContent: '2.1g',
-      carbohydrateContent: '16.5g',
-      fiberContent: '1.4g'
+      calories: '110 calories',
+      fatContent: '4.2g',
+      proteinContent: '2.9g',
+      carbohydrateContent: '15.0g',
+      fiberContent: '1.1g'
     }
   }
 ];
