@@ -1,3 +1,18 @@
+// Dynamic Language Code Normalizer (en / as / hi)
+function getCurrentLangCode() {
+  if (typeof window !== 'undefined' && window.location) {
+    const path = window.location.pathname;
+    if (path.startsWith('/as')) return 'as';
+    if (path.startsWith('/hi')) return 'hi';
+  }
+  if (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang) {
+    const lang = document.documentElement.lang.toLowerCase();
+    if (lang.startsWith('as')) return 'as';
+    if (lang.startsWith('hi')) return 'hi';
+  }
+  return 'en';
+}
+
 // State management
 let state = {
   weight: 65,      // kg
@@ -55,11 +70,6 @@ function calculateBMR() {
   }
   state.bmr = Math.round(bmrVal);
   state.tdee = Math.round(bmrVal * state.activity);
-  
-  if (typeof trackKatoriEvent === 'function') {
-    trackKatoriEvent('tdee_calculated');
-  }
-  
   return state.bmr;
 }
 
@@ -650,6 +660,11 @@ function setupCalculatorListeners() {
       state.customTarget = state.tdee;
       saveState();
       updateUI();
+      
+      // Analytics: intentional TDEE calculation & target application (action-only, zero sensitive metrics)
+      if (typeof trackKatoriEvent === 'function') {
+        trackKatoriEvent('tdee_calculated');
+      }
       
       showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');
       
@@ -1376,7 +1391,7 @@ function setupTabListeners() {
       if (val.trim().length >= 2) {
         searchAnalyticsTimer = setTimeout(() => {
           const resultCards = document.querySelectorAll('#food-grid .food-card');
-          const currentLang = document.documentElement.lang || 'en';
+          const currentLang = getCurrentLangCode();
           if (typeof trackKatoriEvent === 'function') {
             trackKatoriEvent('food_search_used', {
               language: currentLang,
@@ -1414,15 +1429,18 @@ function setupTabListeners() {
     }
   });
 
-  // Analytics: Language switch selector clicks
+  // Analytics: Language switch selector clicks (normalized to en / as / hi)
   document.querySelectorAll('.lang-selector-item a').forEach(langLink => {
     langLink.addEventListener('click', () => {
-      const currentLang = document.documentElement.lang || 'en';
-      const targetLang = langLink.getAttribute('aria-label') || langLink.textContent.trim();
-      if (typeof trackKatoriEvent === 'function') {
+      const fromLang = getCurrentLangCode();
+      const href = langLink.getAttribute('href') || '/';
+      let toLang = 'en';
+      if (href === '/as' || href.startsWith('/as')) toLang = 'as';
+      else if (href === '/hi' || href.startsWith('/hi')) toLang = 'hi';
+      if (fromLang !== toLang && typeof trackKatoriEvent === 'function') {
         trackKatoriEvent('language_switched', {
-          from: currentLang,
-          to: targetLang
+          from: fromLang,
+          to: toLang
         });
       }
     });
