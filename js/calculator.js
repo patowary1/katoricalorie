@@ -1,3 +1,18 @@
+// Dynamic Language Code Normalizer (en / as / hi)
+function getCurrentLangCode() {
+  if (typeof window !== 'undefined' && window.location) {
+    const path = window.location.pathname;
+    if (path.startsWith('/as')) return 'as';
+    if (path.startsWith('/hi')) return 'hi';
+  }
+  if (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang) {
+    const lang = document.documentElement.lang.toLowerCase();
+    if (lang.startsWith('as')) return 'as';
+    if (lang.startsWith('hi')) return 'hi';
+  }
+  return 'en';
+}
+
 // State management
 let state = {
   weight: 65,      // kg
@@ -646,6 +661,11 @@ function setupCalculatorListeners() {
       saveState();
       updateUI();
       
+      // Analytics: intentional target application (action-only, zero sensitive metrics)
+      if (typeof trackKatoriEvent === 'function') {
+        trackKatoriEvent('daily_target_applied');
+      }
+      
       showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');
       
            // Visual feedback on click
@@ -675,6 +695,7 @@ function adjustItemQty(itemId, change) {
   if (!item) return;
   const isBurn = item.category === 'burn';
   const currentQty = state.thali[itemId] || 0;
+  const initialThaliCount = Object.keys(state.thali).filter(id => state.thali[id] > 0).length;
 
   if (isBurn) {
     const newQty = Math.max(0, currentQty + change);
@@ -703,15 +724,32 @@ function adjustItemQty(itemId, change) {
         }
         state.thali[itemId] = 1.0; // Default portion
         showToast(`Added ${item.name} to Plate`, 'success');
+        
+        if (typeof trackKatoriEvent === 'function') {
+          if (initialThaliCount === 0) {
+            trackKatoriEvent('thali_started');
+          }
+          trackKatoriEvent('food_added', {
+            food_id: itemId,
+            category: item.category,
+            portion_label: item.unit
+          });
+        }
       } else {
         // Increment portion multiplier: 0.7 -> 1.0 -> 1.4
         if (currentQty === 0.7) {
           state.thali[itemId] = 1.0;
           showToast(`Portion increased to Medium for ${item.name}`, 'success');
+          if (typeof trackKatoriEvent === 'function') {
+            trackKatoriEvent('portion_changed', { food_id: itemId, portion_label: 'Medium (1.0)' });
+          }
         } else if (currentQty === 1.0) {
           state.thali[itemId] = 1.4;
           showToast(`Portion increased to Large for ${item.name}`, 'success');
-                } else {
+          if (typeof trackKatoriEvent === 'function') {
+            trackKatoriEvent('portion_changed', { food_id: itemId, portion_label: 'Large (1.4)' });
+          }
+        } else {
           showToast(`Maximum portion reached for ${item.name}`, 'info');
         }
       }
@@ -736,9 +774,15 @@ function adjustItemQty(itemId, change) {
       if (currentQty === 1.4) {
         state.thali[itemId] = 1.0;
         showToast(`Portion decreased to Medium for ${item.name}`, 'info');
+        if (typeof trackKatoriEvent === 'function') {
+          trackKatoriEvent('portion_changed', { food_id: itemId, portion_label: 'Medium (1.0)' });
+        }
       } else if (currentQty === 1.0) {
         state.thali[itemId] = 0.7;
         showToast(`Portion decreased to Small for ${item.name}`, 'info');
+        if (typeof trackKatoriEvent === 'function') {
+          trackKatoriEvent('portion_changed', { food_id: itemId, portion_label: 'Small (0.7)' });
+        }
       } else {
         // 0.7 or less -> remove completely
         delete state.thali[itemId];
@@ -1253,6 +1297,15 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
             </div>
           </div>
 
+          ${(typeof foodContentMap !== 'undefined' && foodContentMap[item.id]) ? `
+            <div class="card-detail-action" style="margin-bottom: var(--space-xs); text-align: right;">
+              <a href="${foodContentMap[item.id].primaryUrl}" class="food-detail-link" data-food-id="${item.id}" style="font-size: var(--font-xs); color: var(--accent-orange); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; font-weight: 500;">
+                <span>${foodContentMap[item.id].label}</span>
+                <i class="ph ph-arrow-right" style="font-size: 11px;"></i>
+              </a>
+            </div>
+          ` : ''}
+
           <div class="card-bottom">
             ${isQty > 0 ? `
               <div class="card-controls ${isBurnClass}">
@@ -1321,6 +1374,7 @@ function setupTabListeners() {
    // Search input listeners with clear button toggle
   const searchInput = document.getElementById('food-search');
   const btnClearSearch = document.getElementById('btn-clear-search');
+  let searchAnalyticsTimer = null;
   
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -1331,6 +1385,21 @@ function setupTabListeners() {
       const activeTab = document.querySelector('.tab-btn.active');
       const category = activeTab ? activeTab.dataset.category : 'all';
       renderFoodGrid(category, val);
+
+      // Debounced privacy-safe telemetry without raw search query text
+      clearTimeout(searchAnalyticsTimer);
+      if (val.trim().length >= 2) {
+        searchAnalyticsTimer = setTimeout(() => {
+          const resultCards = document.querySelectorAll('#food-grid .food-card');
+          const currentLang = getCurrentLangCode();
+          if (typeof trackKatoriEvent === 'function') {
+            trackKatoriEvent('food_search_used', {
+              language: currentLang,
+              result_count: resultCards.length
+            });
+          }
+        }, 600);
+      }
     });
   }
 
@@ -1343,6 +1412,40 @@ function setupTabListeners() {
       renderFoodGrid(category, '');
     });
   }
+  
+  // Analytics: Food card detail link clicks
+  document.addEventListener('click', (e) => {
+    const detailLink = e.target.closest('.food-detail-link');
+    if (detailLink) {
+      const foodId = detailLink.dataset.foodId || '';
+      const targetPath = detailLink.getAttribute('href') || '';
+      if (typeof trackKatoriEvent === 'function') {
+        trackKatoriEvent('detail_opened', {
+          food_id: foodId,
+          target_path: targetPath,
+          source: 'food_card'
+        });
+      }
+    }
+  });
+
+  // Analytics: Language switch selector clicks (normalized to en / as / hi)
+  document.querySelectorAll('.lang-selector-item a').forEach(langLink => {
+    langLink.addEventListener('click', () => {
+      const fromLang = getCurrentLangCode();
+      const href = langLink.getAttribute('href') || '/';
+      let toLang = 'en';
+      if (href === '/as' || href.startsWith('/as')) toLang = 'as';
+      else if (href === '/hi' || href.startsWith('/hi')) toLang = 'hi';
+      if (fromLang !== toLang && typeof trackKatoriEvent === 'function') {
+        trackKatoriEvent('language_switched', {
+          from: fromLang,
+          to: toLang
+        });
+      }
+    });
+  });
+
   // Hamburger Mobile Menu Toggle Action
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navMenu = document.querySelector('.nav-menu');

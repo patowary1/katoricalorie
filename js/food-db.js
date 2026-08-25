@@ -775,6 +775,38 @@ const foodAliases = {
   'hard-boiled-egg': 'boiled-egg'
 };
 
+// Food to Detail Content URL Mapping (Internal Discovery)
+const foodContentMap = {
+  'masor-tenga': {
+    primaryUrl: '/food/masor-tenga-recipe-nutrition',
+    label: 'Recipe & nutrition guide'
+  },
+  'aloo-pitika': {
+    primaryUrl: '/food/aloo-pitika-calories',
+    label: 'Calories & recipe guide'
+  },
+  'dosa-sambar': {
+    primaryUrl: '/food/dosa-sambar-calories',
+    label: 'Calories & portion guide'
+  },
+  'til-pitha': {
+    primaryUrl: '/food/til-pitha-portion-control',
+    label: 'Calories & portion guide'
+  },
+  'bao-dhan': {
+    primaryUrl: '/blog/bao-dhan-red-rice-superfood',
+    label: 'Nutrition & health guide'
+  },
+  'joha-rice': {
+    primaryUrl: '/blog/joha-rice-antioxidants-benefits',
+    label: 'Calories & benefits guide'
+  },
+  'bora-saul': {
+    primaryUrl: '/blog/bora-saul-sticky-rice-glycemic-index',
+    label: 'Calories & starch guide'
+  }
+};
+
 function getFoodById(id) {
   if (!id) return undefined;
   const canonicalId = foodAliases[id] || id;
@@ -782,5 +814,5 @@ function getFoodById(id) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { foodDatabase, foodAliases, getFoodById };
+  module.exports = { foodDatabase, foodAliases, foodContentMap, getFoodById };
 }
