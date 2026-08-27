@@ -1,3 +1,8 @@
+
+// Current Page Language Detection Helper
+function getAppLang() {
+  return document.documentElement.lang || 'en';
+}
 // Dynamic Language Code Normalizer (en / as / hi)
 function getCurrentLangCode() {
   if (typeof window !== 'undefined' && window.location) {
@@ -513,7 +518,13 @@ function updateUI() {
         if (isBurn) {
           qtyEl.textContent = `${qty} portion${qty > 1 ? 's' : ''}`;
         } else {
-          qtyEl.textContent = qty === 0.7 ? 'Small' : qty === 1.0 ? 'Medium' : 'Large';
+          if (getAppLang() === 'as') {
+            qtyEl.textContent = qty === 0.7 ? 'সৰু' : qty === 1.0 ? 'মজলীয়া' : 'ডাঙৰ';
+          } else if (getAppLang() === 'hi') {
+            qtyEl.textContent = qty === 0.7 ? 'छोटा' : qty === 1.0 ? 'मध्यम' : 'बड़ा';
+          } else {
+            qtyEl.textContent = qty === 0.7 ? 'Small' : qty === 1.0 ? 'Medium' : 'Large';
+          }
         }
       }
     } else {
@@ -666,14 +677,14 @@ function setupCalculatorListeners() {
         trackKatoriEvent('daily_target_applied');
       }
       
-      showToast(`Daily budget target locked at ${state.tdee} kcal!`, 'success');
+      showToast(getAppLang() === 'as' ? `দৈনিক কেলৰি লক্ষ্য ${state.tdee} kcal নিৰ্ধাৰণ কৰা হ’ল!` : (getAppLang() === 'hi' ? `दैनिक कैलोरी लक्ष्य ${state.tdee} kcal निर्धारित किया गया!` : `Daily budget target locked at ${state.tdee} kcal!`), 'success');
       
            // Visual feedback on click
-      btnApplyTarget.innerHTML = '<i class="ph ph-check-circle"></i> Target Applied!';
+      btnApplyTarget.innerHTML = getAppLang() === 'as' ? '<i class="ph ph-check-circle"></i> লক্ষ্য প্ৰয়োগ হ’ল!' : (getAppLang() === 'hi' ? '<i class="ph ph-check-circle"></i> लक्ष्य लागू हुआ!' : '<i class="ph ph-check-circle"></i> Target Applied!');
       btnApplyTarget.style.background = 'var(--success)';
       btnApplyTarget.style.boxShadow = '0 0 12px rgba(34, 197, 94, 0.3)';
       setTimeout(() => {
-        btnApplyTarget.innerHTML = 'Use as Daily Target';
+        btnApplyTarget.innerHTML = getAppLang() === 'as' ? 'দৈনিক লক্ষ্য হিচাপে ব্যৱহাৰ কৰক' : (getAppLang() === 'hi' ? 'दैनिक लक्ष्य के रूप में उपयोग करें' : 'Use as Daily Target');
         btnApplyTarget.style.background = '';
         btnApplyTarget.style.boxShadow = '';
       }, 2000);
@@ -881,7 +892,7 @@ function updateVisualThali(netCalories, targetLimit) {
   
   if (total === 0) {
     if (badge) {
-      badge.textContent = 'Empty Thali';
+      badge.textContent = getAppLang() === 'as' ? 'থালি খালি' : (getAppLang() === 'hi' ? 'खाली थाली' : 'Empty Thali');
       badge.className = 'thali-status-badge status-balanced';
     }
   } else {
@@ -889,19 +900,19 @@ function updateVisualThali(netCalories, targetLimit) {
     if (pct < 0.7) {
       plate.classList.add('glow-green');
       if (badge) {
-        badge.textContent = 'Balanced';
+        badge.textContent = getAppLang() === 'as' ? 'সুষম' : (getAppLang() === 'hi' ? 'संतुलित' : 'Balanced');
         badge.className = 'thali-status-badge status-balanced';
       }
     } else if (pct <= 1.0) {
       plate.classList.add('glow-yellow');
       if (badge) {
-        badge.textContent = 'Almost Full';
+        badge.textContent = getAppLang() === 'as' ? 'প্ৰায় পূৰ্ণ' : (getAppLang() === 'hi' ? 'लगभग भरी' : 'Almost Full');
         badge.className = 'thali-status-badge status-warning';
       }
     } else {
       plate.classList.add('glow-red');
       if (badge) {
-        badge.textContent = 'Thali Overloaded!';
+        badge.textContent = getAppLang() === 'as' ? 'থালি অতিৰিক্ত ভৰিছে!' : (getAppLang() === 'hi' ? 'थाली अधिक भरी है!' : 'Thali Overloaded!');
         badge.className = 'thali-status-badge status-danger';
       }
     }
@@ -1240,8 +1251,13 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
     container.innerHTML = `
       <div class="empty-search-state">
         <i class="ph ph-magnifying-glass-x" style="font-size: 3rem; color: var(--accent-primary); opacity: 0.6;"></i>
+        ${getAppLang() === 'as' ? `
+        <h3 style="font-size: var(--text-lg); font-weight: 600; color: var(--text-primary); margin: 0;">কোনো খাদ্য পোৱা নগ’ল</h3>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); max-width: 400px; margin: 0 auto; line-height: 1.5; text-align: center;">আপোনাৰ সন্ধানৰ সৈতে মিল থকা কোনো খাদ্য পোৱা নগ’ল। "ভাত", "মাছৰ টেঙা" আদি বিচাৰি চাওক।</p>
+      ` : `
         <h3 style="font-size: var(--text-lg); font-weight: 600; color: var(--text-primary); margin: 0;">No Traditional Foods Found</h3>
         <p style="font-size: var(--text-sm); color: var(--text-secondary); max-width: 400px; margin: 0 auto; line-height: 1.5; text-align: center;">We couldn't find anything matching your search. Try searching for regional items like "tenga", staples like "rice", or exercises like "walk".</p>
+      `}
       </div>
     `;
     return;
@@ -1288,7 +1304,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
           
           <div class="card-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); font-size: var(--font-sm);">
             <div class="serving-lbl">
-              Portion: <span style="font-weight: 600; color: var(--text-primary);">${item.unit}</span>
+              ${getAppLang() === 'as' ? 'খোৱাৰ পৰিমাণ' : (getAppLang() === 'hi' ? 'भाग' : 'Portion')}: <span style="font-weight: 600; color: var(--text-primary);">${item.unit}</span>
             </div>
             <div class="macro-readout" style="color: var(--text-secondary); font-size: var(--font-xs);">
               ${item.protein ? `<span style="margin-right: 4px;">P: ${item.protein}g</span>` : ''}
@@ -1300,7 +1316,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
           ${(typeof foodContentMap !== 'undefined' && foodContentMap[item.id]) ? `
             <div class="card-detail-action" style="margin-bottom: var(--space-xs); text-align: right;">
               <a href="${foodContentMap[item.id].primaryUrl}" class="food-detail-link" data-food-id="${item.id}" style="font-size: var(--font-xs); color: var(--accent-orange); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; font-weight: 500;">
-                <span>${foodContentMap[item.id].label}</span>
+                <span>${getAppLang() === 'as' ? 'পুষ্টি সহায়িকা চাওক' : foodContentMap[item.id].label}</span>
                 <i class="ph ph-arrow-right" style="font-size: 11px;"></i>
               </a>
             </div>
@@ -1320,7 +1336,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
             ` : `
               <button class="btn-add-plate ${isBurnClass}" onclick="event.stopPropagation(); adjustItemQty('${item.id}', 1)">
                 <i class="ph ${isBurn ? 'ph-lightning' : 'ph-plus'}"></i>
-                ${isBurn ? 'Add to Burn' : 'Add to Plate'}
+                ${getAppLang() === 'as' ? (isBurn ? '+ কেলৰি ব্যয়ত যোগ কৰক' : '+ থালিত যোগ কৰক') : (getAppLang() === 'hi' ? (isBurn ? '+ कैलोरी बर्न में जोड़ें' : '+ थाली में जोड़ें') : (isBurn ? 'Add to Burn' : 'Add to Plate'))}
               </button>
             `}
           </div>
