@@ -118,7 +118,7 @@ function calculateBMR() {
 }
 
 // Calculate Dynamic Thali Calorie Totals
-function calculateThaliTotals() {
+function calculateThali() {
   let caloriesConsumed = 0;
   let caloriesBurned = 0;
   let itemsCount = 0;
