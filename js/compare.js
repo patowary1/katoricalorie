@@ -35,6 +35,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  
+// Helper to localize unit strings for display
+function formatLocalizedUnit(unit, lang) {
+  if (lang === 'as') {
+    const unitMapAS = {
+  "1 serving (200ml)": "১ পৰিৱেশন (এবাৰত ২০০ মি.লি.)",
+  "1 serving (150g)": "১ পৰিৱেশন (এবাৰত ১৫০ গ্ৰাম)",
+  "1 serving (100g)": "১ পৰিৱেশন (এবাৰত ১০০ গ্ৰাম)",
+  "1 serving (150ml)": "১ পৰিৱেশন (এবাৰত ১৫০ মি.লি.)",
+  "1 serving (120g)": "১ পৰিৱেশন (এবাৰত ১২০ গ্ৰাম)",
+  "1 plate (200g)": "১ থালি (২০০ গ্ৰাম)",
+  "1 plate (150g)": "১ থালি (১৫০ গ্ৰাম)",
+  "1 piece": "১ টা",
+  "1 piece (~30g)": "১ টা (~৩০ গ্ৰাম)",
+  "1 cup (soaked, 100g)": "১ কাপ (তিয়াই ৰখা, ১০০ গ্ৰাম)",
+  "1 katori cooked (150g)": "১ বাটি সিজোৱা (১৫০ গ্ৰাম)",
+  "1 serving (180g)": "১ পৰিৱেশন (এবাৰত ১৮০ গ্ৰাম)",
+  "1 bowl (250g)": "১ বাটি (২৫০ গ্ৰাম)",
+  "1 bowl (200ml)": "১ বাটি (২০০ মি.লি.)",
+  "1 bowl (180g)": "১ বাটি (১৮০ গ্ৰাম)",
+  "1 cup (150g cooked)": "১ কাপ (১৫০ গ্ৰাম সিজোৱা)",
+  "1 cup (150ml)": "১ কাপ (১৫০ মি.লি.)",
+  "1 plate (300g)": "১ থালি (৩০০ গ্ৰাম)",
+  "1 bowl (200g)": "১ বাটি (২০০ গ্ৰাম)",
+  "1 plate (1 Dosa + Sambar)": "১ থালি (১ ডোচা + চাম্বাৰ)",
+  "1 plate (2 pieces)": "১ থালি (২ টা)",
+  "1 plate (2 Littis + Chokha)": "১ থালি (২ লিট্টি + চখা)",
+  "1 piece with gravy (150g)": "১ টুকুৰা ঝোলৰ সৈতে (১৫০ গ্ৰাম)",
+  "1 plate (3 Luchis + Curry)": "১ থালি (৩ লুচি + তৰকাৰী)",
+  "30 mins": "৩০ মিনিট",
+  "1 plate (5 pieces)": "১ থালি (৫টা পানী পুৰি)",
+  "1 plate": "১ থালি",
+  "1 plate (6 pieces)": "১ থালি (৬ টা)",
+  "1 glass (250ml)": "১ গিলাচ (২৫০ মি.লি.)"
+};
+    return unitMapAS[unit] || unit;
+  }
+  return unit;
+}
+
   // Multi-lingual Translation Support
   const lang = document.documentElement.lang || 'en';
 
@@ -49,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fatWinner: (winner, diff) => `🏆 ${winner} is lower in fat (less by ${diff}g)`,
       fibWinner: (winner, diff) => `🏆 ${winner} offers more dietary fiber (more by ${diff}g)`,
       toastAdded: "🍽️ Both items added to your active Plate!",
-      toastCopied: "📋 Comparison link copied to clipboard!",
+      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে।",
       servingInfo: "Portion Size"
     },
     hi: {
@@ -66,17 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
       servingInfo: "भाग का आकार"
     },
     as: {
-      equal: 'এই শ্ৰেণীত দুয়োটা সমান',
-      foodA: 'খাদ্য ক',
-      foodB: 'খাদ্য খ',
-      calWinner: (winner, diff) => `🏆 ${winner} পাতল (কেলৰি ${diff} kcal কম)`,
-      proWinner: (winner, diff) => `🏆 ${winner} প্ৰ’টিনযুক্ত (${diff}g অধিক)`,
-      carbWinner: (winner, diff) => `🏆 ${winner} কাৰ্ব’হাইড্ৰেট কম (${diff}g কম)`,
-      fatWinner: (winner, diff) => `🏆 ${winner} চৰ্বিৰ মাত্ৰা কম (${diff}g কম)`,
-      fibWinner: (winner, diff) => `🏆 ${winner} অধিক আঁহযুক্ত (${diff}g অধিক)`,
-      toastAdded: "🍽️ দুয়োবিধ খাদ্য আপোনাৰ সক্ৰিয় থালিত যোগ কৰা হৈছে!",
-      toastCopied: "📋 তুলনামূলক লিংক ক্লিপবৰ্ডত কপি কৰা হৈছে!",
-      servingInfo: "পৰিৱেশনৰ জোখ"
+      equal: 'এই ক্ষেত্ৰত দুয়োটাই সমান',
+      foodA: 'খাদ্য ১',
+      foodB: 'খাদ্য ২',
+      calWinner: (winner, diff) => `🏆 ${winner}-ত ${diff} kcal কম`,
+      proWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g বেছি প্ৰ’টিন`,
+      carbWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g কম কাৰ্ব’হাইড্ৰেট`,
+      fatWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g কম চৰ্বি`,
+      fibWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g বেছি আঁহ`,
+      toastAdded: "🍽️ দুয়োটা খাদ্য থালিত যোগ কৰা হৈছে।",
+      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে।",
+      servingInfo: "খোৱাৰ পৰিমাণ"
     }
   };
 
@@ -194,45 +234,22 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       }
     } else if (lang === 'as') {
-      if (food1.category === 'assamese' && (food2.category === 'snacks' || food2.id === 'butter-chicken')) {
+      if (food1.id === 'black-tea' && food2.id === 'milk-tea-sugar') {
         verdictHTML = `
-          <p style="margin-bottom: 0.8rem;">
-            <strong>সিদ্ধান্ত:</strong> <strong>${food1.nameRegional || food1.name}</strong> এবিধ অতি পুষ্টিকৰ আৰু ওজন নিয়ন্ত্ৰণৰ বাবে উপযোগী খাদ্য। 
-            ই মাত্ৰ <strong>${food1.calories} কেলৰি</strong> আৰু <strong>${food1.fat}g চৰ্বি</strong>ৰ সৈতে প্ৰ’টিন যোগান ধৰে, 
-            যাৰ বাবে ই <strong>${food2.nameRegional || food2.name}</strong> (${food2.calories} kcal, ${food2.fat}g চৰ্বি)ৰ দৰে গধুৰ খাদ্যৰ এক উৎকৃষ্ট বিকল্প।
-          </p>
           <p>
-            <em>আহাৰৰ পৰামৰ্শ:</em> ভজা খাদ্যৰ সলনি পৰম্পৰাগত ঝোল আৰু ভাপত সিজোৱা খাদ্য বাছি ল’লে শৰীৰত অতিৰিক্ত তেল কম হোৱাৰ লগতে আহাৰো সুস্বাদু আৰু পুষ্টিকৰ হৈ থাকে।
-          </p>
-        `;
-      } else if (food1.id === 'black-tea' && food2.id === 'milk-tea-sugar') {
-        verdictHTML = `
-          <p style="margin-bottom: 0.8rem;">
-            <strong>সিদ্ধান্ত:</strong> মিঠা গাখীৰ চাহৰ পৰা <strong>ৰঙা চাহত (Lal Saah)</strong> স্থানান্তৰ কৰিলে প্ৰতি কাপত <strong>৮০ কেলৰি</strong> ৰাহি হয়! 
-            গাখীৰ চাহত চেনী আৰু চৰ্বি থকাৰ বিপৰীতে ৰঙা চাহ কেলৰি-মুক্ত আৰু স্বাস্থ্যকৰ এণ্টিঅক্সিডেণ্টেৰে ভৰপূৰ।
-          </p>
-          <p>
-            <em>আহাৰৰ পৰামৰ্শ:</em> যদি আপুনি দিনটোত ২-৩ কাপ চাহ খায়, তেন্তে কেৱল এক কাপ চাহ ৰঙা চাহত পৰিণত কৰিলে আপোনাৰ সাপ্তাহিক কেলৰি গ্ৰহণ ৫০০ kcal তকৈও অধিক হ্ৰাস পাব।
+            চেনি আৰু গাখীৰ নথকা লাল চাহত মিঠা গাখীৰ চাহতকৈ কেলৰি কম থাকে।
           </p>
         `;
       } else if (food1.id === 'roti' && food2.id === 'steamed-rice') {
         verdictHTML = `
-          <p style="margin-bottom: 0.8rem;">
-            <strong>সিদ্ধান্ত:</strong> দুয়োবিধ খাদ্যই শক্তিৰ উৎকৃষ্ট উৎস, কিন্তু সিহঁতে ভিন্নভাৱে কাম কৰে। 
-            <strong>ৰুটী</strong>ত অধিক আঁহ (${food1.fiber}g বনাম ${food2.fiber}g) আৰু অলপ বেছি প্ৰ’টিন থাকে, যি পেট ভৰাই ৰখাত সহায় কৰে। 
-            আনহাতে, <strong>সিজোৱা ভাত</strong> হজম কৰিবলৈ অতি সহজ আৰু পৰম্পৰাগত লঘু আঞ্জাৰ সৈতে উপযুক্ত।
-          </p>
           <p>
-            <em>আহাৰৰ পৰামৰ্শ:</em> যদি আপুনি ওজন নিয়ন্ত্ৰণ আৰু মধুমেহ স্বাস্থ্যৰ প্ৰতি মনোযোগ দিছে, তেন্তে অধিক আঁহ থকাৰ বাবে ৰুটী অলপ ভাল। যদি আপুনি ভাত পচন্দ কৰে, তেন্তে ইয়াক ঢেকীয়া শাক বা অমিতা খাৰৰ দৰে আঁহযুক্ত খাদ্যৰ সৈতে খোৱাৰ চেষ্টা কৰক।
+            দুয়োটাৰ কেলৰি আৰু পুষ্টিগুণ বেলেগ। ওপৰৰ তথ্য চাই আপোনাৰ খোৱাৰ পৰিমাণ অনুসৰি বাছক।
           </p>
         `;
       } else {
         verdictHTML = `
-          <p style="margin-bottom: 0.8rem;">
-            <strong>সিদ্ধান্ত:</strong> যদি আপোনাৰ প্ৰধান লক্ষ্য ওজন নিয়ন্ত্ৰণ, তেন্তে <strong>${lightFood.nameRegional || lightFood.name}</strong> বিজয়ী, যি <strong>${heavyFood.nameRegional || heavyFood.name}</strong>ৰ তুলনাত প্ৰতি পৰিৱেশনত <strong>${diffCal} কেলৰি</strong> ৰাহি কৰে।
-          </p>
           <p>
-            যদি আপুনি মাংসপেশী গঠন বা পেট ভৰাই ৰখাত গুৰুত্ব দিছে, তেন্তে <strong>${proteinFood.nameRegional || proteinFood.name}</strong> উপকাৰী কাৰণ ই এই তুলনাত সৰ্বাধিক প্ৰ’টিন (<strong>${proteinFood.protein}g</strong>) যোগান ধৰে।
+            কেলৰি আৰু পুষ্টিগুণৰ পাৰ্থক্য ওপৰৰ তুলনাত চাওক আৰু আপোনাৰ খোৱাৰ পৰিমাণ অনুসৰি বাছক।
           </p>
         `;
       }
@@ -296,10 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Headers
     document.getElementById('food1-title').textContent = food1.nameRegional ? `${food1.name} (${food1.nameRegional})` : food1.name;
-    document.getElementById('food1-subtitle').textContent = `${t.servingInfo}: ${food1.unit}`;
+    document.getElementById('food1-subtitle').textContent = `${t.servingInfo}: ${formatLocalizedUnit(food1.unit, lang)}`;
 
     document.getElementById('food2-title').textContent = food2.nameRegional ? `${food2.name} (${food2.nameRegional})` : food2.name;
-    document.getElementById('food2-subtitle').textContent = `${t.servingInfo}: ${food2.unit}`;
+    document.getElementById('food2-subtitle').textContent = `${t.servingInfo}: ${formatLocalizedUnit(food2.unit, lang)}`;
 
     // Update Values
     document.getElementById('comp-cal1').textContent = food1.calories + ' kcal';
