@@ -1,4 +1,43 @@
 
+// Helper to localize unit strings for display
+function formatLocalizedUnit(unit, lang) {
+  if (lang === 'as') {
+    const unitMapAS = {
+  "1 serving (200ml)": "১ পৰিৱেশন (২০০ মি.লি.)",
+  "1 serving (150g)": "১ পৰিৱেশন (১৫০ গ্ৰাম)",
+  "1 serving (100g)": "১ পৰিৱেশন (১০০ গ্ৰাম)",
+  "1 serving (150ml)": "১ পৰিৱেশন (১৫০ মি.লি.)",
+  "1 serving (120g)": "১ পৰিৱেশন (১২০ গ্ৰাম)",
+  "1 plate (200g)": "১ থালি (২০০ গ্ৰাম)",
+  "1 plate (150g)": "১ থালি (১৫০ গ্ৰাম)",
+  "1 piece": "১ টা",
+  "1 piece (~30g)": "১ টা (~৩০ গ্ৰাম)",
+  "1 cup (soaked, 100g)": "১ কাপ (তিতাই থোৱা, ১০০ গ্ৰাম)",
+  "1 katori cooked (150g)": "১ বাটি সিজোৱা (১৫০ গ্ৰাম)",
+  "1 serving (180g)": "১ পৰিৱেশন (১৮০ গ্ৰাম)",
+  "1 bowl (250g)": "১ বাটি (২৫০ গ্ৰাম)",
+  "1 bowl (200ml)": "১ বাটি (২০০ মি.লি.)",
+  "1 bowl (180g)": "১ বাটি (১৮০ গ্ৰাম)",
+  "1 cup (150g cooked)": "১ কাপ (১৫০ গ্ৰাম সিজোৱা)",
+  "1 cup (150ml)": "১ কাপ (১৫০ মি.লি.)",
+  "1 plate (300g)": "১ থালি (৩০০ গ্ৰাম)",
+  "1 bowl (200g)": "১ বাটি (২০০ গ্ৰাম)",
+  "1 plate (1 Dosa + Sambar)": "১ থালি (১ ডোচা + চাম্বাৰ)",
+  "1 plate (2 pieces)": "১ থালি (২ টা)",
+  "1 plate (2 Littis + Chokha)": "১ থালি (২ লিট্টি + চখা)",
+  "1 piece with gravy (150g)": "১ টুকুৰা ঝোলৰ সৈতে (১৫০ গ্ৰাম)",
+  "1 plate (3 Luchis + Curry)": "১ থালি (৩ লুচি + তৰকাৰী)",
+  "30 mins": "৩০ মিনিট",
+  "1 plate (5 pieces)": "১ থালি (৫ টা)",
+  "1 plate": "১ থালি",
+  "1 plate (6 pieces)": "১ থালি (৬ টা)",
+  "1 glass (250ml)": "১ গিলাচ (২৫০ মি.লি.)"
+};
+    return unitMapAS[unit] || unit;
+  }
+  return unit;
+}
+
 // Current Page Language Detection Helper
 function getAppLang() {
   return document.documentElement.lang || 'en';
@@ -1336,7 +1375,7 @@ function renderFoodGrid(categoryFilter = 'all', searchQuery = '') {
             ` : `
               <button class="btn-add-plate ${isBurnClass}" onclick="event.stopPropagation(); adjustItemQty('${item.id}', 1)">
                 <i class="ph ${isBurn ? 'ph-lightning' : 'ph-plus'}"></i>
-                ${getAppLang() === 'as' ? (isBurn ? '+ কেলৰি ব্যয়ত যোগ কৰক' : '+ থালিত যোগ কৰক') : (getAppLang() === 'hi' ? (isBurn ? '+ कैलोरी बर्न में जोड़ें' : '+ थाली में जोड़ें') : (isBurn ? 'Add to Burn' : 'Add to Plate'))}
+                ${getAppLang() === 'as' ? (isBurn ? '+ শাৰীৰিক ক্ৰিয়াত যোগ কৰক' : '+ থালিত যোগ কৰক') : (getAppLang() === 'hi' ? (isBurn ? '+ कैलोरी बर्न में जोड़ें' : '+ थाली में जोड़ें') : (isBurn ? 'Add to Burn' : 'Add to Plate'))}
               </button>
             `}
           </div>

@@ -35,6 +35,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  
+// Helper to localize unit strings for display
+function formatLocalizedUnit(unit, lang) {
+  if (lang === 'as') {
+    const unitMapAS = {
+  "1 serving (200ml)": "১ পৰিৱেশন (২০০ মি.লি.)",
+  "1 serving (150g)": "১ পৰিৱেশন (১৫০ গ্ৰাম)",
+  "1 serving (100g)": "১ পৰিৱেশন (১০০ গ্ৰাম)",
+  "1 serving (150ml)": "১ পৰিৱেশন (১৫০ মি.লি.)",
+  "1 serving (120g)": "১ পৰিৱেশন (১২০ গ্ৰাম)",
+  "1 plate (200g)": "১ থালি (২০০ গ্ৰাম)",
+  "1 plate (150g)": "১ থালি (১৫০ গ্ৰাম)",
+  "1 piece": "১ টা",
+  "1 piece (~30g)": "১ টা (~৩০ গ্ৰাম)",
+  "1 cup (soaked, 100g)": "১ কাপ (তিতাই থোৱা, ১০০ গ্ৰাম)",
+  "1 katori cooked (150g)": "১ বাটি সিজোৱা (১৫০ গ্ৰাম)",
+  "1 serving (180g)": "১ পৰিৱেশন (১৮০ গ্ৰাম)",
+  "1 bowl (250g)": "১ বাটি (২৫০ গ্ৰাম)",
+  "1 bowl (200ml)": "১ বাটি (২০০ মি.লি.)",
+  "1 bowl (180g)": "১ বাটি (১৮০ গ্ৰাম)",
+  "1 cup (150g cooked)": "১ কাপ (১৫০ গ্ৰাম সিজোৱা)",
+  "1 cup (150ml)": "১ কাপ (১৫০ মি.লি.)",
+  "1 plate (300g)": "১ থালি (৩০০ গ্ৰাম)",
+  "1 bowl (200g)": "১ বাটি (২০০ গ্ৰাম)",
+  "1 plate (1 Dosa + Sambar)": "১ থালি (১ ডোচা + চাম্বাৰ)",
+  "1 plate (2 pieces)": "১ থালি (২ টা)",
+  "1 plate (2 Littis + Chokha)": "১ থালি (২ লিট্টি + চখা)",
+  "1 piece with gravy (150g)": "১ টুকুৰা ঝোলৰ সৈতে (১৫০ গ্ৰাম)",
+  "1 plate (3 Luchis + Curry)": "১ থালি (৩ লুচি + তৰকাৰী)",
+  "30 mins": "৩০ মিনিট",
+  "1 plate (5 pieces)": "১ থালি (৫ টা)",
+  "1 plate": "১ থালি",
+  "1 plate (6 pieces)": "১ থালি (৬ টা)",
+  "1 glass (250ml)": "১ গিলাচ (২৫০ মি.লি.)"
+};
+    return unitMapAS[unit] || unit;
+  }
+  return unit;
+}
+
   // Multi-lingual Translation Support
   const lang = document.documentElement.lang || 'en';
 
@@ -49,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fatWinner: (winner, diff) => `🏆 ${winner} is lower in fat (less by ${diff}g)`,
       fibWinner: (winner, diff) => `🏆 ${winner} offers more dietary fiber (more by ${diff}g)`,
       toastAdded: "🍽️ Both items added to your active Plate!",
-      toastCopied: "📋 Comparison link copied to clipboard!",
+      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে।",
       servingInfo: "Portion Size"
     },
     hi: {
@@ -75,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fatWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g কম চৰ্বি`,
       fibWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g বেছি আঁহ`,
       toastAdded: "🍽️ দুয়োটা খাদ্য থালিত যোগ কৰা হৈছে।",
-      toastCopied: "📋 তুলনাৰ লিংক কপি কৰা হৈছে।",
+      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে。",
       servingInfo: "খোৱাৰ পৰিমাণ"
     }
   };
@@ -273,10 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Headers
     document.getElementById('food1-title').textContent = food1.nameRegional ? `${food1.name} (${food1.nameRegional})` : food1.name;
-    document.getElementById('food1-subtitle').textContent = `${t.servingInfo}: ${food1.unit}`;
+    document.getElementById('food1-subtitle').textContent = `${t.servingInfo}: ${formatLocalizedUnit(food1.unit, lang)}`;
 
     document.getElementById('food2-title').textContent = food2.nameRegional ? `${food2.name} (${food2.nameRegional})` : food2.name;
-    document.getElementById('food2-subtitle').textContent = `${t.servingInfo}: ${food2.unit}`;
+    document.getElementById('food2-subtitle').textContent = `${t.servingInfo}: ${formatLocalizedUnit(food2.unit, lang)}`;
 
     // Update Values
     document.getElementById('comp-cal1').textContent = food1.calories + ' kcal';
