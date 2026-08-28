@@ -115,7 +115,7 @@ function formatLocalizedUnit(unit, lang) {
       fatWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g কম চৰ্বি`,
       fibWinner: (winner, diff) => `🏆 ${winner}-ত ${diff}g বেছি আঁহ`,
       toastAdded: "🍽️ দুয়োটা খাদ্য থালিত যোগ কৰা হৈছে।",
-      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে。",
+      toastCopied: "তুলনাৰ লিংক কপি কৰা হৈছে।",
       servingInfo: "খোৱাৰ পৰিমাণ"
     }
   };
