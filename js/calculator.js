@@ -908,11 +908,11 @@ function updateVisualThali(netCalories, targetLimit) {
   }
 }
 
-// Open Portion Popup next to clicked Katori
+// Open Portion Popup next to clicked Katori with boundary collision detection
 function openPortionPopup(item, katoriEl) {
   const popup = document.getElementById('portion-popup');
   const readout = document.getElementById('popup-cal-readout');
-  if (!popup || !readout) return;
+  if (!popup || !readout || !katoriEl) return;
 
   activeKatoriId = item.id;
   const currentMultiplier = state.thali[item.id] || 1.0;
@@ -929,19 +929,50 @@ function openPortionPopup(item, katoriEl) {
 
   readout.textContent = `${Math.round(item.calories * currentMultiplier)} kcal`;
 
-  // Display the popup
+  // Display the popup first to measure actual rendered size
   popup.style.display = 'block';
-  
-  // Align portion popup centered above or below the katori
+
   const wrapper = document.querySelector('.thali-plate-wrapper');
+  const panel = document.getElementById('thali-builder-panel') || wrapper;
+  if (!wrapper || !panel) return;
+
   const wrapperRect = wrapper.getBoundingClientRect();
+  const panelRect = panel.getBoundingClientRect();
   const katoriRect = katoriEl.getBoundingClientRect();
-  
-  const left = katoriRect.left - wrapperRect.left + (katoriRect.width / 2);
-  const top = katoriRect.top - wrapperRect.top;
-  
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  const safeMargin = 10; // Safety margin in px from panel boundaries
+
+  // Center position relative to wrapper (.thali-plate-wrapper is position: relative)
+  const katoriCenterX = katoriRect.left - wrapperRect.left + (katoriRect.width / 2);
+  const idealLeft = katoriCenterX - (popupWidth / 2);
+
+  // Horizontal boundary limits relative to wrapper
+  const minLeft = (panelRect.left - wrapperRect.left) + safeMargin;
+  const maxLeft = (panelRect.right - wrapperRect.left) - popupWidth - safeMargin;
+
+  // Clamp horizontal position so popup remains inside panel bounds
+  const clampedLeft = Math.max(minLeft, Math.min(idealLeft, maxLeft));
+
+  // Vertical placement logic: Prefer ABOVE katori
+  const idealTopAbove = (katoriRect.top - wrapperRect.top) - popupHeight - safeMargin;
+  const minTop = (panelRect.top - wrapperRect.top) + safeMargin;
+  const maxTop = (panelRect.bottom - wrapperRect.top) - popupHeight - safeMargin;
+
+  let clampedTop;
+  if (idealTopAbove >= minTop) {
+    clampedTop = idealTopAbove;
+  } else {
+    // Place below katori if space above is insufficient
+    const idealTopBelow = (katoriRect.bottom - wrapperRect.top) + safeMargin;
+    clampedTop = Math.min(idealTopBelow, maxTop);
+  }
+
+  clampedTop = Math.max(minTop, clampedTop);
+
+  popup.style.left = `${clampedLeft}px`;
+  popup.style.top = `${clampedTop}px`;
 }
 
 // Setup listeners for the portion select popup buttons
