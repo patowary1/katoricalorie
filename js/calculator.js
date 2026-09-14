@@ -1476,7 +1476,7 @@ function setupTabListeners() {
       clearTimeout(searchAnalyticsTimer);
       if (val.trim().length >= 2) {
         searchAnalyticsTimer = setTimeout(() => {
-          const resultCards = document.querySelectorAll('#food-grid .food-card');
+          const resultCards = document.querySelectorAll('#food-grid-container .food-card');
           const currentLang = getCurrentLangCode();
           if (typeof trackKatoriEvent === 'function') {
             trackKatoriEvent('food_search_used', {

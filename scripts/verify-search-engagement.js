@@ -160,6 +160,36 @@ assert(cleaned.query === undefined, 'Sanitizer strips sensitive search query');
 assert(calcJs.includes("function getCurrentLangCode()"), 'getCurrentLangCode normalizer exists in calculator.js');
 assert(calcJs.includes("from: fromLang,\n          to: toLang"), 'Language switch events use normalized language codes (en / as / hi)');
 
+// --- 6. Food Search Result Count Telemetry Selector (Phase 3E-B2 Regression) ---
+console.log('\n--- 6. Food Search Result Count Telemetry Selector (Phase 3E-B2) ---');
+
+// Assert telemetry code no longer queries obsolete #food-grid .food-card selector
+assert(!calcJs.includes("querySelectorAll('#food-grid .food-card')"), 'Telemetry no longer queries obsolete #food-grid .food-card selector');
+
+// Assert telemetry code queries correct #food-grid-container .food-card selector
+assert(calcJs.includes("querySelectorAll('#food-grid-container .food-card')"), 'Telemetry queries correct #food-grid-container .food-card selector');
+
+// Assert that the container ID in index.html, as/index.html, hi/index.html matches #food-grid-container
+const indexHtmlContent = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf-8');
+const asIndexHtmlContent = fs.readFileSync(path.join(__dirname, '..', 'as', 'index.html'), 'utf-8');
+const hiIndexHtmlContent = fs.readFileSync(path.join(__dirname, '..', 'hi', 'index.html'), 'utf-8');
+
+assert(indexHtmlContent.includes('id="food-grid-container"'), 'index.html contains rendered container id="food-grid-container"');
+assert(asIndexHtmlContent.includes('id="food-grid-container"'), 'as/index.html contains rendered container id="food-grid-container"');
+assert(hiIndexHtmlContent.includes('id="food-grid-container"'), 'hi/index.html contains rendered container id="food-grid-container"');
+
+// Assert container is targeted by calculator rendering logic
+assert(calcJs.includes("document.getElementById('food-grid-container')"), 'Calculator rendering target container matches food-grid-container');
+
+// Test matching query produces non-zero result count against foodDatabase
+const sampleQuery = 'rice';
+const matchingFoods = foodDatabase.filter(item => {
+  return item.name.toLowerCase().includes(sampleQuery.toLowerCase()) ||
+         (item.nameRegional && item.nameRegional.toLowerCase().includes(sampleQuery.toLowerCase())) ||
+         (item.desc && item.desc.toLowerCase().includes(sampleQuery.toLowerCase()));
+});
+assert(matchingFoods.length > 0, `Known search query "${sampleQuery}" produces non-zero matches (${matchingFoods.length} items)`);
+
 console.log('\n====================================================');
 console.log(` RESULTS: ${pass} PASSED | ${fail} FAILED`);
 console.log('====================================================');
