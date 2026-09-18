@@ -45,7 +45,7 @@ const blogPosts = [
     id: "calculator-accuracy-decimal-feet-bug",
     title: "The Decimal Height Bug in BMR Calculators",
     titleRegional: "কেলকুলেটৰৰ শুদ্ধতা আৰু মেটাবলিক গণনা",
-    desc: "Discover how a simple decimal height conversion bug on popular online BMR and TDEE calculators can miscalculate your daily active calorie target by 50+ kcal.",
+    desc: "Discover how a decimal height conversion issue on popular online BMR and TDEE calculators can shift your daily calorie estimate by tens of calories.",
     url: "/blog/calculator-accuracy-decimal-feet-bug"
   },
   {
