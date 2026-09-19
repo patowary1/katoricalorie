@@ -144,7 +144,8 @@ const BANNED_PATTERNS = [
   { name: 'Blog card "popular online BMR and TDEE calculators"', regex: /popular\s+online\s+BMR\s+and\s+TDEE\s+calculators/i },
   { name: 'Blog article institutional FSSAI / ICMR-NIN authority claim', regex: /(FSSAI\s+compliance\s+levels|ICMR-NIN\s+Hyderabad\s+energy\s+metrics)/i },
   { name: 'Blog article "Some health forms and web tools" prevalence claim', regex: /Some\s+health\s+forms\s+and\s+web\s+tools/i },
-  { name: 'Literal Markdown bold syntax in HTML (**text**)', regex: /\*\*[^*]+\*\*/ }
+  { name: 'Literal Markdown bold syntax in HTML (**text**)', regex: /\*\*[^*]+\*\*/ },
+  { name: 'Clinical gold-standard authority claim', regex: /clinical\s+gold-standard/i }
 ];
 
 FILES_TO_SCAN.forEach(relPath => {
@@ -324,6 +325,16 @@ const REQUIRED_STRINGS = [
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
     desc: 'Blog byline clean of fake review group',
     str: 'By the KatoriCalorie Editorial Board | Published June 2026'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog intro confusion between decimal feet and feet-and-inches without bug label',
+    str: 'This issue arises from confusion between decimal feet and feet-and-inches notation.'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog factual Mifflin-St Jeor formula description without clinical gold-standard',
+    str: 'The Mifflin-St Jeor equation estimates Basal Metabolic Rate (BMR) using weight, height, age, and sex:'
   },
   {
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',

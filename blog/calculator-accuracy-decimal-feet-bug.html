@@ -109,7 +109,7 @@
           Online calorie calculators provide energy estimates to help guide nutrition planning. However, when user interfaces accept height in decimal feet, ambiguity between decimal fractions and feet-and-inches notation can introduce unexpected arithmetic discrepancies.
         </p>
         <p>
-          This issue arises from notation confusion: the <strong>Decimal Height Bug</strong>. In this article, we explain the mathematics behind this discrepancy, how it affects estimated Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), and why KatoriCalorie uses direct metric inputs to avoid conversion ambiguity.
+          This issue arises from confusion between decimal feet and feet-and-inches notation. In this article, we explain the mathematics behind this discrepancy, how it affects estimated Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), and why KatoriCalorie uses direct metric inputs to avoid conversion ambiguity.
         </p>
 
         <h2>1. The Decimal Feet vs. Feet-and-Inches Dilemma</h2>
@@ -134,7 +134,7 @@
 
         <h2>2. How a 1-Inch Discrepancy Affects Mifflin-St Jeor Math</h2>
         <p>
-          Most high-quality calculators utilize the clinical gold-standard <strong>Mifflin-St Jeor</strong> formula to calculate Basal Metabolic Rate (BMR):
+          The Mifflin-St Jeor equation estimates Basal Metabolic Rate (BMR) using weight, height, age, and sex:
         </p>
         <div style="font-family: monospace; font-size: 0.9rem; background: #111; padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-orange); margin: 15px 0;">
           BMR (Men) = 10 * Weight(kg) + 6.25 * Height(cm) - 5 * Age(years) + 5
