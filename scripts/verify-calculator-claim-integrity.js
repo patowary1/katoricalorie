@@ -2,11 +2,13 @@
  * verify-calculator-claim-integrity.js
  * 
  * Phase 3E-B3 Deterministic Verification:
- * 1. Proves exact Mifflin-St Jeor arithmetic for 1.0" and 1.2" discrepancy scenarios across
- *    live activity multipliers extracted directly from index.html.
- * 2. Scans public HTML and JS files to assert that no banned overclaims, competitor names,
- *    or unverified generalizations exist.
- * 3. Asserts that approved, calibrated explanations, headings, and formulas are present.
+ * 1. Independently extracts activity multipliers from index.html, hi/index.html, and as/index.html,
+ *    asserting full multiplier parity ([1.2, 1.375, 1.55, 1.725]) across all three locales.
+ * 2. Proves exact Mifflin-St Jeor arithmetic for 1.0" and 1.2" discrepancy scenarios across
+ *    all extracted activity multipliers.
+ * 3. Scans public HTML and JS files to assert that no banned overclaims, competitor names,
+ *    unverified generalizations, or false authority attributions exist.
+ * 4. Asserts that approved, calibrated explanations, headings, and formulas are present.
  */
 
 const fs = require('fs');
@@ -24,29 +26,37 @@ function assert(condition, message) {
   }
 }
 
-console.log('\n=== 1. MATHEMATICAL BASELINE & LIVE SELECTOR EXTRACTION ===\n');
+console.log('\n=== 1. MULTIPLIER PARITY EXTRACTION ACROSS LOCALES ===\n');
 
 // Standard constants
 const CM_PER_INCH = 2.54;
 const MIFFLIN_HEIGHT_COEFF = 6.25; // kcal / cm / day
+const EXPECTED_MULTIPLIERS = [1.2, 1.375, 1.55, 1.725];
 
-// Extract activity multipliers directly from index.html
-const indexHtmlPath = path.join(ROOT_DIR, 'index.html');
-assert(fs.existsSync(indexHtmlPath), 'index.html exists for multiplier extraction');
-const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+function extractMultipliers(relPath) {
+  const fullPath = path.join(ROOT_DIR, relPath);
+  assert(fs.existsSync(fullPath), `File exists for multiplier extraction: ${relPath}`);
+  const html = fs.readFileSync(fullPath, 'utf8');
+  const selectMatch = html.match(/<select[^>]*id=["']activity(?:-select)?["'][^>]*>([\s\S]*?)<\/select>/i);
+  assert(Boolean(selectMatch), `[${relPath}] Found activity <select> element`);
+  const optionMatches = [...selectMatch[1].matchAll(/<option[^>]*value=["']([0-9.]+)["'][^>]*>/gi)];
+  return optionMatches.map(m => parseFloat(m[1]));
+}
 
-const selectMatch = indexHtml.match(/<select[^>]*id=["']activity(?:-select)?["'][^>]*>([\s\S]*?)<\/select>/i);
-assert(Boolean(selectMatch), 'Found activity level <select> in index.html');
+const enMultipliers = extractMultipliers('index.html');
+const hiMultipliers = extractMultipliers('hi/index.html');
+const asMultipliers = extractMultipliers('as/index.html');
 
-const optionMatches = [...selectMatch[1].matchAll(/<option[^>]*value=["']([0-9.]+)["'][^>]*>/gi)];
-const extractedMultipliers = optionMatches.map(m => parseFloat(m[1]));
-console.log('Extracted activity multipliers from index.html:', extractedMultipliers);
+console.log('index.html multipliers:   ', enMultipliers);
+console.log('hi/index.html multipliers:', hiMultipliers);
+console.log('as/index.html multipliers:', asMultipliers);
 
-assert(extractedMultipliers.length === 4, `Expected 4 activity multipliers, found ${extractedMultipliers.length}`);
-assert(extractedMultipliers.includes(1.2), 'Contains sedentary multiplier (1.2)');
-assert(extractedMultipliers.includes(1.375), 'Contains light multiplier (1.375)');
-assert(extractedMultipliers.includes(1.55), 'Contains moderate multiplier (1.55)');
-assert(extractedMultipliers.includes(1.725), 'Contains very active multiplier (1.725)');
+assert(JSON.stringify(enMultipliers) === JSON.stringify(EXPECTED_MULTIPLIERS), 'index.html contains expected set [1.2, 1.375, 1.55, 1.725]');
+assert(JSON.stringify(hiMultipliers) === JSON.stringify(EXPECTED_MULTIPLIERS), 'hi/index.html contains expected set [1.2, 1.375, 1.55, 1.725]');
+assert(JSON.stringify(asMultipliers) === JSON.stringify(EXPECTED_MULTIPLIERS), 'as/index.html contains expected set [1.2, 1.375, 1.55, 1.725]');
+assert(JSON.stringify(enMultipliers) === JSON.stringify(hiMultipliers) && JSON.stringify(hiMultipliers) === JSON.stringify(asMultipliers), 'Full multiplier parity confirmed across EN, HI, and AS');
+
+console.log('\n=== 2. MATHEMATICAL BASELINE ARITHMETIC VERIFICATION ===\n');
 
 // Scenario A: 5.6 ft vs 5 ft 6 in
 const heightA_decimal_ft = 5.6;
@@ -60,7 +70,7 @@ assert(Math.abs(deltaA_inches - 1.2) < 1e-9, `Scenario A delta is exactly 1.2 in
 assert(Math.abs(deltaA_cm - 3.048) < 1e-9, `Scenario A delta is exactly 3.048 cm (got ${deltaA_cm})`);
 assert(Math.abs(bmrDeltaA - 19.05) < 1e-9, `Scenario A Mifflin BMR delta is exactly 19.05 kcal/day (got ${bmrDeltaA})`);
 
-extractedMultipliers.forEach(mult => {
+enMultipliers.forEach(mult => {
   const tdeeDelta = bmrDeltaA * mult;
   console.log(`Scenario A (1.2") TDEE delta @ ${mult}x = ${tdeeDelta.toFixed(4)} kcal/day`);
 });
@@ -81,7 +91,7 @@ assert(Math.abs(deltaB_inches - 1.0) < 1e-9, `Scenario B delta is exactly 1.0 in
 assert(Math.abs(deltaB_cm - 2.54) < 1e-9, `Scenario B delta is exactly 2.54 cm (got ${deltaB_cm})`);
 assert(Math.abs(bmrDeltaB - 15.875) < 1e-9, `Scenario B Mifflin BMR delta is exactly 15.875 kcal/day (got ${bmrDeltaB})`);
 
-extractedMultipliers.forEach(mult => {
+enMultipliers.forEach(mult => {
   const tdeeDelta = bmrDeltaB * mult;
   console.log(`Scenario B (1.0") TDEE delta @ ${mult}x = ${tdeeDelta.toFixed(4)} kcal/day`);
 });
@@ -90,7 +100,7 @@ assert(Math.abs(bmrDeltaB * 1.375 - 21.828125) < 1e-9, 'Scenario B TDEE @ 1.375x
 assert(Math.abs(bmrDeltaB * 1.55 - 24.60625) < 1e-9, 'Scenario B TDEE @ 1.55x is ~24.61 kcal/day');
 assert(Math.abs(bmrDeltaB * 1.725 - 27.384375) < 1e-9, 'Scenario B TDEE @ 1.725x is ~27.38 kcal/day');
 
-console.log('\n=== 2. STATIC SCAN FOR BANNED CLAIMS & OVERBROAD PATTERNS ===\n');
+console.log('\n=== 3. STATIC SCAN FOR BANNED CLAIMS & OVERBROAD PATTERNS ===\n');
 
 const FILES_TO_SCAN = [
   'index.html',
@@ -131,7 +141,10 @@ const BANNED_PATTERNS = [
   { name: 'Assamese "বেছিভাগ কেলকুলেটৰতে" generalization', regex: /বেছিভাগ\s+কেলকুলেটৰতে/ },
   { name: 'Assamese "বেছিভাগ সাধাৰণ কেলকুলেটৰে" generalization', regex: /বেছিভাগ\s+সাধাৰণ\s+কেলকুলেটৰে/ },
   { name: 'Blog title "Why Most Calorie Calculators are Wrong"', regex: /Why\s+Most\s+Calorie\s+Calculators\s+are\s+Wrong/i },
-  { name: 'Blog card "popular online BMR and TDEE calculators"', regex: /popular\s+online\s+BMR\s+and\s+TDEE\s+calculators/i }
+  { name: 'Blog card "popular online BMR and TDEE calculators"', regex: /popular\s+online\s+BMR\s+and\s+TDEE\s+calculators/i },
+  { name: 'Blog article institutional FSSAI / ICMR-NIN authority claim', regex: /(FSSAI\s+compliance\s+levels|ICMR-NIN\s+Hyderabad\s+energy\s+metrics)/i },
+  { name: 'Blog article "Some health forms and web tools" prevalence claim', regex: /Some\s+health\s+forms\s+and\s+web\s+tools/i },
+  { name: 'Literal Markdown bold syntax in HTML (**text**)', regex: /\*\*[^*]+\*\*/ }
 ];
 
 FILES_TO_SCAN.forEach(relPath => {
@@ -145,7 +158,7 @@ FILES_TO_SCAN.forEach(relPath => {
   });
 });
 
-console.log('\n=== 3. REQUIRED CALIBRATED ASSERTIONS ===\n');
+console.log('\n=== 4. REQUIRED CALIBRATED ASSERTIONS ===\n');
 
 const REQUIRED_STRINGS = [
   // Assamese Approved Replacements
@@ -304,13 +317,28 @@ const REQUIRED_STRINGS = [
   // Blog Article
   {
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
-    desc: 'Blog H1 refined title',
-    str: 'The Decimal Height Bug: Understanding Height Conversion Ambiguity'
+    desc: 'Blog H1 factual heading',
+    str: 'Decimal Height Input: Understanding Feet-and-Inches Conversion Ambiguity'
   },
   {
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
     desc: 'Blog byline clean of fake review group',
     str: 'By the KatoriCalorie Editorial Board | Published June 2026'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog Section 1 safe conditional display',
+    str: 'A decimal-feet input may display or accept a value such as <strong>5.5 feet</strong>.'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog Section 3 explicitly tied to 1-inch example',
+    str: "In the 1-inch (2.54 cm) example above, the calculated TDEE difference is approximately 19–27 kcal/day across KatoriCalorie's current activity multipliers."
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog Section 5 factual centimeter input explanation',
+    str: 'Accepting height directly in centimeters avoids an additional feet-and-inches conversion step and keeps the calculator input consistent.'
   },
   {
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
@@ -331,16 +359,6 @@ const REQUIRED_STRINGS = [
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
     desc: 'Blog FAQ Q4 centimeter input question',
     str: 'Why does KatoriCalorie use centimeters (cm) for height input?'
-  },
-  {
-    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
-    desc: 'Blog Section 3 input consistency heading',
-    str: 'Why Input Consistency Matters in Nutrition Planning'
-  },
-  {
-    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
-    desc: 'Blog Section 4 metric inputs heading',
-    str: 'Metric Inputs for Consistent Calculation'
   }
 ];
 

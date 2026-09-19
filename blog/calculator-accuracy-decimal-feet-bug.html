@@ -99,7 +99,7 @@
   <!-- Content Wrapper -->
   <div class="wrapper">
     <main class="compliance-container glass-panel">
-      <h1 class="compliance-title">The Decimal Height Bug: Understanding Height Conversion Ambiguity</h1>
+      <h1 class="compliance-title">Decimal Height Input: Understanding Feet-and-Inches Conversion Ambiguity</h1>
       <p style="color: var(--text-secondary); margin-bottom: 2.5rem; font-style: italic;">
         By the KatoriCalorie Editorial Board | Published June 2026
       </p>
@@ -109,12 +109,12 @@
           Online calorie calculators provide energy estimates to help guide nutrition planning. However, when user interfaces accept height in decimal feet, ambiguity between decimal fractions and feet-and-inches notation can introduce unexpected arithmetic discrepancies.
         </p>
         <p>
-          This issue arises from notation confusion: the **Decimal Height Bug**. In this article, we explain the mathematics behind this discrepancy, how it affects estimated Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), and why KatoriCalorie uses direct metric inputs to avoid conversion ambiguity.
+          This issue arises from notation confusion: the <strong>Decimal Height Bug</strong>. In this article, we explain the mathematics behind this discrepancy, how it affects estimated Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), and why KatoriCalorie uses direct metric inputs to avoid conversion ambiguity.
         </p>
 
         <h2>1. The Decimal Feet vs. Feet-and-Inches Dilemma</h2>
         <p>
-          Some health forms and web tools allow users to enter or select their height using a single decimal number in feet. For example, a user might enter <strong>5.5</strong>.
+          A decimal-feet input may display or accept a value such as <strong>5.5 feet</strong>.
         </p>
         <p>
           Decimal feet and feet-and-inches are different unit representations. To convert the fractional part of decimal feet to inches, multiply it by 12. For example, 5.5 decimal feet is calculated as:
@@ -134,7 +134,7 @@
 
         <h2>2. How a 1-Inch Discrepancy Affects Mifflin-St Jeor Math</h2>
         <p>
-          Most high-quality calculators utilize the clinical gold-standard **Mifflin-St Jeor** formula to calculate Basal Metabolic Rate (BMR):
+          Most high-quality calculators utilize the clinical gold-standard <strong>Mifflin-St Jeor</strong> formula to calculate Basal Metabolic Rate (BMR):
         </p>
         <div style="font-family: monospace; font-size: 0.9rem; background: #111; padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-orange); margin: 15px 0;">
           BMR (Men) = 10 * Weight(kg) + 6.25 * Height(cm) - 5 * Age(years) + 5
@@ -152,7 +152,7 @@
 
         <h2>3. Why Input Consistency Matters in Nutrition Planning</h2>
         <p>
-          A shift of 19 to 27 calories per day is modest, but in structured meal planning, starting from a consistent baseline helps avoid compounding uncertainties. This is especially relevant when budgeting regional dishes alongside staple foods—for instance, balancing traditional dishes or portioning items like <a href="/blog/pitha-carbohydrates-portion-control">Bihu pithas</a>.
+          In the 1-inch (2.54 cm) example above, the calculated TDEE difference is approximately 19–27 kcal/day across KatoriCalorie's current activity multipliers. While this shift is modest, starting from a consistent baseline in structured meal planning helps avoid compounding uncertainties. This is especially relevant when budgeting regional dishes alongside staple foods—for instance, balancing traditional dishes or portioning items like <a href="/blog/pitha-carbohydrates-portion-control">Bihu pithas</a>.
         </p>
         <p>
           While metabolic calculations are always estimations rather than physiological certainties, eliminating known interface ambiguities ensures that your daily targets reflect deliberate planning rather than avoidable unit conversion errors.
@@ -163,12 +163,12 @@
           To prevent decimal-conversion ambiguity, KatoriCalorie does not use decimal feet sliders.
         </p>
         <p>
-          Instead, we ask users to input their height in **centimeters (cm)**. Centimeters are straightforward metric units that avoid fractional unit confusion. The Mifflin-St Jeor equation runs directly on the entered centimeter value. While metabolic formulas inherently provide estimates rather than exact physiological measurements, direct metric inputs keep the baseline consistent. This same attention to consistency applies when comparing daily diet staples like <a href="/blog/roti-vs-rice-indian-weight-loss">roti and rice</a> in our database.
+          Instead, we ask users to input their height in <strong>centimeters (cm)</strong>. Centimeters are straightforward metric units that avoid fractional unit confusion. The Mifflin-St Jeor equation runs directly on the entered centimeter value. While metabolic formulas inherently provide estimates rather than exact physiological measurements, direct metric inputs keep the baseline consistent. This same attention to consistency applies when comparing daily diet staples like <a href="/blog/roti-vs-rice-indian-weight-loss">roti and rice</a> in our database.
         </p>
 
-        <h2>5. Standard Metric Alignment</h2>
+        <h2>5. Consistent Metric Calculation</h2>
         <p>
-          Nutritional databases, FSSAI standards, and ICMR-NIN food composition tables report energy and macronutrient values in metric units. Aligning calculator inputs with metric standards ensures consistency across energy calculations and visual portion planning in the Thali Builder.
+          The Mifflin-St Jeor equation uses height in centimeters. Accepting height directly in centimeters avoids an additional feet-and-inches conversion step and keeps the calculator input consistent. All BMR and TDEE formulas inherently remain estimates, but direct metric inputs eliminate preventable unit conversion ambiguity.
         </p>
 
         <!-- FAQ Section -->
