@@ -218,14 +218,14 @@
       
       <div class="article-header">
         <h1 id="accuracy-title">Precision Standards & Calculator Accuracy</h1>
-        <p>Why metric centimeters matter in calorie tracking, and how a simple height conversion bug on popular websites can offset your metabolic target.</p>
+        <p>Why metric centimeters matter in calorie tracking, and how height conversion ambiguity can shift metabolic estimates.</p>
       </div>
 
       <div class="accuracy-grid">
         <!-- Main Article Content -->
         <div class="glass-panel">
-          <h2>Why We Don't Trust Decimal Height Sliders</h2>
-          <p>Calculating BMR and TDEE requires exact numbers. A daily calorie budget is only as useful as the math behind it. Unfortunately, many popular health widgets make a simple user-interface design mistake that results in incorrect target calculations.</p>
+          <h2>Why Decimal Height Sliders Cause Ambiguity</h2>
+          <p>Calculating BMR and TDEE requires consistent input units. If a decimal-feet value is interpreted as feet-and-inches notation, the resulting discrepancy shifts estimated metabolic expenditure.</p>
           
           <div class="comparison-table-wrapper">
             <table class="comparison-table">
@@ -239,13 +239,13 @@
               <tbody>
                 <tr>
                   <td class="feature-name">Height Input Method</td>
-                  <td class="standard-flaw">Uses a decimal slider in feet (e.g., 5.5). The system reads 5.5 ft incorrectly as 5 feet 5 inches.</td>
+                  <td class="standard-flaw">If a decimal slider in feet (e.g., 5.5) is interpreted as 5 feet 5 inches instead of 5 feet 6 inches.</td>
                   <td class="katori-fix">Uses direct metric centimeters (cm) to avoid unit conversion ambiguity.</td>
                 </tr>
                 <tr>
                   <td class="feature-name">Calculation Accuracy</td>
                   <td class="standard-flaw">Height conversion errors can shift calculated BMR and daily TDEE estimates by tens of calories.</td>
-                  <td class="katori-fix">Mifflin-St Jeor metabolic formulas are run directly on exact centimeter inputs.</td>
+                  <td class="katori-fix">Mifflin-St Jeor metabolic formulas are run directly on centimeter inputs.</td>
                 </tr>
                 <tr>
                   <td class="feature-name">Activity Level Clues</td>
@@ -262,12 +262,12 @@
           </div>
 
           <div class="math-explanation-card">
-            <h3>The Decimal Height Bug Explained</h3>
+            <h3>How Decimal Height Ambiguity Occurs</h3>
             <p>A decimal foot value and a feet-and-inches value are different formats. To convert the fractional part of decimal feet to inches, multiply it by 12. If a slider is set to <strong>5.5 feet</strong>, the calculation is:</p>
             <div class="math-equation">
               5.5 feet = 5 feet + (0.5 * 12 inches) = 5 feet 6 inches (167.64 cm)
             </div>
-            <p>However, basic database forms incorrectly read the decimal fraction directly as inches:</p>
+            <p>However, ambiguity occurs if an interface, implementation, or user treats the decimal fraction directly as inches notation:</p>
             <div class="math-equation">
               System Reads: 5.5 = 5 feet 5 inches (165.10 cm) [Error of 2.54 cm / 1 inch]
             </div>

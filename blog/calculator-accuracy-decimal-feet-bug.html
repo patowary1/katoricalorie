@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Decimal Height Bug in BMR Calculators | KatoriCalorie Blog</title>
-  <meta name="description" content="Discover how a decimal height conversion issue on popular online BMR and TDEE calculators can shift your daily calorie estimate by tens of calories.">
+  <meta name="description" content="Understand how height conversion ambiguity between decimal feet and feet-and-inches can shift daily calorie estimates by tens of calories.">
   <link rel="stylesheet" href="/css/style.css?v=1.0.2">
   
   <!-- Schema.org Structured Data (JSON-LD) -->
@@ -21,7 +21,7 @@
           "@id": "https://www.katoricalorie.in/blog/calculator-accuracy-decimal-feet-bug"
         },
         "headline": "The Decimal Height Bug in BMR Calculators",
-        "description": "Discover how a decimal height conversion issue on popular online BMR and TDEE calculators can shift your daily calorie estimate by tens of calories.",
+        "description": "Understand how height conversion ambiguity between decimal feet and feet-and-inches can shift daily calorie estimates by tens of calories.",
         "image": "https://www.katoricalorie.in/assets/bug-blog.jpg",
         "publisher": {
           "@type": "Organization",
@@ -41,10 +41,10 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Why do many BMR calculators give wrong results for height input?",
+            "name": "Why do some BMR calculators produce height conversion discrepancies?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Many basic calculators use ambiguous decimal sliders. For example, 5.6 feet is 67.2 inches (170.69 cm), but a system assuming 5 feet 6 inches reads it as 66.0 inches (167.64 cm). This 1.2-inch (3.048 cm) discrepancy alters Mifflin-St Jeor BMR by 19.05 kcal/day and daily TDEE by approximately 23–33 kcal/day across typical activity levels."
+              "text": "Some calculators use ambiguous decimal sliders. For example, 5.6 feet is 67.2 inches (170.69 cm), but interpreting it as 5 feet 6 inches treats it as 66.0 inches (167.64 cm). This 1.2-inch (3.048 cm) discrepancy alters Mifflin-St Jeor BMR by 19.05 kcal/day and daily TDEE by approximately 23–33 kcal/day across typical activity levels."
             }
           },
           {
@@ -57,18 +57,18 @@
           },
           {
             "@type": "Question",
-            "name": "What is the difference in centimeters between 5.5 decimal feet and 5 feet 6 inches?",
+            "name": "What happens if 5.5 decimal feet is misread as 5 feet 5 inches?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Decimal 5.5 feet represents exactly 5 feet and 6 inches (167.64 cm). However, a buggy calculator interpreting 5.5 as 5 feet 5 inches treats it as 165.10 cm. This creates an error of 1 full inch (2.54 cm)."
+              "text": "Decimal 5.5 feet equals 5 feet 6 inches (167.64 cm). If 5.5 is misread as 5 feet 5 inches (165.10 cm), it creates a height discrepancy of 1.0 inch (2.54 cm). Under Mifflin-St Jeor, this shifts estimated BMR by 15.875 kcal/day and TDEE by approximately 19–27 kcal/day across typical activity levels."
             }
           },
           {
             "@type": "Question",
-            "name": "Why is centimeters (cm) considered the most precise input for BMR calculators?",
+            "name": "Why does KatoriCalorie use centimeters (cm) for height input?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Centimeters are absolute metric units that do not require division into smaller units (like inches) or base conversions, leaving zero room for mathematical parsing errors in the Mifflin-St Jeor formula."
+              "text": "The Mifflin-St Jeor equation uses centimeters directly. By accepting height in centimeters, KatoriCalorie avoids unit conversion ambiguity between decimal feet and feet-and-inches notation, though all metabolic formulas remain estimates."
             }
           }
         ]
@@ -99,37 +99,37 @@
   <!-- Content Wrapper -->
   <div class="wrapper">
     <main class="compliance-container glass-panel">
-      <h1 class="compliance-title">The Decimal Height Bug: Why Most Calorie Calculators are Wrong</h1>
+      <h1 class="compliance-title">The Decimal Height Bug: Understanding Height Conversion Ambiguity</h1>
       <p style="color: var(--text-secondary); margin-bottom: 2.5rem; font-style: italic;">
-        By the KatoriCalorie Editorial Board | Published June 2026 | Reviewed by Metabolic Sciences Group
+        By the KatoriCalorie Editorial Board | Published June 2026
       </p>
       
       <div class="compliance-content">
         <p>
-          Online metabolic calorie trackers promise scientific accuracy down to the single calorie. Many fitness apps boast complex math that promises to give you the exact daily calorie budget you need to lose, gain, or maintain weight. However, a major design flaw in common user interface sliders is throwing off the metabolic math for millions of people every day. 
+          Online calorie calculators provide energy estimates to help guide nutrition planning. However, when user interfaces accept height in decimal feet, ambiguity between decimal fractions and feet-and-inches notation can introduce unexpected arithmetic discrepancies.
         </p>
         <p>
-          This issue stems from a simple programming oversight: the **Decimal Height Bug**. In this article, we explain the mathematics of this bug, how it affects your body's daily active calorie budget (TDEE), and why KatoriCalorie uses direct metric inputs to prevent conversion ambiguity.
+          This issue arises from notation confusion: the **Decimal Height Bug**. In this article, we explain the mathematics behind this discrepancy, how it affects estimated Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE), and why KatoriCalorie uses direct metric inputs to avoid conversion ambiguity.
         </p>
 
         <h2>1. The Decimal Feet vs. Feet-and-Inches Dilemma</h2>
         <p>
-          Many popular online calculators (such as health forms and corporate fitness widgets) allow users to select their height using a decimal slider in feet. For example, a user might slide the target bar to <strong>5.5</strong>.
+          Some health forms and web tools allow users to enter or select their height using a single decimal number in feet. For example, a user might enter <strong>5.5</strong>.
         </p>
         <p>
-          Decimal feet and feet-and-inches are different unit representations. To convert the fractional part of decimal feet to inches, multiply it by 12. For example, 5.5 feet is calculated as:
+          Decimal feet and feet-and-inches are different unit representations. To convert the fractional part of decimal feet to inches, multiply it by 12. For example, 5.5 decimal feet is calculated as:
         </p>
         <div style="font-family: monospace; font-size: 0.9rem; background: #111; padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-orange); margin: 15px 0;">
           5 feet + (0.5 * 12 inches) = 5 feet 6 inches (66 inches / 167.64 cm)
         </div>
         <p>
-          However, because standard web form inputs read variables in base-10, basic code scripts read 5.5 literally as:
+          However, confusion occurs when a decimal value is erroneously interpreted as feet and inches:
         </p>
         <div style="font-family: monospace; font-size: 0.9rem; background: #111; padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-orange); margin: 15px 0;">
-          Height interpreted = 5 feet 5 inches (65 inches / 165.10 cm)
+          Erroneous interpretation: 5.5 = 5 feet 5 inches (65 inches / 165.10 cm)
         </div>
         <p>
-          This creates a hidden error of <strong>1 full inch (2.54 cm)</strong>. The calculator thinks the user is shorter than they actually are, running complex scientific metabolic equations on the wrong physical dimensions.
+          This creates a discrepancy of <strong>1 full inch (2.54 cm)</strong>. When an equation receives 165.10 cm instead of 167.64 cm, the resulting calculation reflects the incorrect physical dimension.
         </p>
 
         <h2>2. How a 1-Inch Discrepancy Affects Mifflin-St Jeor Math</h2>
@@ -150,27 +150,25 @@
           Similarly, for 5.6 feet (67.2 inches / 170.69 cm) misread as 5 feet 6 inches (66.0 inches / 167.64 cm), the discrepancy is 1.2 inches (3.048 cm), shifting BMR by 19.05 kcal/day and TDEE by 22.86 to 32.86 kcal/day.
         </p>
 
-        <h2>3. The Compounded Impact on Your Fitness Journey</h2>
+        <h2>3. Why Input Consistency Matters in Nutrition Planning</h2>
         <p>
-          A deficit or excess of 25 to 50 calories a day might sound small, but calorie balance is a game of compounding numbers. This becomes particularly critical when attempting to hit specific macronutrient ratios for regional foods, whether you are budgeting for low-carb <a href="/blog/pitha-carbohydrates-portion-control">Bihu pithas</a> or balancing main courses.
-        </p>
-        <ul>
-          <li><strong>3,500 Calories = 1 Pound of Fat</strong>.</li>
-          <li>If your daily target is underestimated by 35 calories every day due to a slider bug, you will consume 35 calories less than your body actually needs to sustain itself at your target weight.</li>
-          <li>Over the course of a year, this compounds to an error of **12,775 calories**, representing a discrepancy of **3.6 pounds of fat**. This means you might lose weight significantly slower than expected, leading to plateau frustration and diet fatigue.</li>
-        </ul>
-
-        <h2>4. The KatoriCalorie Precision Solution: Metric Inputs</h2>
-        <p>
-          To eliminate all rounding, base-conversion, and slider errors, KatoriCalorie does not use decimal feet sliders. 
+          A shift of 19 to 27 calories per day is modest, but in structured meal planning, starting from a consistent baseline helps avoid compounding uncertainties. This is especially relevant when budgeting regional dishes alongside staple foods—for instance, balancing traditional dishes or portioning items like <a href="/blog/pitha-carbohydrates-portion-control">Bihu pithas</a>.
         </p>
         <p>
-          Instead, we ask users to input their height in **centimeters (cm)**. Centimeters are straightforward metric units that avoid decimal-fraction ambiguity. The Mifflin-St Jeor equation runs directly on the entered centimeter value. While metabolic formulas inherently provide estimates rather than exact metabolic guarantees, direct metric inputs eliminate needless interface-induced drift. This is the same care we apply when comparing daily diet staples like <a href="/blog/roti-vs-rice-indian-weight-loss">roti and rice</a> in our database.
+          While metabolic calculations are always estimations rather than physiological certainties, eliminating known interface ambiguities ensures that your daily targets reflect deliberate planning rather than avoidable unit conversion errors.
         </p>
 
-        <h2>5. Scientific References & Databases</h2>
+        <h2>4. Metric Inputs for Consistent Calculation</h2>
         <p>
-          All nutritional databases, FSSAI compliance levels, and ICMR-NIN Hyderabad energy metrics are calculated strictly in metric values. By aligning our calculator input with metric standards, we guarantee that your visual Thali Builder operates on the most accurate metabolic baseline available online.
+          To prevent decimal-conversion ambiguity, KatoriCalorie does not use decimal feet sliders.
+        </p>
+        <p>
+          Instead, we ask users to input their height in **centimeters (cm)**. Centimeters are straightforward metric units that avoid fractional unit confusion. The Mifflin-St Jeor equation runs directly on the entered centimeter value. While metabolic formulas inherently provide estimates rather than exact physiological measurements, direct metric inputs keep the baseline consistent. This same attention to consistency applies when comparing daily diet staples like <a href="/blog/roti-vs-rice-indian-weight-loss">roti and rice</a> in our database.
+        </p>
+
+        <h2>5. Standard Metric Alignment</h2>
+        <p>
+          Nutritional databases, FSSAI standards, and ICMR-NIN food composition tables report energy and macronutrient values in metric units. Aligning calculator inputs with metric standards ensures consistency across energy calculations and visual portion planning in the Thali Builder.
         </p>
 
         <!-- FAQ Section -->
@@ -179,10 +177,10 @@
           
           <div class="faq-item" style="margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-              <span style="color: var(--accent-orange);">Q:</span> Why do many BMR calculators give wrong results for height input?
+              <span style="color: var(--accent-orange);">Q:</span> Why do some BMR calculators produce height conversion discrepancies?
             </h3>
             <p style="color: var(--text-secondary); line-height: 1.6; margin-left: 1.5rem;">
-              Many basic calculators use ambiguous decimal sliders. For example, 5.6 feet is 67.2 inches (170.69 cm), but a system assuming 5 feet 6 inches reads it as 66.0 inches (167.64 cm). This 1.2-inch (3.048 cm) discrepancy alters Mifflin-St Jeor BMR by 19.05 kcal/day and daily TDEE by approximately 23–33 kcal/day across typical activity levels.
+              Some calculators use ambiguous decimal sliders. For example, 5.6 feet is 67.2 inches (170.69 cm), but interpreting it as 5 feet 6 inches treats it as 66.0 inches (167.64 cm). This 1.2-inch (3.048 cm) discrepancy alters Mifflin-St Jeor BMR by 19.05 kcal/day and daily TDEE by approximately 23–33 kcal/day across typical activity levels.
             </p>
           </div>
 
@@ -197,19 +195,19 @@
 
           <div class="faq-item" style="margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-              <span style="color: var(--accent-orange);">Q:</span> What is the difference in centimeters between 5.5 decimal feet and 5 feet 6 inches?
+              <span style="color: var(--accent-orange);">Q:</span> What happens if 5.5 decimal feet is misread as 5 feet 5 inches?
             </h3>
             <p style="color: var(--text-secondary); line-height: 1.6; margin-left: 1.5rem;">
-              Decimal 5.5 feet represents exactly 5 feet and 6 inches (167.64 cm). However, a buggy calculator interpreting 5.5 as 5 feet 5 inches treats it as 165.10 cm. This creates an error of 1 full inch (2.54 cm).
+              Decimal 5.5 feet equals 5 feet 6 inches (167.64 cm). If 5.5 is misread as 5 feet 5 inches (165.10 cm), it creates a height discrepancy of 1.0 inch (2.54 cm). Under Mifflin-St Jeor, this shifts estimated BMR by 15.875 kcal/day and TDEE by approximately 19–27 kcal/day across typical activity levels.
             </p>
           </div>
 
           <div class="faq-item" style="margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-              <span style="color: var(--accent-orange);">Q:</span> Why is centimeters (cm) considered the most precise input for BMR calculators?
+              <span style="color: var(--accent-orange);">Q:</span> Why does KatoriCalorie use centimeters (cm) for height input?
             </h3>
             <p style="color: var(--text-secondary); line-height: 1.6; margin-left: 1.5rem;">
-              Centimeters are absolute metric units that do not require division into smaller units (like inches) or base conversions, leaving zero room for mathematical parsing errors in the Mifflin-St Jeor formula.
+              The Mifflin-St Jeor equation uses centimeters directly. By accepting height in centimeters, KatoriCalorie avoids unit conversion ambiguity between decimal feet and feet-and-inches notation, though all metabolic formulas remain estimates.
             </p>
           </div>
         </div>

@@ -1,10 +1,12 @@
-﻿/**
+/**
  * verify-calculator-claim-integrity.js
  * 
  * Phase 3E-B3 Deterministic Verification:
- * 1. Proves exact Mifflin-St Jeor arithmetic for 1.0" and 1.2" discrepancy scenarios.
- * 2. Scans public HTML and JS files to assert that no banned overclaims or competitor names exist.
- * 3. Asserts that approved, calibrated explanations and formulas are present.
+ * 1. Proves exact Mifflin-St Jeor arithmetic for 1.0" and 1.2" discrepancy scenarios across
+ *    live activity multipliers extracted directly from index.html.
+ * 2. Scans public HTML and JS files to assert that no banned overclaims, competitor names,
+ *    or unverified generalizations exist.
+ * 3. Asserts that approved, calibrated explanations, headings, and formulas are present.
  */
 
 const fs = require('fs');
@@ -22,17 +24,29 @@ function assert(condition, message) {
   }
 }
 
-console.log('\n=== 1. MATHEMATICAL BASELINE ARITHMETIC VERIFICATION ===\n');
+console.log('\n=== 1. MATHEMATICAL BASELINE & LIVE SELECTOR EXTRACTION ===\n');
 
 // Standard constants
 const CM_PER_INCH = 2.54;
 const MIFFLIN_HEIGHT_COEFF = 6.25; // kcal / cm / day
-const ACTIVITY_MULTIPLIERS = {
-  sedentary: 1.2,
-  light: 1.375,
-  moderate: 1.55,
-  veryActive: 1.725
-};
+
+// Extract activity multipliers directly from index.html
+const indexHtmlPath = path.join(ROOT_DIR, 'index.html');
+assert(fs.existsSync(indexHtmlPath), 'index.html exists for multiplier extraction');
+const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+
+const selectMatch = indexHtml.match(/<select[^>]*id=["']activity(?:-select)?["'][^>]*>([\s\S]*?)<\/select>/i);
+assert(Boolean(selectMatch), 'Found activity level <select> in index.html');
+
+const optionMatches = [...selectMatch[1].matchAll(/<option[^>]*value=["']([0-9.]+)["'][^>]*>/gi)];
+const extractedMultipliers = optionMatches.map(m => parseFloat(m[1]));
+console.log('Extracted activity multipliers from index.html:', extractedMultipliers);
+
+assert(extractedMultipliers.length === 4, `Expected 4 activity multipliers, found ${extractedMultipliers.length}`);
+assert(extractedMultipliers.includes(1.2), 'Contains sedentary multiplier (1.2)');
+assert(extractedMultipliers.includes(1.375), 'Contains light multiplier (1.375)');
+assert(extractedMultipliers.includes(1.55), 'Contains moderate multiplier (1.55)');
+assert(extractedMultipliers.includes(1.725), 'Contains very active multiplier (1.725)');
 
 // Scenario A: 5.6 ft vs 5 ft 6 in
 const heightA_decimal_ft = 5.6;
@@ -41,14 +55,19 @@ const heightA_compound_inches = 5 * 12 + 6; // 66.0 inches
 const deltaA_inches = heightA_decimal_inches - heightA_compound_inches; // 1.2 inches
 const deltaA_cm = deltaA_inches * CM_PER_INCH; // 3.048 cm
 const bmrDeltaA = deltaA_cm * MIFFLIN_HEIGHT_COEFF; // 19.05 kcal/day
-const tdeeDeltaA_min = bmrDeltaA * ACTIVITY_MULTIPLIERS.sedentary; // 22.86 kcal/day
-const tdeeDeltaA_max = bmrDeltaA * ACTIVITY_MULTIPLIERS.veryActive; // 32.86125 kcal/day
 
 assert(Math.abs(deltaA_inches - 1.2) < 1e-9, `Scenario A delta is exactly 1.2 inches (got ${deltaA_inches})`);
 assert(Math.abs(deltaA_cm - 3.048) < 1e-9, `Scenario A delta is exactly 3.048 cm (got ${deltaA_cm})`);
 assert(Math.abs(bmrDeltaA - 19.05) < 1e-9, `Scenario A Mifflin BMR delta is exactly 19.05 kcal/day (got ${bmrDeltaA})`);
-assert(Math.abs(tdeeDeltaA_min - 22.86) < 1e-9, `Scenario A TDEE min (1.2x) is exactly 22.86 kcal/day (got ${tdeeDeltaA_min})`);
-assert(Math.abs(tdeeDeltaA_max - 32.86125) < 1e-9, `Scenario A TDEE max (1.725x) is 32.86 kcal/day (got ${tdeeDeltaA_max.toFixed(2)})`);
+
+extractedMultipliers.forEach(mult => {
+  const tdeeDelta = bmrDeltaA * mult;
+  console.log(`Scenario A (1.2") TDEE delta @ ${mult}x = ${tdeeDelta.toFixed(4)} kcal/day`);
+});
+assert(Math.abs(bmrDeltaA * 1.2 - 22.86) < 1e-9, 'Scenario A TDEE @ 1.2x is 22.86 kcal/day');
+assert(Math.abs(bmrDeltaA * 1.375 - 26.19375) < 1e-9, 'Scenario A TDEE @ 1.375x is ~26.19 kcal/day');
+assert(Math.abs(bmrDeltaA * 1.55 - 29.5275) < 1e-9, 'Scenario A TDEE @ 1.55x is ~29.53 kcal/day');
+assert(Math.abs(bmrDeltaA * 1.725 - 32.86125) < 1e-9, 'Scenario A TDEE @ 1.725x is ~32.86 kcal/day');
 
 // Scenario B: 5.5 ft vs 5 ft 5 in
 const heightB_decimal_ft = 5.5;
@@ -57,16 +76,19 @@ const heightB_compound_inches = 5 * 12 + 5; // 65.0 inches
 const deltaB_inches = heightB_decimal_inches - heightB_compound_inches; // 1.0 inch
 const deltaB_cm = deltaB_inches * CM_PER_INCH; // 2.54 cm
 const bmrDeltaB = deltaB_cm * MIFFLIN_HEIGHT_COEFF; // 15.875 kcal/day
-const tdeeDeltaB_min = bmrDeltaB * ACTIVITY_MULTIPLIERS.sedentary; // 19.05 kcal/day
-const tdeeDeltaB_moderate = bmrDeltaB * ACTIVITY_MULTIPLIERS.moderate; // 24.60625 kcal/day
-const tdeeDeltaB_max = bmrDeltaB * ACTIVITY_MULTIPLIERS.veryActive; // 27.384375 kcal/day
 
 assert(Math.abs(deltaB_inches - 1.0) < 1e-9, `Scenario B delta is exactly 1.0 inch (got ${deltaB_inches})`);
 assert(Math.abs(deltaB_cm - 2.54) < 1e-9, `Scenario B delta is exactly 2.54 cm (got ${deltaB_cm})`);
 assert(Math.abs(bmrDeltaB - 15.875) < 1e-9, `Scenario B Mifflin BMR delta is exactly 15.875 kcal/day (got ${bmrDeltaB})`);
-assert(Math.abs(tdeeDeltaB_min - 19.05) < 1e-9, `Scenario B TDEE min (1.2x) is exactly 19.05 kcal/day (got ${tdeeDeltaB_min})`);
-assert(Math.abs(tdeeDeltaB_moderate - 24.60625) < 1e-9, `Scenario B TDEE moderate (1.55x) is ~24.61 kcal/day (got ${tdeeDeltaB_moderate.toFixed(2)})`);
-assert(Math.abs(tdeeDeltaB_max - 27.384375) < 1e-9, `Scenario B TDEE max (1.725x) is ~27.38 kcal/day (got ${tdeeDeltaB_max.toFixed(2)})`);
+
+extractedMultipliers.forEach(mult => {
+  const tdeeDelta = bmrDeltaB * mult;
+  console.log(`Scenario B (1.0") TDEE delta @ ${mult}x = ${tdeeDelta.toFixed(4)} kcal/day`);
+});
+assert(Math.abs(bmrDeltaB * 1.2 - 19.05) < 1e-9, 'Scenario B TDEE @ 1.2x is 19.05 kcal/day');
+assert(Math.abs(bmrDeltaB * 1.375 - 21.828125) < 1e-9, 'Scenario B TDEE @ 1.375x is ~21.83 kcal/day');
+assert(Math.abs(bmrDeltaB * 1.55 - 24.60625) < 1e-9, 'Scenario B TDEE @ 1.55x is ~24.61 kcal/day');
+assert(Math.abs(bmrDeltaB * 1.725 - 27.384375) < 1e-9, 'Scenario B TDEE @ 1.725x is ~27.38 kcal/day');
 
 console.log('\n=== 2. STATIC SCAN FOR BANNED CLAIMS & OVERBROAD PATTERNS ===\n');
 
@@ -92,7 +114,24 @@ const BANNED_PATTERNS = [
   { name: 'Exact target guarantee overclaim', regex: /(guaranteeing\s+exact\s+targets|সঠিক কেলৰীৰ লক্ষ্য নিশ্চিত|सटीक लक्ष्यों की गारंटी)/i },
   { name: 'Assamese unsupported 100+ claim', regex: /১০০\+\s*কেলৰী/ },
   { name: 'Assamese unsupported 25-50 claim', regex: /২৫\s*ৰ\s*পৰা\s*৫০\s*কেলৰী/ },
-  { name: 'English unsupported 25 to 50 calories claim', regex: /25\s+to\s+50\s+calories\s+every\s+day/i }
+  { name: 'English unsupported 25 to 50 calories claim', regex: /25\s+to\s+50\s+calories\s+every\s+day/i },
+  { name: 'Eliminate all rounding overclaim', regex: /eliminate\s+all\s+rounding/i },
+  { name: 'Millions of people generalization', regex: /millions\s+of\s+people/i },
+  { name: '35 calories daily error claim', regex: /35\s+calories\s+(every\s+day|less)/i },
+  { name: '12,775 calories compound claim', regex: /12,?775\s*calories/i },
+  { name: '3.6 pounds of fat claim', regex: /3\.6\s*pounds/i },
+  { name: 'Plateau frustration diet fatigue', regex: /plateau\s+frustration/i },
+  { name: 'Most accurate metabolic baseline overclaim', regex: /most\s+accurate\s+metabolic\s+baseline/i },
+  { name: 'Unverified attribution: Metabolic Sciences Group', regex: /Metabolic\s+Sciences\s+Group/i },
+  { name: 'English homepage "Many online calculators" generalization', regex: /Many\s+online\s+calculators\s+use\s+decimal\s+sliders/i },
+  { name: 'Hindi homepage "कई ऑनलाइन कैलकुलेटरों" generalization', regex: /कई\s+ऑनलाइन\s+कैलकुलेटरों\s+में\s+दशमलव\s+स्लाइडर/ },
+  { name: 'English why-accuracy "popular health widgets" generalization', regex: /popular\s+health\s+widgets/i },
+  { name: 'Blog "basic code scripts read" false programming claim', regex: /basic\s+code\s+scripts\s+read/i },
+  { name: 'Blog "read variables in base-10"', regex: /read\s+variables\s+in\s+base-10/i },
+  { name: 'Assamese "বেছিভাগ কেলকুলেটৰতে" generalization', regex: /বেছিভাগ\s+কেলকুলেটৰতে/ },
+  { name: 'Assamese "বেছিভাগ সাধাৰণ কেলকুলেটৰে" generalization', regex: /বেছিভাগ\s+সাধাৰণ\s+কেলকুলেটৰে/ },
+  { name: 'Blog title "Why Most Calorie Calculators are Wrong"', regex: /Why\s+Most\s+Calorie\s+Calculators\s+are\s+Wrong/i },
+  { name: 'Blog card "popular online BMR and TDEE calculators"', regex: /popular\s+online\s+BMR\s+and\s+TDEE\s+calculators/i }
 ];
 
 FILES_TO_SCAN.forEach(relPath => {
@@ -109,6 +148,7 @@ FILES_TO_SCAN.forEach(relPath => {
 console.log('\n=== 3. REQUIRED CALIBRATED ASSERTIONS ===\n');
 
 const REQUIRED_STRINGS = [
+  // Assamese Approved Replacements
   {
     file: 'as/why-accuracy.html',
     desc: 'Assamese generic competitor label',
@@ -116,8 +156,38 @@ const REQUIRED_STRINGS = [
   },
   {
     file: 'as/why-accuracy.html',
-    desc: 'Assamese calibrated BMR/TDEE variance',
-    str: 'উচ্চতাৰ ভুল ৰূপান্তৰৰ বাবে BMR আৰু দৈনিক TDEE-ৰ আনুমানিক ফলাফল সলনি হ’ব পাৰে।'
+    desc: 'Assamese subheader conditional framing',
+    str: 'দশমিক ফুট আৰু ফুট-ইঞ্চিৰ ৰূপান্তৰত অস্পষ্টতা থাকিলে মেটাবলিক হিচাপৰ আনুমানিক ফলাফল কেনেকৈ সলনি হ’ব পাৰে জানক।'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese H2 heading ambiguity framing',
+    str: 'দশমিক ফুট আৰু ফুট-ইঞ্চিৰ অস্পষ্টতা কিয় গুৰুত্বপূৰ্ণ?'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese intro paragraph conditional framing',
+    str: 'যদি দশমিক ফুটৰ মানক ফুট-ইঞ্চিৰ মান বুলি ভুলকৈ ধৰা হয়, তেন্তে BMR আৰু TDEE-ৰ আনুমানিক ফলাফল সলনি হ’ব পাৰে।'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese table flaw row conditional framing',
+    str: 'ফুট বুজাবলৈ দশমিক মান ব্যৱহাৰ কৰা হ’লে (যেনে: ৫.৫), সেই মানক যদি ভুলকৈ ৫ ফুট ৫ ইঞ্চি বুলি ধৰা হয়'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese table katori fix avoiding ambiguity',
+    str: 'সৰল মেট্ৰিক ছেণ্টিমিটাৰ (cm) ব্যৱহাৰ কৰে, যাৰ ফলত ফুট-ইঞ্চি ৰূপান্তৰৰ অস্পষ্টতা এৰাব পৰা যায়।'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese table fix estimate framing',
+    str: 'কিন্তু BMR আৰু TDEE-ৰ ফলাফল আনুমানিক মান।'
+  },
+  {
+    file: 'as/why-accuracy.html',
+    desc: 'Assamese math explanation conditional framing',
+    str: 'কিন্তু যদি কোনো ইণ্টাৰফেচ, ছফ্টৱেৰ বা ব্যৱহাৰকাৰীয়ে দশমিকৰ পিছৰ অংশটোক ভুলকৈ পোনপটীয়াকৈ ইঞ্চি বুলি ধৰে'
   },
   {
     file: 'as/why-accuracy.html',
@@ -131,18 +201,45 @@ const REQUIRED_STRINGS = [
   },
   {
     file: 'as/why-accuracy.html',
-    desc: 'Assamese estimate framing',
+    desc: 'Assamese sidebar estimate framing',
     str: 'KatoriCalorie-এ উচ্চতাৰ মান ছেণ্টিমিটাৰত লৈ Mifflin-St Jeor সমীকৰণত পোনপটীয়াকৈ ব্যৱহাৰ কৰে'
   },
+
+  // English why-accuracy.html
   {
-    file: 'index.html',
-    desc: 'English homepage 1-inch discrepancy clarification',
-    str: '1-inch discrepancy that shifts daily estimates by ~19–27 kcal across typical activity levels'
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy subheader ambiguity framing',
+    str: 'Why metric centimeters matter in calorie tracking, and how height conversion ambiguity can shift metabolic estimates.'
   },
   {
-    file: 'hi/index.html',
-    desc: 'Hindi homepage 1-inch discrepancy clarification',
-    str: '1 इंच की यह विसंगति सामान्य गतिविधि स्तरों पर दैनिक अनुमान में ~19–27 कैलोरी का अंतर लाती है'
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy H2 heading',
+    str: 'Why Decimal Height Sliders Cause Ambiguity'
+  },
+  {
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy intro paragraph conditional framing',
+    str: 'Calculating BMR and TDEE requires consistent input units. If a decimal-feet value is interpreted as feet-and-inches notation, the resulting discrepancy shifts estimated metabolic expenditure.'
+  },
+  {
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy table flaw conditional',
+    str: 'If a decimal slider in feet (e.g., 5.5) is interpreted as 5 feet 5 inches instead of 5 feet 6 inches.'
+  },
+  {
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy table katori fix',
+    str: 'Mifflin-St Jeor metabolic formulas are run directly on centimeter inputs.'
+  },
+  {
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy math card title',
+    str: 'How Decimal Height Ambiguity Occurs'
+  },
+  {
+    file: 'why-accuracy.html',
+    desc: 'English why-accuracy math card conditional',
+    str: 'However, ambiguity occurs if an interface, implementation, or user treats the decimal fraction directly as inches notation:'
   },
   {
     file: 'why-accuracy.html',
@@ -154,6 +251,33 @@ const REQUIRED_STRINGS = [
     desc: 'English why-accuracy exact 1-inch variance',
     str: '1-inch (2.54 cm) difference alters estimated BMR by approximately 16 kcal/day (15.875 kcal/day)'
   },
+
+  // Hindi why-accuracy.html
+  {
+    file: 'hi/why-accuracy.html',
+    desc: 'Hindi why-accuracy subheader',
+    str: 'ऊंचाई रूपांतरण में अस्पष्टता होने पर मेटाबॉलिक अनुमान कैसे बदल सकते हैं।'
+  },
+  {
+    file: 'hi/why-accuracy.html',
+    desc: 'Hindi why-accuracy H2 heading',
+    str: 'दशमलव ऊंचाई स्लाइडर में अस्पष्टता क्यों होती है'
+  },
+  {
+    file: 'hi/why-accuracy.html',
+    desc: 'Hindi why-accuracy table flaw',
+    str: 'यदि फीट में दशमलव मान (जैसे: 5.5) का उपयोग किया जाता है और उसे 5 फीट 6 इंच के बजाय 5 फीट 5 इंच मान लिया जाए।'
+  },
+  {
+    file: 'hi/why-accuracy.html',
+    desc: 'Hindi why-accuracy table fix',
+    str: 'Mifflin-St Jeor मेटाबॉलिक सूत्रों को सीधे सेंटीमीटर इनपुट पर लागू किया जाता है।'
+  },
+  {
+    file: 'hi/why-accuracy.html',
+    desc: 'Hindi why-accuracy math explanation heading',
+    str: 'दशमलव ऊंचाई की अस्पष्टता कैसे उत्पन्न होती है'
+  },
   {
     file: 'hi/why-accuracy.html',
     desc: 'Hindi why-accuracy generic header',
@@ -164,6 +288,30 @@ const REQUIRED_STRINGS = [
     desc: 'Hindi why-accuracy exact BMR figure',
     str: '15.875 kcal/दिन'
   },
+
+  // Homepage Badges
+  {
+    file: 'index.html',
+    desc: 'English homepage conditional trust badge',
+    str: 'If a decimal height slider is misread—for example, treating 5.5 feet as 5 feet 5 inches instead of 5 feet 6 inches'
+  },
+  {
+    file: 'hi/index.html',
+    desc: 'Hindi homepage conditional trust badge',
+    str: 'यदि दशमलव ऊंचाई को गलत समझा जाता है—उदाहरण के लिए 5.5 फीट को 5 फीट 6 इंच के बजाय 5 फीट 5 इंच मान लिया जाए'
+  },
+
+  // Blog Article
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog H1 refined title',
+    str: 'The Decimal Height Bug: Understanding Height Conversion Ambiguity'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog byline clean of fake review group',
+    str: 'By the KatoriCalorie Editorial Board | Published June 2026'
+  },
   {
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
     desc: 'Blog FAQ 1.2-inch discrepancy',
@@ -173,6 +321,26 @@ const REQUIRED_STRINGS = [
     file: 'blog/calculator-accuracy-decimal-feet-bug.html',
     desc: 'Blog FAQ direct centimeters',
     str: 'Our platform takes height directly in centimeters (cm) and applies the Mifflin-St Jeor equation'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog FAQ Q3 misread 5.5 question',
+    str: 'What happens if 5.5 decimal feet is misread as 5 feet 5 inches?'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog FAQ Q4 centimeter input question',
+    str: 'Why does KatoriCalorie use centimeters (cm) for height input?'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog Section 3 input consistency heading',
+    str: 'Why Input Consistency Matters in Nutrition Planning'
+  },
+  {
+    file: 'blog/calculator-accuracy-decimal-feet-bug.html',
+    desc: 'Blog Section 4 metric inputs heading',
+    str: 'Metric Inputs for Consistent Calculation'
   }
 ];
 
